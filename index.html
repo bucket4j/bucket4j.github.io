@@ -430,22 +430,114 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<style>
+/* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
+/*pre.CodeRay {background-color:#f7f7f8;}*/
+.CodeRay .line-numbers{border-right:1px solid #d8d8d8;padding:0 0.5em 0 .25em}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.5em;color:rgba(0,0,0,.3)}
+.CodeRay .line-numbers strong{color:rgba(0,0,0,.4)}
+table.CodeRay{border-collapse:separate;border-spacing:0;margin-bottom:0;border:0;background:none}
+table.CodeRay td{vertical-align: top;line-height:1.45}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.line-numbers>pre{padding:0;color:rgba(0,0,0,.3)}
+table.CodeRay td.code{padding:0 0 0 .5em}
+table.CodeRay td.code>pre{padding:0}
+.CodeRay .debug{color:#fff !important;background:#000080 !important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:#000080}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:#008080}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:#008080}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:#008080}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword {color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:#008080}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
 <h1>Bucket4j 7.0.0-beta-2020-04-18 Reference</h1>
 <div class="details">
 <span id="revnumber">version 7.0.0-beta-2020-04-18,</span>
-<span id="revdate">2021-11-16 14</span>
+<span id="revdate">2021-11-16 20</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#about-the-author">1. About the author</a></li>
+<li><a href="#about-the-authors">1. About the authors</a></li>
 <li><a href="#about-bucket4j">2. About Bucket4j</a>
 <ul class="sectlevel2">
 <li><a href="#what-is-bucket4j">2.1. What is Bucket4j</a></li>
-<li><a href="#bucket4j-features">2.2. Bucket4j features</a></li>
+<li><a href="#bucket4j-basic-features">2.2. Bucket4j basic features</a></li>
+<li><a href="#bucket4j-distributed-features">2.3. Bucket4j distributed features</a></li>
 </ul>
 </li>
 <li><a href="#quick-start-examples">3. Quick start examples</a>
@@ -464,64 +556,89 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#using-the-verboseresult-api">3.12. Using the VerboseResult API</a></li>
 </ul>
 </li>
-<li><a href="#vocabulary">4. Vocabulary:</a>
+<li><a href="#basic-functionality">4. Basic functionality</a>
 <ul class="sectlevel2">
-<li><a href="#bucket">4.1. Bucket</a></li>
-<li><a href="#bandwidth">4.2. Bandwidth</a></li>
-<li><a href="#capacity">4.3. Capacity</a></li>
-<li><a href="#refill">4.4. Refill</a></li>
-<li><a href="#bucket-2">4.5. Bucket</a></li>
-<li><a href="#local-bucket">4.6. Local bucket</a></li>
-<li><a href="#remote-bucket">4.7. Remote bucket</a></li>
-<li><a href="#technical-limitations">4.8. Technical limitations:</a></li>
-<li><a href="#what-can-be-listened">4.9. What can be listened:</a></li>
-<li><a href="#corner-cases">4.10. Corner cases:</a></li>
-<li><a href="#how-to-attach-listener-to-bucket">4.11. How to attach listener to bucket?</a></li>
-<li><a href="#example-of-integration-with-dropwizard-metrics-core">4.12. Example of integration with Dropwizard metrics-core</a></li>
+<li><a href="#vocabulary">4.1. Vocabulary:</a></li>
+<li><a href="#technical-limitations">4.2. Technical limitations:</a></li>
+<li><a href="#math-model-explanation">4.3. Math model explanation</a></li>
+<li><a href="#listening-for-bucket-events">4.4. Listening for bucket events</a>
+<ul class="sectlevel3">
+<li><a href="#what-can-be-listened">4.4.1. What can be listened:</a></li>
+<li><a href="#corner-cases">4.4.2. Corner cases:</a></li>
+<li><a href="#how-to-attach-listener-to-bucket">4.4.3. How to attach listener to bucket?</a></li>
+<li><a href="#example-of-integration-with-dropwizard-metrics-core">4.4.4. Example of integration with Dropwizard metrics-core</a></li>
 </ul>
 </li>
-<li><a href="#generic-production-checklist">5. Generic production checklist</a>
-<ul class="sectlevel2">
-<li><a href="#be-wary-of-long-periods">5.1. Be wary of long periods</a></li>
-<li><a href="#be-wary-of-short-timed-bursts">5.2. Be wary of short-timed bursts</a></li>
+<li><a href="#generic-production-checklist">4.5. Generic production checklist</a>
+<ul class="sectlevel3">
+<li><a href="#be-wary-of-long-periods">4.5.1. Be wary of long periods</a></li>
+<li><a href="#be-wary-of-short-timed-bursts">4.5.2. Be wary of short-timed bursts</a></li>
 </ul>
 </li>
-<li><a href="#distributed-facilities">6. Distributed facilities</a>
-<ul class="sectlevel2">
-<li><a href="#production-checklist-especially-in-the-context-of-distributed-systems">6.1. Production checklist especially in the context of distributed systems</a></li>
-<li><a href="#example-1-limiting-access-to-http-server-by-ip-address">6.2. Example 1 - limiting access to HTTP server by IP address</a></li>
-<li><a href="#example-2-limiting-access-to-service-by-contract-agreements">6.3. Example 2 - limiting access to service by contract agreements</a></li>
-<li><a href="#example-3-working-with-jcache-without-proxymanager-abstraction">6.4. Example 3 - working with JCache without ProxyManager abstraction</a></li>
-<li><a href="#runnable-examples-of-jcache-integration">6.5. Runnable examples of JCache integration</a></li>
-<li><a href="#why-jcache-specification-is-not-enough-and-since-3-0-were-introduced-the-dedicated-modules-for-infinispan-hazelcast-and-ignite">6.6. Why JCache specification is not enough and since 3.0 were introduced the dedicated modules for Infinispan, Hazelcast and Ignite?</a></li>
-<li><a href="#verification-of-compatibility-with-particular-jcache-provider-is-your-responsibility">6.7. Verification of compatibility with particular JCache provider is your responsibility</a></li>
-<li><a href="#dependencies">6.8. Dependencies</a></li>
-<li><a href="#general-compatibility-matrix-principles">6.9. General compatibility matrix principles:</a></li>
-<li><a href="#example-of-bucket-instantiation">6.10. Example of Bucket instantiation</a></li>
-<li><a href="#example-of-proxymanager-instantiation">6.11. Example of ProxyManager instantiation</a></li>
-<li><a href="#configuring-custom-serialization-for-bucket4j-library-classes">6.12. Configuring Custom Serialization for Bucket4j library classes</a></li>
 </ul>
 </li>
-<li><a href="#apache-ignite-integration">7. Apache Ignite integration</a>
+<li><a href="#distributed-facilities">5. Distributed facilities</a>
 <ul class="sectlevel2">
-<li><a href="#dependencies-2">7.1. Dependencies</a></li>
-<li><a href="#example-of-bucket-instantiation-2">7.2. Example of Bucket instantiation</a></li>
-<li><a href="#example-of-proxymanager-instantiation-2">7.3. Example of ProxyManager instantiation</a></li>
-<li><a href="#example-of-bucket-instantiation-via-thin-client">7.4. Example of Bucket instantiation via Thin Client</a></li>
-<li><a href="#example-of-proxymanager-instantiation-via-thin-client">7.5. Example of ProxyManager instantiation via Thin Client</a></li>
+<li><a href="#jcache-integration">5.1. JCache integration</a>
+<ul class="sectlevel3">
+<li><a href="#example-1-limiting-access-to-http-server-by-ip-address">5.1.1. Example 1 - limiting access to HTTP server by IP address</a></li>
+<li><a href="#example-2-limiting-access-to-service-by-contract-agreements">5.1.2. Example 2 - limiting access to service by contract agreements</a></li>
+<li><a href="#example-3-working-with-jcache-without-proxymanager-abstraction">5.1.3. Example 3 - working with JCache without ProxyManager abstraction</a></li>
+<li><a href="#runnable-examples-of-jcache-integration">5.1.4. Runnable examples of JCache integration</a></li>
+<li><a href="#why-jcache-specification-is-not-enough-and-since-3-0-were-introduced-the-dedicated-modules-for-infinispan-hazelcast-and-ignite">5.1.5. Why JCache specification is not enough and since 3.0 were introduced the dedicated modules for Infinispan, Hazelcast and Ignite?</a></li>
+<li><a href="#verification-of-compatibility-with-particular-jcache-provider-is-your-responsibility">5.1.6. Verification of compatibility with particular JCache provider is your responsibility</a></li>
 </ul>
 </li>
-<li><a href="#infinispan-integration">8. Infinispan integration</a>
-<ul class="sectlevel2">
-<li><a href="#dependencies-3">8.1. Dependencies</a></li>
-<li><a href="#general-compatibility-matrix-principles-2">8.2. General compatibility matrix principles::</a></li>
-<li><a href="#special-notes-for-infinispan-10-0">8.3. Special notes for Infinispan 10.0+</a></li>
-<li><a href="#example-of-bucket-instantiation-3">8.4. Example of Bucket instantiation</a></li>
-<li><a href="#example-of-proxymanager-instantiation-3">8.5. Example of ProxyManager instantiation</a></li>
+<li><a href="#hazelcast-integration">5.2. Hazelcast integration</a>
+<ul class="sectlevel3">
+<li><a href="#dependencies">5.2.1. Dependencies</a></li>
+<li><a href="#general-compatibility-matrix-principles">5.2.2. General compatibility matrix principles:</a></li>
+<li><a href="#example-of-bucket-instantiation">5.2.3. Example of Bucket instantiation</a></li>
+<li><a href="#example-of-proxymanager-instantiation">5.2.4. Example of ProxyManager instantiation</a></li>
+<li><a href="#configuring-custom-serialization-for-bucket4j-library-classes">5.2.5. Configuring Custom Serialization for Bucket4j library classes</a></li>
 </ul>
 </li>
-<li><a href="#third-party-demos-and-articles">9. Third-party demos and articles:</a></li>
-<li><a href="#release-notes">10. Release notes</a></li>
+<li><a href="#apache-ignite-integration">5.3. Apache Ignite integration</a>
+<ul class="sectlevel3">
+<li><a href="#dependencies-2">5.3.1. Dependencies</a></li>
+<li><a href="#example-of-bucket-instantiation-2">5.3.2. Example of Bucket instantiation</a></li>
+<li><a href="#example-of-proxymanager-instantiation-2">5.3.3. Example of ProxyManager instantiation</a></li>
+<li><a href="#example-of-bucket-instantiation-via-thin-client">5.3.4. Example of Bucket instantiation via Thin Client</a></li>
+<li><a href="#example-of-proxymanager-instantiation-via-thin-client">5.3.5. Example of ProxyManager instantiation via Thin Client</a></li>
+</ul>
+</li>
+<li><a href="#infinispan-integration">5.4. Infinispan integration</a>
+<ul class="sectlevel3">
+<li><a href="#dependencies-3">5.4.1. Dependencies</a></li>
+<li><a href="#general-compatibility-matrix-principles-2">5.4.2. General compatibility matrix principles::</a></li>
+<li><a href="#special-notes-for-infinispan-10-0">5.4.3. Special notes for Infinispan 10.0+</a></li>
+<li><a href="#example-of-bucket-instantiation-3">5.4.4. Example of Bucket instantiation</a></li>
+<li><a href="#example-of-proxymanager-instantiation-3">5.4.5. Example of ProxyManager instantiation</a></li>
+</ul>
+</li>
+<li><a href="#oracle-coherence-integration">5.5. Oracle Coherence integration</a>
+<ul class="sectlevel3">
+<li><a href="#dependencies-4">5.5.1. Dependencies</a></li>
+<li><a href="#example-of-bucket-instantiation-4">5.5.2. Example of Bucket instantiation</a></li>
+<li><a href="#example-of-proxymanager-instantiation-4">5.5.3. Example of ProxyManager instantiation</a></li>
+<li><a href="#configuring-pof-serialization-for-bucket4j-library-classes">5.5.4. Configuring POF serialization for Bucket4j library classes</a></li>
+</ul>
+</li>
+<li><a href="#asynchronous-api">5.6. Asynchronous API</a>
+<ul class="sectlevel3">
+<li><a href="#example-limiting-the-rate-of-access-to-asynchronous-servlet">5.6.1. Example - limiting the rate of access to asynchronous servlet</a></li>
+</ul>
+</li>
+<li><a href="#production-checklist-especially-in-the-context-of-distributed-systems">5.7. Production checklist especially in the context of distributed systems</a></li>
+</ul>
+</li>
+<li><a href="#third-party-articles-and-integrations">6. Third-party articles and integrations</a>
+<ul class="sectlevel2">
+<li><a href="#third-party-articles">6.1. Third-party articles:</a></li>
+<li><a href="#third-party-integrations">6.2. Third-party integrations</a></li>
+</ul>
+</li>
+<li><a href="#release-notes">7. Release notes</a></li>
 </ul>
 </div>
 </div>
@@ -536,7 +653,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="about-the-author"><a class="anchor" href="#about-the-author"></a>1. About the author</h2>
+<h2 id="about-the-authors"><a class="anchor" href="#about-the-authors"></a>1. About the authors</h2>
 <div class="sectionbody">
 <div class="dlist">
 <dl>
@@ -546,6 +663,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 Saint-Petersburg, Russia<br>
 <a href="mailto:jsecoder@mail.ru">jsecoder@mail.ru</a><br>
 <span class="image"><img src="./images/photo.jpg" alt="80" width="80"></span><br></p>
+</dd>
+<dt class="hdlist1">Maxim Bartkov</dt>
+<dd>
+<p>Lead Java developer at RooX Solutions<br>
+Kharkov, Ukraine<br>
+<a href="mailto:maxgalayoutop@gmail.com">maxgalayoutop@gmail.com</a><br>
+<span class="image"><img src="./images/Maxim_Bartkov.jpg" alt="80" width="80"></span><br></p>
 </dd>
 </dl>
 </div>
@@ -559,8 +683,23 @@ Saint-Petersburg, Russia<br>
 <div class="paragraph">
 <p>Bucket4j is Java rate-limiting library is mainly based on token-bucket algorithm, which are by de-facto standard for rate limiting in the IT industry.</p>
 </div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<div class="title">Bucket4j is more than direct implementation of token-bucket</div>
+Its math model provides several useful extensions that are not mentioned in the classic token-bucket interpretations, such as multiple limits per bucket or overdraft. These math extensions will be detailed described later.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can read more about token bucket by following links:</p>
+</div>
 <div class="ulist">
-<div class="title">You can read more about token bucket by following links:</div>
 <ul>
 <li>
 <p><a href="https://en.wikipedia.org/wiki/Token_bucket">Token bucket</a> - wikipedia page describes the token-bucket algorithm in classical form.</p>
@@ -570,23 +709,9 @@ Saint-Petersburg, Russia<br>
 </li>
 </ul>
 </div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Important</div>
-</td>
-<td class="content">
-<div class="title">Bucket4j is more than direct implementation of token-bucket</div>
-Its math model provides several useful extensions that are not mentioned in the classic token-bucket interpretations,
-such as multiple limits per bucket or overdraft. These math extensions will be detailed described later.
-</td>
-</tr>
-</table>
-</div>
 </div>
 <div class="sect2">
-<h3 id="bucket4j-features"><a class="anchor" href="#bucket4j-features"></a>2.2. Bucket4j features</h3>
+<h3 id="bucket4j-basic-features"><a class="anchor" href="#bucket4j-basic-features"></a>2.2. Bucket4j basic features</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -609,7 +734,22 @@ such as multiple limits per bucket or overdraft. These math extensions will be d
 <p><strong>Effective API in terms of garbage collector footprint</strong>: Bucket4j API tries to use primitive types as much as it is possible in order to avoid boxing and other types of floating garbage.</p>
 </li>
 <li>
-<p><strong>Ability to switch from one JVM to cluster</strong> - using Bucket4j you are able to limiting something in the cluster of JVMs:</p>
+<p><strong>Pluggable listener API</strong> that allows to implement monitoring and logging.</p>
+</li>
+<li>
+<p><strong>Rich diagnostic API</strong> that allows to investigate internal state.</p>
+</li>
+<li>
+<p><strong>Rich configuration management</strong> - configuration of the bucket can be changed on fly</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="bucket4j-distributed-features"><a class="anchor" href="#bucket4j-distributed-features"></a>2.3. Bucket4j distributed features</h3>
+<div class="paragraph">
+<p>In additional to basic features described above, <code>Bucket4j</code> provides ability to implement rate-limiting in cluster of JVMs:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
@@ -620,18 +760,6 @@ such as multiple limits per bucket or overdraft. These math extensions will be d
 </li>
 <li>
 <p>For clustered usage scenarios Bucket4j supports asynchronous API that extremely matters when going to distribute world, because asynchronous API allows avoiding blocking your application threads each time when you need to execute Network request.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Pluggable listener API</strong> that allows to implement monitoring and logging.</p>
-</li>
-<li>
-<p><strong>Rich diagnostic API</strong> that allows to investigate internal state.</p>
-</li>
-<li>
-<p><strong>Rich configuration management</strong> - configuration of the bucket can be changed on fly</p>
 </li>
 </ul>
 </div>
@@ -650,17 +778,17 @@ You need to add dependency to your project as described bellow in order to be ab
 <div class="listingblock">
 <div class="title">Maven dependency</div>
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
-    &lt;artifactId&gt;bucket4j-core&lt;/artifactId&gt;
-    &lt;version&gt;7.0.0-beta-2020-04-18&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>com.github.vladimir-bukhtoyarov<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>bucket4j-core<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>7.0.0-beta-2020-04-18<span class="tag">&lt;/version&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">Gradle dependency</div>
 <div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.0.0-beta-2020-04-18'</code></pre>
+<pre class="CodeRay highlight"><code data-lang="groovy">implementation <span class="string"><span class="delimiter">'</span><span class="content">com.github.vladimir-bukhtoyarov:bucket4j-core:7.0.0-beta-2020-04-18</span><span class="delimiter">'</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -673,22 +801,22 @@ But acquiring stacktraces is very cost operation by itself, and you want to do i
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// define the limit 1 time per 10 minute
-Bandwidth limit = Bandwidth.simple(1, Duration.ofMinutes(10));
-// construct the bucket
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// define the limit 1 time per 10 minute</span>
+Bandwidth limit = Bandwidth.simple(<span class="integer">1</span>, <span class="predefined-type">Duration</span>.ofMinutes(<span class="integer">10</span>));
+<span class="comment">// construct the bucket</span>
 Bucket bucket = Bucket4j.builder().addLimit(limit).build();
 
 ...
 
 try {
    executor.execute(anyRunnable);
-} catch (RejectedExecutionException e) {
-    // print stacktraces only if limit is not exceeded
-    if (bucket.tryConsume(1)) {
-        ThreadInfo[] stackTraces = ManagementFactory.getThreadMXBean().dumpAllThreads(true, true);
+} <span class="keyword">catch</span> (<span class="exception">RejectedExecutionException</span> e) {
+    <span class="comment">// print stacktraces only if limit is not exceeded</span>
+    <span class="keyword">if</span> (bucket.tryConsume(<span class="integer">1</span>)) {
+        <span class="predefined-type">ThreadInfo</span><span class="type">[]</span> stackTraces = <span class="predefined-type">ManagementFactory</span>.getThreadMXBean().dumpAllThreads(<span class="predefined-constant">true</span>, <span class="predefined-constant">true</span>);
         StacktraceUtils.print(stackTraces);
     }
-    throw e;
+    <span class="keyword">throw</span> e;
 }</code></pre>
 </div>
 </div>
@@ -702,20 +830,20 @@ and by contract with provider you should poll not often than 100 times per 1 min
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// define the limit 100 times per 1 minute
-Bandwidth limit = Bandwidth.simple(100, Duration.ofMinutes(1));
-// construct the bucket
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// define the limit 100 times per 1 minute</span>
+Bandwidth limit = Bandwidth.simple(<span class="integer">100</span>, <span class="predefined-type">Duration</span>.ofMinutes(<span class="integer">1</span>));
+<span class="comment">// construct the bucket</span>
 Bucket bucket = Bucket4j.builder().addLimit(limit).build();
 
 ...
-volatile double exchangeRate;
+volatile <span class="type">double</span> exchangeRate;
 ...
 
-// do polling in infinite loop
-while (true) {
-  // Consume a token from the token bucket.
-  // If a token is not available this method will block until the refill adds one to the bucket.
-  bucket.asScheduler().consume(1);
+<span class="comment">// do polling in infinite loop</span>
+while (<span class="predefined-constant">true</span>) {
+  <span class="comment">// Consume a token from the token bucket.</span>
+  <span class="comment">// If a token is not available this method will block until the refill adds one to the bucket.</span>
+  bucket.asScheduler().consume(<span class="integer">1</span>);
 
   exchangeRate = pollExchangeRate();
 }</code></pre>
@@ -743,39 +871,39 @@ because we have deal with overdraft, but it is not rocket science:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import io.github.bucket4j.Bucket4j;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">io.github.bucket4j.Bucket4j</span>;
 
-public class ThrottlingFilter implements javax.servlet.Filter {
+<span class="directive">public</span> <span class="type">class</span> <span class="class">ThrottlingFilter</span> <span class="directive">implements</span> javax.servlet.Filter {
 
-    private Bucket createNewBucket() {
-         long overdraft = 50;
-         Refill refill = Refill.greedy(10, Duration.ofSeconds(1));
+    <span class="directive">private</span> Bucket createNewBucket() {
+         <span class="type">long</span> overdraft = <span class="integer">50</span>;
+         Refill refill = Refill.greedy(<span class="integer">10</span>, <span class="predefined-type">Duration</span>.ofSeconds(<span class="integer">1</span>));
          Bandwidth limit = Bandwidth.classic(overdraft, refill);
-         return Bucket4j.builder().addLimit(limit).build();
+         <span class="keyword">return</span> Bucket4j.builder().addLimit(limit).build();
     }
 
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">void</span> doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) <span class="directive">throws</span> <span class="exception">IOException</span>, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
-        HttpSession session = httpRequest.getSession(true);
+        HttpSession session = httpRequest.getSession(<span class="predefined-constant">true</span>);
 
-        String appKey = SecurityUtils.getThirdPartyAppKey();
-        Bucket bucket = (Bucket) session.getAttribute("throttler-" + appKey);
-        if (bucket == null) {
+        <span class="predefined-type">String</span> appKey = SecurityUtils.getThirdPartyAppKey();
+        Bucket bucket = (Bucket) session.getAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">throttler-</span><span class="delimiter">&quot;</span></span> + appKey);
+        <span class="keyword">if</span> (bucket == <span class="predefined-constant">null</span>) {
             bucket = createNewBucket();
-            session.setAttribute("throttler-" + appKey, bucket);
+            session.setAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">throttler-</span><span class="delimiter">&quot;</span></span> + appKey, bucket);
         }
 
-        // tryConsume returns false immediately if no tokens available with the bucket
-        if (bucket.tryConsume(1)) {
-            // the limit is not exceeded
+        <span class="comment">// tryConsume returns false immediately if no tokens available with the bucket</span>
+        <span class="keyword">if</span> (bucket.tryConsume(<span class="integer">1</span>)) {
+            <span class="comment">// the limit is not exceeded</span>
             filterChain.doFilter(servletRequest, servletResponse);
-        } else {
-            // limit is exceeded
+        } <span class="keyword">else</span> {
+            <span class="comment">// limit is exceeded</span>
             HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
-            httpResponse.setContentType("text/plain");
-            httpResponse.setStatus(429);
-            httpResponse.getWriter().append("Too many requests");
+            httpResponse.setContentType(<span class="string"><span class="delimiter">&quot;</span><span class="content">text/plain</span><span class="delimiter">&quot;</span></span>);
+            httpResponse.setStatus(<span class="integer">429</span>);
+            httpResponse.getWriter().append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Too many requests</span><span class="delimiter">&quot;</span></span>);
         }
     }
 
@@ -787,19 +915,19 @@ public class ThrottlingFilter implements javax.servlet.Filter {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">        HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
-        ConsumptionProbe probe = bucket.tryConsumeAndReturnRemaining(1);
-        if (probe.isConsumed()) {
-            // the limit is not exceeded
-            httpResponse.setHeader("X-Rate-Limit-Remaining", "" + probe.getRemainingTokens());
+<pre class="CodeRay highlight"><code data-lang="java">        HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+        ConsumptionProbe probe = bucket.tryConsumeAndReturnRemaining(<span class="integer">1</span>);
+        <span class="keyword">if</span> (probe.isConsumed()) {
+            <span class="comment">// the limit is not exceeded</span>
+            httpResponse.setHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">X-Rate-Limit-Remaining</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> + probe.getRemainingTokens());
             filterChain.doFilter(servletRequest, servletResponse);
-        } else {
-            // limit is exceeded
+        } <span class="keyword">else</span> {
+            <span class="comment">// limit is exceeded</span>
             HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
-            httpResponse.setStatus(429);
-            httpResponse.setHeader("X-Rate-Limit-Retry-After-Seconds", "" + TimeUnit.NANOSECONDS.toSeconds(probe.getNanosToWaitForRefill()));
-            httpResponse.setContentType("text/plain");
-            httpResponse.getWriter().append("Too many requests");
+            httpResponse.setStatus(<span class="integer">429</span>);
+            httpResponse.setHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">X-Rate-Limit-Retry-After-Seconds</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> + <span class="predefined-type">TimeUnit</span>.NANOSECONDS.toSeconds(probe.getNanosToWaitForRefill()));
+            httpResponse.setContentType(<span class="string"><span class="delimiter">&quot;</span><span class="content">text/plain</span><span class="delimiter">&quot;</span></span>);
+            httpResponse.getWriter().append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Too many requests</span><span class="delimiter">&quot;</span></span>);
         }</code></pre>
 </div>
 </div>
@@ -813,21 +941,21 @@ To solve problem you can construct following bucket:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">static final long MAX_WAIT_NANOS = TimeUnit.HOURS.toNanos(1);
-// ...
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">static</span> <span class="directive">final</span> <span class="type">long</span> MAX_WAIT_NANOS = <span class="predefined-type">TimeUnit</span>.HOURS.toNanos(<span class="integer">1</span>);
+<span class="comment">// ...</span>
 
 Bucket bucket = Bucket4j.builder()
-       // allows 1000 tokens per 1 minute
-       .addLimit(Bandwidth.simple(1000, Duration.ofMinutes(1)))
-       // but not often then 50 tokens per 1 second
-       .addLimit(Bandwidth.simple(50, Duration.ofSeconds(1)))
+       <span class="comment">// allows 1000 tokens per 1 minute</span>
+       .addLimit(Bandwidth.simple(<span class="integer">1000</span>, <span class="predefined-type">Duration</span>.ofMinutes(<span class="integer">1</span>)))
+       <span class="comment">// but not often then 50 tokens per 1 second</span>
+       .addLimit(Bandwidth.simple(<span class="integer">50</span>, <span class="predefined-type">Duration</span>.ofSeconds(<span class="integer">1</span>)))
        .build();
 
-// ...
-while (true) {
-  // Consume a token from the token bucket.  If a token is not available this method will block until the refill adds one to the bucket.
-  if (bucket.tryConsume(1, MAX_WAIT_NANOS, BlockingStrategy.PARKING)) {
-       workloadExecutor.execute(new LoadTask());
+<span class="comment">// ...</span>
+<span class="keyword">while</span> (<span class="predefined-constant">true</span>) {
+  <span class="comment">// Consume a token from the token bucket.  If a token is not available this method will block until the refill adds one to the bucket.</span>
+  <span class="keyword">if</span> (bucket.tryConsume(<span class="integer">1</span>, MAX_WAIT_NANOS, BlockingStrategy.PARKING)) {
+       workloadExecutor.execute(<span class="keyword">new</span> LoadTask());
   };
 }</code></pre>
 </div>
@@ -841,9 +969,9 @@ But sometimes, you may want to have lesser initial size, for example for case of
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">int initialTokens = 42;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="type">int</span> initialTokens = <span class="integer">42</span>;
 Bandwidth limit = Bandwidth
-    .simple(1000, Duration.ofHours(1))
+    .simple(<span class="integer">1000</span>, <span class="predefined-type">Duration</span>.ofHours(<span class="integer">1</span>))
     .withInitialTokens(initialTokens);
 Bucket bucket = Bucket4j.builder()
     .addLimit(limit)
@@ -864,9 +992,9 @@ For example the bandwidth bellow will refill 10 tokens per 1 second instead of 1
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// When refill created via "intervally" factory method then greediness is turned-off.
-Refill refill = Refill.intervally(10, Duration.ofSeconds(1));
-Bandwidth bandwidth = Bandwidth.classic(600, refill);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// When refill created via &quot;intervally&quot; factory method then greediness is turned-off.</span>
+Refill refill = Refill.intervally(<span class="integer">10</span>, <span class="predefined-type">Duration</span>.ofSeconds(<span class="integer">1</span>));
+Bandwidth bandwidth = Bandwidth.classic(<span class="integer">600</span>, refill);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -875,16 +1003,16 @@ This option can be used to configure clear interval boundary i.e. start of secon
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">   // imagine that wall clock is 16:20, and we need to schedule the first refill to 17:00
+<pre class="CodeRay highlight"><code data-lang="java">   <span class="comment">// imagine that wall clock is 16:20, and we need to schedule the first refill to 17:00</span>
    Instant firstRefillTime = ZonedDateTime.now()
              .truncatedTo(ChronoUnit.HOURS)
-             .plus(1, ChronoUnit.HOURS)
+             .plus(<span class="integer">1</span>, ChronoUnit.HOURS)
              .toInstant();
 
-   // see detailed explanation for useAdaptiveInitialTokens in the javadocs for 'intervallyAligned' method
-   boolean useAdaptiveInitialTokens = false;
+   <span class="comment">// see detailed explanation for useAdaptiveInitialTokens in the javadocs for 'intervallyAligned' method</span>
+   <span class="type">boolean</span> useAdaptiveInitialTokens = <span class="predefined-constant">false</span>;
 
-   Bandwidth.classic(400, Refill.intervallyAligned(400, Duration.ofHours(1), firstRefillTime, useAdaptiveInitialTokens));</code></pre>
+   Bandwidth.classic(<span class="integer">400</span>, Refill.intervallyAligned(<span class="integer">400</span>, <span class="predefined-type">Duration</span>.ofHours(<span class="integer">1</span>), firstRefillTime, useAdaptiveInitialTokens));</code></pre>
 </div>
 </div>
 </div>
@@ -895,14 +1023,14 @@ This option can be used to configure clear interval boundary i.e. start of secon
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Bucket wallet;
+<pre class="CodeRay highlight"><code data-lang="java">Bucket wallet;
 ...
-if (wallet.tryConsume(50)) { // get 50 cents from wallet
-    try {
+if (wallet.tryConsume(<span class="integer">50</span>)) { <span class="comment">// get 50 cents from wallet</span>
+    <span class="keyword">try</span> {
         buyCocaCola();
-    } catch(NoCocaColaException e) {
-        // return money to wallet
-        wallet.addTokens(50);
+    } <span class="keyword">catch</span>(NoCocaColaException e) {
+        <span class="comment">// return money to wallet</span>
+        wallet.addTokens(<span class="integer">50</span>);
     }
 }</code></pre>
 </div>
@@ -916,7 +1044,7 @@ But rarely(for example benchmarking) you wish the nanosecond precision:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Bucket4j.builder().withNanosecondPrecision()</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Bucket4j.builder().withNanosecondPrecision()</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -933,18 +1061,18 @@ if you want to use time provided by this clock instead of time provided by JVM t
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class ClusteredTimeMeter implements TimeMeter {
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">ClusteredTimeMeter</span> <span class="directive">implements</span> TimeMeter {
 
-    @Override
-    public long currentTimeNanos() {
-        return ClusteredClock.currentTimeMillis() * 1_000_000;
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">long</span> currentTimeNanos() {
+        <span class="keyword">return</span> ClusteredClock.currentTimeMillis() * <span class="integer">1</span>_000_000;
     }
 
 }
 
-Bandwidth limit = Bandwidth.simple(100, Duration.ofMinutes(1));
+Bandwidth limit = Bandwidth.simple(<span class="integer">100</span>, <span class="predefined-type">Duration</span>.ofMinutes(<span class="integer">1</span>));
 Bucket bucket = Bucket4j.builder()
-                .withCustomTimePrecision(new ClusteredTimeMeter())
+                .withCustomTimePrecision(<span class="keyword">new</span> ClusteredTimeMeter())
                 .addLimit(limit)
                 .build();</code></pre>
 </div>
@@ -960,15 +1088,15 @@ then you can reconfigure bucket on the fly instead of creation new instance of b
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Bucket bucket = ...
+<pre class="CodeRay highlight"><code data-lang="java">Bucket bucket = ...
 
 
-Bandwidth newLimit = Bandwidth.simple(newCapacity, Duration.ofMinutes(1));
+Bandwidth newLimit = Bandwidth.simple(newCapacity, <span class="predefined-type">Duration</span>.ofMinutes(<span class="integer">1</span>));
 BucketConfiguration newConfiguration = Bucket4j.configurationBuilder()
                 .addLimit(newLimit)
                 .build();
 bucket.replaceConfiguration(newConfiguration, TokensInheritanceStrategy.PROPORTIONALLY)
-// or bucket.replaceConfiguration(newConfiguration, TokensInheritanceStrategy.AS_IS)</code></pre>
+<span class="comment">// or bucket.replaceConfiguration(newConfiguration, TokensInheritanceStrategy.AS_IS)</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -986,84 +1114,83 @@ can be used to include an HTTP header that describes the current rate limit.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">VerboseResult&lt;ConsumptionProbe&gt; verboseResult = bucket.asVerbose().tryConsumeAndReturnRemaining(numberOfTokens);
+<pre class="CodeRay highlight"><code data-lang="java">VerboseResult&lt;ConsumptionProbe&gt; verboseResult = bucket.asVerbose().tryConsumeAndReturnRemaining(numberOfTokens);
 ConsumptionProbe probe = verboseResult.getValue();
 BucketConfiguration bucketConfiguration = verboseResult.getConfiguration();
-long capacity = Arrays.stream(bucketConfiguration.getBandwidths())
+<span class="type">long</span> capacity = <span class="predefined-type">Arrays</span>.stream(bucketConfiguration.getBandwidths())
                 .mapToLong(Bandwidth::getCapacity)
                 .max().getAsLong();
-response.addHeader(X_RATE_LIMIT_LIMIT, "" + capacity));</code></pre>
+response.addHeader(X_RATE_LIMIT_LIMIT, <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> + capacity));</code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="vocabulary"><a class="anchor" href="#vocabulary"></a>4. Vocabulary:</h2>
+<h2 id="basic-functionality"><a class="anchor" href="#basic-functionality"></a>4. Basic functionality</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="bucket"><a class="anchor" href="#bucket"></a>4.1. Bucket</h3>
-<div class="paragraph">
+<h3 id="vocabulary"><a class="anchor" href="#vocabulary"></a>4.1. Vocabulary:</h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Bucket</dt>
+<dd>
 <p>Bucket is &#8230;&#8203;</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="bandwidth"><a class="anchor" href="#bandwidth"></a>4.2. Bandwidth</h3>
-<div class="paragraph">
+</dd>
+<dt class="hdlist1">Bandwidth</dt>
+<dd>
 <p>Bandwidth is &#8230;&#8203;</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="capacity"><a class="anchor" href="#capacity"></a>4.3. Capacity</h3>
-<div class="paragraph">
+</dd>
+<dt class="hdlist1">Capacity</dt>
+<dd>
 <p>Bandwidth capacity is &#8230;&#8203;</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="refill"><a class="anchor" href="#refill"></a>4.4. Refill</h3>
-<div class="paragraph">
+</dd>
+<dt class="hdlist1">Refill</dt>
+<dd>
 <p>Refill is &#8230;&#8203;</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="bucket-2"><a class="anchor" href="#bucket-2"></a>4.5. Bucket</h3>
-<div class="paragraph">
-<p>Bucket is &#8230;&#8203;</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="local-bucket"><a class="anchor" href="#local-bucket"></a>4.6. Local bucket</h3>
-<div class="paragraph">
+</dd>
+<dt class="hdlist1">Local bucket</dt>
+<dd>
 <p>Local bucket is &#8230;&#8203;</p>
+</dd>
+<dt class="hdlist1">TimeMeter</dt>
+<dd>
+<p>TimeMeter is &#8230;&#8203;</p>
+</dd>
+<dt class="hdlist1">Remote bucket</dt>
+<dd>
+<p>Remote bucket is &#8230;&#8203;</p>
+</dd>
+<dt class="hdlist1">Proxy manager</dt>
+<dd>
+<p>Proxy manager is &#8230;&#8203;</p>
+</dd>
+</dl>
 </div>
 </div>
 <div class="sect2">
-<h3 id="remote-bucket"><a class="anchor" href="#remote-bucket"></a>4.7. Remote bucket</h3>
-<div class="paragraph">
-<p>Remote bucket is &#8230;&#8203;
-Proxy manager is &#8230;&#8203;</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="technical-limitations"><a class="anchor" href="#technical-limitations"></a>4.8. Technical limitations:</h3>
+<h3 id="technical-limitations"><a class="anchor" href="#technical-limitations"></a>4.2. Technical limitations:</h3>
 <div class="ulist">
 <ul>
 <li>
 <p>Maximum refill rate&#8230;&#8203;</p>
 </li>
 <li>
-<p>Limitation for refill duration&#8230;&#8203;
-== Math model explanation</p>
+<p>Limitation for refill duration&#8230;&#8203;</p>
 </li>
 </ul>
 </div>
+</div>
+<div class="sect2">
+<h3 id="math-model-explanation"><a class="anchor" href="#math-model-explanation"></a>4.3. Math model explanation</h3>
 <div class="paragraph">
-<p>Math model of&#8230;&#8203;
-== Listening for bucket events</p>
+<p>Math model of&#8230;&#8203;</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="what-can-be-listened"><a class="anchor" href="#what-can-be-listened"></a>4.9. What can be listened:</h3>
+<h3 id="listening-for-bucket-events"><a class="anchor" href="#listening-for-bucket-events"></a>4.4. Listening for bucket events</h3>
+<div class="sect3">
+<h4 id="what-can-be-listened"><a class="anchor" href="#what-can-be-listened"></a>4.4.1. What can be listened:</h4>
 <div class="paragraph">
 <p>You can decorate the bucket by listener in order to track following events:
 - When tokens consumed from bucket.
@@ -1073,8 +1200,8 @@ Proxy manager is &#8230;&#8203;</p>
 - When delayed task was submit to <code>ScheduledExecutorService</code> in result of interaction with <code>AsyncScheduledBucket</code>.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="corner-cases"><a class="anchor" href="#corner-cases"></a>4.10. Corner cases:</h3>
+<div class="sect3">
+<h4 id="corner-cases"><a class="anchor" href="#corner-cases"></a>4.4.2. Corner cases:</h4>
 <div class="paragraph">
 <p><strong>Question:</strong> How many listeners is need to create in case of application uses many buckets?
 <strong>Answer:</strong>  it depends:
@@ -1093,55 +1220,53 @@ in order to avoid inconsistency between different back-ends in the future.
 You can do post-aggregation of monitoring statistics via features built-into your monitoring database or via mediator(like StatsD) between your application and monitoring database.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="how-to-attach-listener-to-bucket"><a class="anchor" href="#how-to-attach-listener-to-bucket"></a>4.11. How to attach listener to bucket?</h3>
+<div class="sect3">
+<h4 id="how-to-attach-listener-to-bucket"><a class="anchor" href="#how-to-attach-listener-to-bucket"></a>4.4.3. How to attach listener to bucket?</h4>
 <div class="paragraph">
 <p>The bucket can be decorated by listener via <code>toListenable</code> method.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">BucketListener listener = new MyCoolListener();
+<pre class="CodeRay highlight"><code data-lang="java">BucketListener listener = <span class="keyword">new</span> MyCoolListener();
 
 Bucket bucket = Bucket4j.builder()
-                    .addLimit(Bandwidth.simple(100, Duration.ofMinutes(1)))
+                    .addLimit(Bandwidth.simple(<span class="integer">100</span>, <span class="predefined-type">Duration</span>.ofMinutes(<span class="integer">1</span>)))
                     .build()
                     .toListenable(listener);</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="example-of-integration-with-dropwizard-metrics-core"><a class="anchor" href="#example-of-integration-with-dropwizard-metrics-core"></a>4.12. Example of integration with Dropwizard metrics-core</h3>
+<div class="sect3">
+<h4 id="example-of-integration-with-dropwizard-metrics-core"><a class="anchor" href="#example-of-integration-with-dropwizard-metrics-core"></a>4.4.4. Example of integration with Dropwizard metrics-core</h4>
 <div class="paragraph">
 <p>[SimpleBucketListener](<a href="https://github.com/vladimir-bukhtoyarov/bucket4j/blob/4.0/bucket4j-core/src/main/java/io/github/bucket4j/SimpleBucketListener.java" class="bare">https://github.com/vladimir-bukhtoyarov/bucket4j/blob/4.0/bucket4j-core/src/main/java/io/github/bucket4j/SimpleBucketListener.java</a>) is simple implementation of <code>BucketListener</code> that available out of the box.
 It is example of exposing statistics via Dropwizard Metrics(for Micrometer it should be quite similar):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public static Bucket buildMonitoredBucket(Bandwidth limit, String bucketName, MetricRegistry registry) {
-  SimpleBucketListener stat = new SimpleBucketListener();
-  registry.register(name + ".consumed", (Gauge&lt;Long&gt;) stat::getConsumed);
-  registry.register(name + ".rejected", (Gauge&lt;Long&gt;) stat::getRejected);
-  registry.register(name + ".parkedNanos", (Gauge&lt;Long&gt;) stat::getParkedNanos);
-  registry.register(name + ".interrupted", (Gauge&lt;Long&gt;) stat::getInterrupted);
-  registry.register(name + ".delayedNanos", (Gauge&lt;Long&gt;) stat::getDelayedNanos);
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> Bucket buildMonitoredBucket(Bandwidth limit, <span class="predefined-type">String</span> bucketName, MetricRegistry registry) {
+  SimpleBucketListener stat = <span class="keyword">new</span> SimpleBucketListener();
+  registry.register(name + <span class="string"><span class="delimiter">&quot;</span><span class="content">.consumed</span><span class="delimiter">&quot;</span></span>, (Gauge&lt;<span class="predefined-type">Long</span>&gt;) stat::getConsumed);
+  registry.register(name + <span class="string"><span class="delimiter">&quot;</span><span class="content">.rejected</span><span class="delimiter">&quot;</span></span>, (Gauge&lt;<span class="predefined-type">Long</span>&gt;) stat::getRejected);
+  registry.register(name + <span class="string"><span class="delimiter">&quot;</span><span class="content">.parkedNanos</span><span class="delimiter">&quot;</span></span>, (Gauge&lt;<span class="predefined-type">Long</span>&gt;) stat::getParkedNanos);
+  registry.register(name + <span class="string"><span class="delimiter">&quot;</span><span class="content">.interrupted</span><span class="delimiter">&quot;</span></span>, (Gauge&lt;<span class="predefined-type">Long</span>&gt;) stat::getInterrupted);
+  registry.register(name + <span class="string"><span class="delimiter">&quot;</span><span class="content">.delayedNanos</span><span class="delimiter">&quot;</span></span>, (Gauge&lt;<span class="predefined-type">Long</span>&gt;) stat::getDelayedNanos);
 
-  return Bucket4j.builder().addLimit(limit).build().toListenable(stat);
+  <span class="keyword">return</span> Bucket4j.builder().addLimit(limit).build().toListenable(stat);
 
 }</code></pre>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="generic-production-checklist"><a class="anchor" href="#generic-production-checklist"></a>5. Generic production checklist</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="generic-production-checklist"><a class="anchor" href="#generic-production-checklist"></a>4.5. Generic production checklist</h3>
 <div class="paragraph">
 <p>The considerations described bellow are applicable to each solution based on the token-bucket or leaky-bucket algorithm.
 You need to understand, agree and configure following points:</p>
 </div>
-<div class="sect2">
-<h3 id="be-wary-of-long-periods"><a class="anchor" href="#be-wary-of-long-periods"></a>5.1. Be wary of long periods</h3>
+<div class="sect3">
+<h4 id="be-wary-of-long-periods"><a class="anchor" href="#be-wary-of-long-periods"></a>4.5.1. Be wary of long periods</h4>
 <div class="paragraph">
 <p>When you are planning to use any solution based on token-bucket for throttling incoming requests,
 you need to pay close attention to the throttling time window.</p>
@@ -1165,9 +1290,9 @@ you need to pay close attention to the throttling time window.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Bucket bucket = Bucket4j.jCacheBuilder(RecoveryStrategy.RECONSTRUCT)
-    .addLimit(Bandwidth.simple(10000, Duration.ofSeconds(3_600))
-    .addLimit(Bandwidth.simple(20, Duration.ofSeconds(1)) // attacker is unable to achieve 1000RPS and crash service in short time
+<pre class="CodeRay highlight"><code data-lang="java">Bucket bucket = Bucket4j.jCacheBuilder(RecoveryStrategy.RECONSTRUCT)
+    .addLimit(Bandwidth.simple(<span class="integer">10000</span>, <span class="predefined-type">Duration</span>.ofSeconds(<span class="integer">3</span>_600))
+    .addLimit(Bandwidth.simple(<span class="integer">20</span>, <span class="predefined-type">Duration</span>.ofSeconds(<span class="integer">1</span>)) <span class="comment">// attacker is unable to achieve 1000RPS and crash service in short time</span>
     .build(cache, bucketId);</code></pre>
 </div>
 </div>
@@ -1175,8 +1300,8 @@ you need to pay close attention to the throttling time window.</p>
 <p>The number of limits specified per bucket does not impact the performance.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="be-wary-of-short-timed-bursts"><a class="anchor" href="#be-wary-of-short-timed-bursts"></a>5.2. Be wary of short-timed bursts</h3>
+<div class="sect3">
+<h4 id="be-wary-of-short-timed-bursts"><a class="anchor" href="#be-wary-of-short-timed-bursts"></a>4.5.2. Be wary of short-timed bursts</h4>
 <div class="paragraph">
 <p>Token bucket is an efficient algorithm with low and fixed memory footprint, independently of the incoming request-rate(it can be millions per second) the bucket consumes no more then 40 bytes(five longs).
 But an efficient memory footprint has its own cost - bandwidth limitation is only satisfied over a long period of time. In other words you cannot avoid short-timed bursts.</p>
@@ -1212,11 +1337,900 @@ But an efficient memory footprint has its own cost - bandwidth limitation is onl
 </div>
 </div>
 </div>
+</div>
 <div class="sect1">
-<h2 id="distributed-facilities"><a class="anchor" href="#distributed-facilities"></a>6. Distributed facilities</h2>
+<h2 id="distributed-facilities"><a class="anchor" href="#distributed-facilities"></a>5. Distributed facilities</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="production-checklist-especially-in-the-context-of-distributed-systems"><a class="anchor" href="#production-checklist-especially-in-the-context-of-distributed-systems"></a>6.1. Production checklist especially in the context of distributed systems</h3>
+<h3 id="jcache-integration"><a class="anchor" href="#jcache-integration"></a>5.1. JCache integration</h3>
+<div class="paragraph">
+<p><code>Bucket4j</code> supports any GRID solution which compatible with <a href="https://www.jcp.org/en/jsr/detail?id=107">JCache API (JSR 107)</a> specification.</p>
+</div>
+<div class="paragraph">
+<p><strong>Do not forget to read</strong> [JCache production checklist](production-jcache-checklist.md) <strong>before using the Bucket4j over JCache cluster.</strong></p>
+</div>
+<div class="paragraph">
+<p>To use JCache extension you also need to add following dependency:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>com.github.vladimir-bukhtoyarov<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>bucket4j-jcache<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>7.0.0-beta-2020-04-18<span class="tag">&lt;/version&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>JCache expects javax.cache.cache-api to be a provided dependency. Do not forget to add following dependency:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>javax.cache<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>cache-api<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>${jcache.version}<span class="tag">&lt;/version&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="example-1-limiting-access-to-http-server-by-ip-address"><a class="anchor" href="#example-1-limiting-access-to-http-server-by-ip-address"></a>5.1.1. Example 1 - limiting access to HTTP server by IP address</h4>
+<div class="paragraph">
+<p>Imagine that you develop any Servlet based WEB application and want to limit access per IP basis.
+You want to use same limits for each IP - 30 requests per minute.</p>
+</div>
+<div class="paragraph">
+<p>ServletFilter would be obvious place to check limits:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">IpThrottlingFilter</span> <span class="directive">implements</span> javax.servlet.Filter {
+
+    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> BucketConfiguration configuration = Bucket4j.configurationBuilder()
+                                                              .addLimit(Bandwidth.simple(<span class="integer">30</span>, <span class="predefined-type">Duration</span>.ofMinutes(<span class="integer">1</span>)))
+                                                              .build();
+
+    <span class="comment">// cache for storing token buckets, where IP is key.</span>
+    <span class="annotation">@Inject</span>
+    <span class="directive">private</span> javax.cache.Cache&lt;<span class="predefined-type">String</span>, GridBucketState&gt; cache;
+
+    <span class="directive">private</span> ProxyManager&lt;<span class="predefined-type">String</span>&gt; buckets;
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">void</span> init(FilterConfig filterConfig) <span class="directive">throws</span> ServletException {
+         <span class="comment">// init bucket registry</span>
+         buckets = Bucket4j.extension(JCache.class).proxyManagerForCache(cache);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">void</span> doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) <span class="directive">throws</span> <span class="exception">IOException</span>, ServletException {
+        HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
+        <span class="predefined-type">String</span> ip = IpHelper.getIpFromRequest(httpRequest);
+
+        <span class="comment">// acquire cheap proxy to bucket</span>
+        Bucket bucket = buckets.getProxy(ip, configuration);
+
+        <span class="comment">// tryConsume returns false immediately if no tokens available with the bucket</span>
+        <span class="keyword">if</span> (bucket.tryConsume(<span class="integer">1</span>)) {
+            <span class="comment">// the limit is not exceeded</span>
+            filterChain.doFilter(servletRequest, servletResponse);
+        } <span class="keyword">else</span> {
+            <span class="comment">// limit is exceeded</span>
+            HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+            httpResponse.setContentType(<span class="string"><span class="delimiter">&quot;</span><span class="content">text/plain</span><span class="delimiter">&quot;</span></span>);
+            httpResponse.setStatus(<span class="integer">429</span>);
+            httpResponse.getWriter().append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Too many requests</span><span class="delimiter">&quot;</span></span>);
+        }
+    }
+
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="example-2-limiting-access-to-service-by-contract-agreements"><a class="anchor" href="#example-2-limiting-access-to-service-by-contract-agreements"></a>5.1.2. Example 2 - limiting access to service by contract agreements</h4>
+<div class="paragraph">
+<p>Imagine that you provides paid language translation service via HTTP.
+Each your user has unique agreement which differs from each other.
+Details of each agreement is stored in relational database, and takes significant time to fetch(for example 100ms).
+The example above will not work fine in this case, because time to create/fetch configuration of bucket from database
+will be 100 times slower than limit-checking itself.
+Bucket4j solves this problem via lazy configuration suppliers which are called if and only if bucket was not yet stored in grid,
+thus it is possible to implement solution  that will read agreement from database once per each user.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">IpThrottlingFilter</span> <span class="directive">implements</span> javax.servlet.Filter {
+
+    <span class="comment">// service to provide per user limits</span>
+    <span class="annotation">@Inject</span>
+    <span class="directive">private</span> LimitProvider limitProvider;
+
+    <span class="comment">// cache for storing token buckets, where IP is key.</span>
+    <span class="annotation">@Inject</span>
+    <span class="directive">private</span> javax.cache.Cache&lt;<span class="predefined-type">String</span>, GridBucketState&gt; cache;
+
+    <span class="directive">private</span> ProxyManager&lt;<span class="predefined-type">String</span>&gt; buckets;
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">void</span> init(FilterConfig filterConfig) <span class="directive">throws</span> ServletException {
+         <span class="comment">// init bucket registry</span>
+         buckets = Bucket4j.extension(JCache.class).proxyManagerForCache(cache);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">void</span> doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) <span class="directive">throws</span> <span class="exception">IOException</span>, ServletException {
+        HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
+        <span class="predefined-type">String</span> userId = AutentificationHelper.getUserIdFromRequest(httpRequest);
+
+        <span class="comment">// prepare configuration supplier which will be called(on first interaction with proxy) if bucket was not saved yet previously.</span>
+        Supplier&lt;BucketConfiguration&gt; configurationLazySupplier = getConfigSupplierForUser(userId);
+
+        <span class="comment">// acquire cheap proxy to bucket</span>
+        Bucket bucket = buckets.getProxy(ip, configurationLazySupplier);
+
+        <span class="comment">// tryConsume returns false immediately if no tokens available with the bucket</span>
+        <span class="keyword">if</span> (bucket.tryConsume(<span class="integer">1</span>)) {
+            <span class="comment">// the limit is not exceeded</span>
+            filterChain.doFilter(servletRequest, servletResponse);
+        } <span class="keyword">else</span> {
+            <span class="comment">// limit is exceeded</span>
+            HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+            httpResponse.setContentType(<span class="string"><span class="delimiter">&quot;</span><span class="content">text/plain</span><span class="delimiter">&quot;</span></span>);
+            httpResponse.setStatus(<span class="integer">429</span>);
+            httpResponse.getWriter().append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Too many requests</span><span class="delimiter">&quot;</span></span>);
+        }
+    }
+
+    <span class="directive">private</span> Supplier&lt;BucketConfiguration&gt; getConfigSupplierForUser(<span class="predefined-type">String</span> userId) {
+         <span class="keyword">return</span> () -&gt; {
+             <span class="type">long</span> translationsPerDay = limitProvider.readPerDayLimitFromAgreementsDatabase(userId);
+             <span class="keyword">return</span> Bucket4j.configurationBuilder()
+                         .addLimit(Bandwidth.simple(translationsPerDay, <span class="predefined-type">Duration</span>.ofDays(<span class="integer">1</span>)))
+                         .build();
+         };
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Question:</strong> is the provided JCache integration safe across multiple JVMs? Does it ensure that two nodes creating a bucket simultaneously on a given Cache&lt;K, V&gt; will only actually create one single bucket (without resetting a previously created one with the same key)?
+<strong>Answer:</strong> Yes. JCache integration is safe for multi node environment, Bucket4j never replaces bucket which already exists.
+This behavior is guaranteed by <strong>putIfAbsent</strong> method contract of [javax.cache.Cache](<a href="http://static.javadoc.io/javax.cache/cache-api/1.0.0/javax/cache/Cache.html" class="bare">http://static.javadoc.io/javax.cache/cache-api/1.0.0/javax/cache/Cache.html</a>) class.</p>
+</div>
+<div class="paragraph">
+<p><strong>Question:</strong> Does ProxyManager store buckets internally, could be this a reason of OutOfMemoryError?
+<strong>Answer:</strong> No. ProxyManager stores nothing about buckets which it returns, the buckets actually stored in in-memory GRID outside client JVM.
+Think about proxy returned by <code>ProxyManager#getBucket</code> just about very cheap pointer to data which actually stored somewhere outside.
+So, independently of count of buckets ProxyManager will never be a reason of crash or extreme memory consumption.</p>
+</div>
+<div class="paragraph">
+<p><strong>Question:</strong> what will happen if bucket state will be lost in the GRID  because of split-brain, human mistake or pragmatically errors introduced by GRID vendor?
+<strong>Answer:</strong> ProxyManager automatically detect this kind of situations and save bucket yet another time, to reconstruct bucket it uses provided configuration supplier.
+Reconstructed bucket remembers nothing about previously consumed tokens, so limit can be exceeded in this kind of GRID failures.</p>
+</div>
+<div class="paragraph">
+<p><strong>Question:</strong> should I always work with JCache through ProxyManager?
+<strong>Answer:</strong> It depends. When you have deal with potentially huge and unpredictable amount of buckets, it is always better to use ProxyManager.
+ProxyManager protects you from common performance pitfalls(like described in <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issues/26">this issue</a>).
+But when you have deal with one or few buckets which well known at development time, then it would be better to avoid ProxyManager
+and work directly with [GridBucket](<a href="https://github.com/vladimir-bukhtoyarov/bucket4j/blob/2.0/bucket4j-core/src/main/java/io/github/bucket4j/grid/GridBucket.java" class="bare">https://github.com/vladimir-bukhtoyarov/bucket4j/blob/2.0/bucket4j-core/src/main/java/io/github/bucket4j/grid/GridBucket.java</a>) as described in the next example.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="example-3-working-with-jcache-without-proxymanager-abstraction"><a class="anchor" href="#example-3-working-with-jcache-without-proxymanager-abstraction"></a>5.1.3. Example 3 - working with JCache without ProxyManager abstraction</h4>
+<div class="paragraph">
+<p>Imagine yet another time that you develop WEB application and want to protect the whole cluster by 1000 requests per second, independently from request source,
+in other words you need one single bucket which protects the system at whole. Lets create ServletFilter to check limits similar to <code>Example 1</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">GlobalThrottlingFilter</span> <span class="directive">implements</span> javax.servlet.Filter {
+
+    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> BUCKET_ID = <span class="string"><span class="delimiter">&quot;</span><span class="content">global-limit</span><span class="delimiter">&quot;</span></span>;
+
+    <span class="annotation">@Inject</span>
+    <span class="directive">private</span> javax.cache.Cache&lt;<span class="predefined-type">String</span>, GridBucketState&gt; cache;
+
+    <span class="directive">private</span> Bucket bucket;
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">void</span> init(FilterConfig filterConfig) <span class="directive">throws</span> ServletException {
+         <span class="comment">// create bucket</span>
+         bucket = Bucket4j.extension(JCache.class).builder()
+             .addLimit(Bandwidth.simple(<span class="integer">1000</span>, <span class="predefined-type">Duration</span>.ofSeconds(<span class="integer">1</span>)))
+             .build(cache, BUCKET_ID, RecoveryStrategy.RECONSTRUCT);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">void</span> doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) <span class="directive">throws</span> <span class="exception">IOException</span>, ServletException {
+        <span class="comment">// tryConsume returns false immediately if no tokens available with the bucket</span>
+        <span class="keyword">if</span> (bucket.tryConsume(<span class="integer">1</span>)) {
+            <span class="comment">// the limit is not exceeded</span>
+            filterChain.doFilter(servletRequest, servletResponse);
+        } <span class="keyword">else</span> {
+            <span class="comment">// limit is exceeded</span>
+            HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+            httpResponse.setContentType(<span class="string"><span class="delimiter">&quot;</span><span class="content">text/plain</span><span class="delimiter">&quot;</span></span>);
+            httpResponse.setStatus(<span class="integer">429</span>);
+            httpResponse.getWriter().append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Too many requests</span><span class="delimiter">&quot;</span></span>);
+        }
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As you can see the code is simpler when you work with Bucket directly without ProxyManager, so use this way always when all buckets are known at development time.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="runnable-examples-of-jcache-integration"><a class="anchor" href="#runnable-examples-of-jcache-integration"></a>5.1.4. Runnable examples of JCache integration</h4>
+<div class="paragraph">
+<p>Bucket4j well tested with <code>Hazelcast</code> and <code>Apache Ignite/GridGain</code>, you can use integration tests from <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/tree/2.0/bucket4j-jcache/src/test/java/io/github/bucket4j/grid/jcache">this folder</a> as live examples.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="why-jcache-specification-is-not-enough-and-since-3-0-were-introduced-the-dedicated-modules-for-infinispan-hazelcast-and-ignite"><a class="anchor" href="#why-jcache-specification-is-not-enough-and-since-3-0-were-introduced-the-dedicated-modules-for-infinispan-hazelcast-and-ignite"></a>5.1.5. Why JCache specification is not enough and since 3.0 were introduced the dedicated modules for Infinispan, Hazelcast and Ignite?</h4>
+<div class="paragraph">
+<p>Asynchronous processing is very important for high-throughput applications, but JCache specification does not specify asynchronous API, because two early attempts to bring this kind functionality at spec level <a href="https://github.com/jsr107/jsr107spec/issues/307">307</a>, <a href="https://github.com/jsr107/jsr107spec/issues/312">312</a> were failed in absence of consensus.
+Sad, but true, if you need for asynchronous API, then JCache extension is useless, and you need to choose from following extensions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>[bucket4j-ignite](ignite.md)</p>
+</li>
+<li>
+<p>[bucket4j-hazelcast](hazelcast.md)</p>
+</li>
+<li>
+<p>[bucket4j-infinispan](infinispan.md)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Of course implementation the asynchronous support for any other JCache provider outside from the list above should be easy exercise,
+so feel free to return back the pull request addressed to cover your favorite JCache provider.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="verification-of-compatibility-with-particular-jcache-provider-is-your-responsibility"><a class="anchor" href="#verification-of-compatibility-with-particular-jcache-provider-is-your-responsibility"></a>5.1.6. Verification of compatibility with particular JCache provider is your responsibility</h4>
+<div class="paragraph">
+<p>Keep in mind that there are many non-certified implementations of JCache specification on the market.
+Many of them want to increase their popularity by declaring support for the JCache API,
+but often only the API is supported and the semantic of JCache is totally ignored.
+Usage Bucket4j with this kind of libraries should be completely avoided.</p>
+</div>
+<div class="paragraph">
+<p>Bucket4j is only compatible with implementations which obey the JCache specification rules(especially related to EntryProcessor execution).
+Oracle Coherence, Apache Ignite, Hazelcast are good examples of safe implementations of JCache.</p>
+</div>
+<div class="paragraph">
+<p>Because it is impossible to test all possible JCache providers, you need to test your provider by yourself.
+Just run this code in order to be sure that your implementation of JCache provides good isolation for EntryProcessors</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">javax.cache.Cache</span>;
+<span class="keyword">import</span> <span class="include">javax.cache.processor.EntryProcessor</span>;
+<span class="keyword">import</span> <span class="include">java.util.concurrent.CountDownLatch</span>;
+<span class="keyword">import</span> <span class="include">java.io.Serializable</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">CompatibilityTest</span> {
+
+    <span class="directive">final</span> Cache&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; cache;
+
+
+    <span class="directive">public</span> CompatibilityTest(Cache&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; cache) {
+        <span class="local-variable">this</span>.cache = cache;
+    }
+
+    <span class="directive">public</span> <span class="type">void</span> test() <span class="directive">throws</span> <span class="exception">InterruptedException</span> {
+        <span class="predefined-type">String</span> key = <span class="string"><span class="delimiter">&quot;</span><span class="content">42</span><span class="delimiter">&quot;</span></span>;
+        <span class="type">int</span> threads = <span class="integer">4</span>;
+        <span class="type">int</span> iterations = <span class="integer">1000</span>;
+        cache.put(key, <span class="integer">0</span>);
+        <span class="predefined-type">CountDownLatch</span> latch = <span class="keyword">new</span> <span class="predefined-type">CountDownLatch</span>(threads);
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; threads; i++) {
+            <span class="keyword">new</span> <span class="predefined-type">Thread</span>(() -&gt; {
+                <span class="keyword">try</span> {
+                    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="integer">0</span>; j &lt; iterations; j++) {
+                        EntryProcessor&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Void</span>&gt; processor = (EntryProcessor&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Void</span>&gt; &amp; <span class="predefined-type">Serializable</span>) (mutableEntry, objects) -&gt; {
+                            <span class="type">int</span> value = mutableEntry.getValue();
+                            mutableEntry.setValue(value + <span class="integer">1</span>);
+                            <span class="keyword">return</span> <span class="predefined-constant">null</span>;
+                        };
+                        cache.invoke(key, processor);
+                    }
+                } <span class="keyword">finally</span> {
+                    latch.countDown();
+                }
+            }).start();
+        }
+        latch.await();
+        <span class="type">int</span> value = cache.get(key);
+        <span class="keyword">if</span> (value == threads * iterations) {
+            <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Implementation which you use is compatible with Bucket4j</span><span class="delimiter">&quot;</span></span>);
+        } <span class="keyword">else</span> {
+            <span class="predefined-type">String</span> msg = <span class="string"><span class="delimiter">&quot;</span><span class="content">Implementation which you use is not compatible with Bucket4j</span><span class="delimiter">&quot;</span></span>;
+            msg += <span class="string"><span class="delimiter">&quot;</span><span class="content">, </span><span class="delimiter">&quot;</span></span> + (threads * iterations - value) + <span class="string"><span class="delimiter">&quot;</span><span class="content"> writes are missed</span><span class="delimiter">&quot;</span></span>;
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">IllegalStateException</span>(msg);
+        }
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The check does 4000 increments of integer in parallel and verifies that no one update has been missed.
+If check passed then your JCache provider is compatible with Bucket4j, the throttling will work fine in distributed and concurrent environment.
+If check is not passed, then reach to the particular JCache provider team and consult why its implementation misses the writes.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="hazelcast-integration"><a class="anchor" href="#hazelcast-integration"></a>5.2. Hazelcast integration</h3>
+<div class="paragraph">
+<p>Before use <code>bucket4j-hazelcast</code> module please read [bucket4j-jcache documentation](jcache-usage.md),
+because <code>bucket4j-hazelcast</code> is just a follow-up of <code>bucket4j-jcache</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Question:</strong> Bucket4j already supports JCache since version <code>1.2</code>. Why it was needed to introduce direct support for <code>Hazelcast</code>?
+<strong>Answer:</strong> Because <a href="https://www.jcp.org/en/jsr/detail?id=107">JCache API (JSR 107)</a> does not specify asynchronous API,
+developing the dedicated module <code>bucket4j-hazelcast</code> was the only way to provide asynchrony for users who use <code>Bucket4j</code> and <code>Hazelcast</code> together.</p>
+</div>
+<div class="paragraph">
+<p><strong>Question:</strong> Should I migrate from <code>bucket4j-jcache</code> to <code>bucket4j-hazelcast</code> If I do not need in asynchronous API?
+<strong>Answer:</strong> No, you should not migrate to <code>bucket4j-hazelcast</code> in this case.</p>
+</div>
+<div class="sect3">
+<h4 id="dependencies"><a class="anchor" href="#dependencies"></a>5.2.1. Dependencies</h4>
+<div class="paragraph">
+<p>To use Bucket4j extension for Hazelcast with <code>Hazelcast 4.x</code> you need to add following dependency:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>com.github.vladimir-bukhtoyarov<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>bucket4j-hazelcast<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>7.0.0-beta-2020-04-18<span class="tag">&lt;/version&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you are using legacy version of Hazelcast <code>3.x</code> then you need to add following dependency:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>com.github.vladimir-bukhtoyarov<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>bucket4j-hazelcast-3<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>7.0.0-beta-2020-04-18<span class="tag">&lt;/version&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="general-compatibility-matrix-principles"><a class="anchor" href="#general-compatibility-matrix-principles"></a>5.2.2. General compatibility matrix principles:</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Bucket4j authors do not perform continues monitoring of new Hazelcast releases. So, there is can be case when there is no one version of Bucket4j which is compatible with newly released Hazelcast,
+just log issue to <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issues">bug tracker</a> in this case, adding support to new version of Hazelcast is usually easy exercise.</p>
+</li>
+<li>
+<p>Integrations with legacy versions of Hazelcast are not removed without a clear reason. Hence You are in safety, even you are working in a big enterprise company that does not update its infrastructure frequently because You still get new Bucket4j&#8217;s features even for legacy Hazelcast&#8217;s releases.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="example-of-bucket-instantiation"><a class="anchor" href="#example-of-bucket-instantiation"></a>5.2.3. Example of Bucket instantiation</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">IMap&lt;K, GridBucketState&gt; map = ...;
+...
+
+Bucket bucket = Bucket4j.extension(Hazelcast.class).builder()
+                   .addLimit(Bandwidth.simple(<span class="integer">1</span>_000, <span class="predefined-type">Duration</span>.ofMinutes(<span class="integer">1</span>)))
+                   .build(map, key, RecoveryStrategy.RECONSTRUCT);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="example-of-proxymanager-instantiation"><a class="anchor" href="#example-of-proxymanager-instantiation"></a>5.2.4. Example of ProxyManager instantiation</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">IMap&lt;K, GridBucketState&gt; map = ...;
+...
+
+ProxyManager proxyManager = Bucket4j.extension(Hazelcast.class).proxyManagerForMap(map);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="configuring-custom-serialization-for-bucket4j-library-classes"><a class="anchor" href="#configuring-custom-serialization-for-bucket4j-library-classes"></a>5.2.5. Configuring Custom Serialization for Bucket4j library classes</h4>
+<div class="paragraph">
+<p>If you configure nothing, then by default Java serialization will be used for serialization Bucket4j library classes. Java serialization can be rather slow and should be avoided in general.
+<code>Bucket4j</code> provides <a href="https://docs.hazelcast.org/docs/3.0/manual/html/ch03s03.html">custom serializers</a> for all library classes that could be transferred over network.
+To let Hazelcast know about fast serializers you should register them programmatically in the serialization config:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">com.hazelcast.config.Config</span>;
+<span class="keyword">import</span> <span class="include">com.hazelcast.config.SerializationConfig</span>;
+<span class="keyword">import</span> <span class="include">com.hazelcast.config.SerializerConfig</span>;
+<span class="keyword">import</span> <span class="include">io.github.bucket4j.grid.hazelcast.serialization.HazelcastSerializer</span>;
+...
+    Config config = ...
+    SerializationConfig serializationConfig = config.getSerializationConfig();
+
+    <span class="comment">// the starting type ID number for Bucket4j classes.</span>
+    <span class="comment">// you free to choose any unused ID, but be aware that Bucket4j uses 2 types currently,</span>
+    <span class="comment">// and may use more types in the future, so leave enough empty space after baseTypeIdNumber</span>
+    <span class="type">int</span> baseTypeIdNumber = <span class="integer">10000</span>;
+
+    HazelcastSerializer.addCustomSerializers(serializationConfig, baseTypeIdNumber);</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="apache-ignite-integration"><a class="anchor" href="#apache-ignite-integration"></a>5.3. Apache Ignite integration</h3>
+<div class="paragraph">
+<p>Before use <code>bucket4j-ignite</code> module please read [bucket4j-jcache documentation](jcache-usage.md),
+because <code>bucket4j-ignite</code> is just a follow-up of <code>bucket4j-jcache</code>.</p>
+</div>
+<div class="paragraph">
+<p>Bucket4j supports Ignite Thin-Client as well as regular deployment scenario.</p>
+</div>
+<div class="paragraph">
+<p><strong>Question:</strong> Bucket4j already supports JCache since version <code>1.2</code>. Why it was needed to introduce direct support for <code>Apache Ignite</code>?
+<strong>Answer:</strong> Because <a href="https://www.jcp.org/en/jsr/detail?id=107">JCache API (JSR 107)</a> does not specify asynchronous API,
+developing the dedicated module <code>bucket4j-ignite</code> was the only way to provide asynchrony for users who use <code>Bucket4j</code> and <code>Apache Ignite</code> together.</p>
+</div>
+<div class="paragraph">
+<p><strong>Question:</strong> Should I migrate from <code>bucket4j-jcache</code> to <code>bucketj-ignite</code> If I do not need in asynchronous API?
+<strong>Answer:</strong> No, you should not migrate to <code>bucketj-ignite</code> in this case.</p>
+</div>
+<div class="sect3">
+<h4 id="dependencies-2"><a class="anchor" href="#dependencies-2"></a>5.3.1. Dependencies</h4>
+<div class="paragraph">
+<p>To use <code>bucket4j-ignite</code> extension you need to add following dependency:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>com.github.vladimir-bukhtoyarov<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>bucket4j-ignite<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>7.0.0-beta-2020-04-18<span class="tag">&lt;/version&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="example-of-bucket-instantiation-2"><a class="anchor" href="#example-of-bucket-instantiation-2"></a>5.3.2. Example of Bucket instantiation</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">org.apache.ignite.IgniteCache&lt;K, GridBucketState&gt; cache = ...;
+...
+
+Bucket bucket = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).builder()
+                   .addLimit(Bandwidth.simple(<span class="integer">1</span>_000, <span class="predefined-type">Duration</span>.ofMinutes(<span class="integer">1</span>)))
+                   .build(cache, key, RecoveryStrategy.RECONSTRUCT);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="example-of-proxymanager-instantiation-2"><a class="anchor" href="#example-of-proxymanager-instantiation-2"></a>5.3.3. Example of ProxyManager instantiation</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">org.apache.ignite.IgniteCache&lt;K, GridBucketState&gt; cache = ...;
+...
+
+ProxyManager proxyManager = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).proxyManagerForCache(cache);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="example-of-bucket-instantiation-via-thin-client"><a class="anchor" href="#example-of-bucket-instantiation-via-thin-client"></a>5.3.4. Example of Bucket instantiation via Thin Client</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">org.apache.ignite.client.ClientCache&lt;K, GridBucketState&gt; cache = ...;
+org.apache.ignite.client.ClientCompute clientCompute = ...;
+
+...
+
+Bucket bucket = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).builder()
+                   .addLimit(Bandwidth.simple(<span class="integer">1</span>_000, <span class="predefined-type">Duration</span>.ofMinutes(<span class="integer">1</span>)))
+                   .build(clientCompute, cache, key, RecoveryStrategy.RECONSTRUCT);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="example-of-proxymanager-instantiation-via-thin-client"><a class="anchor" href="#example-of-proxymanager-instantiation-via-thin-client"></a>5.3.5. Example of ProxyManager instantiation via Thin Client</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">org.apache.ignite.client.ClientCache&lt;K, GridBucketState&gt; cache = ...;
+org.apache.ignite.client.ClientCompute clientCompute = ...;
+...
+
+ProxyManager proxyManager = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).proxyManagerForCache(clientCompute, cache);</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="infinispan-integration"><a class="anchor" href="#infinispan-integration"></a>5.4. Infinispan integration</h3>
+<div class="paragraph">
+<p>Before use <code>bucket4j-infinispan</code> module please read [bucket4j-jcache documentation](jcache-usage.md),
+because <code>bucket4j-infinispan</code> is just a follow-up of <code>bucket4j-jcache</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Question:</strong> Bucket4j already supports JCache since version <code>1.2</code>. Why it was needed to introduce direct support for <code>Infinispan</code>?
+<strong>Answer:</strong> When you want to use Bucket4j together with Infinispan, you must always use <code>bucket4j-infinispan</code> module instead of <code>bucket4j-jcache</code>,
+because Infinispan does not provide mutual exclusion for entry-processors. Any attempt to use Infinispan via <code>bucket4j-jcache</code> will be failed with UnsupportedOperationException exception
+at bucket construction time.</p>
+</div>
+<div class="sect3">
+<h4 id="dependencies-3"><a class="anchor" href="#dependencies-3"></a>5.4.1. Dependencies</h4>
+<div class="paragraph">
+<p>To use <code>bucket4j-infinispan</code> with <code>Infinispan 9.x, 10.x</code> extension you need to add following dependency:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>com.github.vladimir-bukhtoyarov<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>bucket4j-infinispan<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>7.0.0-beta-2020-04-18<span class="tag">&lt;/version&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you are using legacy version of Infinispan <code>8.x</code> then you need to add following dependency:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>com.github.vladimir-bukhtoyarov<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>bucket4j-infinispan-8<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>7.0.0-beta-2020-04-18<span class="tag">&lt;/version&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="general-compatibility-matrix-principles-2"><a class="anchor" href="#general-compatibility-matrix-principles-2"></a>5.4.2. General compatibility matrix principles::</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Bucket4j authors do not perform continues monitoring of new Infinispan releases. So, there is can be case when there is no one version of Bucket4j which is compatible with newly released Infinispan,
+just log issue to <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issues">bug tracker</a> in this case, adding support to new version of Infinispan is usually easy exercise.</p>
+</li>
+<li>
+<p>Integrations with legacy versions of Infinispan are not removed without a clear reason. Hence You are in safety, even you are working in a big enterprise company that does not update its infrastructure frequently because You still get new Bucket4j&#8217;s features even for legacy Infinispan&#8217;s releases.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="special-notes-for-infinispan-10-0"><a class="anchor" href="#special-notes-for-infinispan-10-0"></a>5.4.3. Special notes for Infinispan 10.0+</h4>
+<div class="paragraph">
+<p>As mentioned in the <a href="https://infinispan.org/docs/dev/titles/developing/developing.html#marshalling">Infinispan Marshalling documentation</a>, since release <code>10.0.0</code> Infinispan does not allow deserialization of custom payloads into Java classes.
+If you do not configure serialization(as described bellow), you will get the error like this on any attempt to use Bucket4j with brand new Infinispan release:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">Jan 02, 2020 4:57:56 PM org.infinispan.marshall.persistence.impl.PersistenceMarshallerImpl objectToBuffer
+WARN: ISPN000559: Cannot marshall 'class io.github.bucket4j.grid.infinispan.SerializableFunctionAdapter'
+java.lang.IllegalArgumentException: No marshaller registered for Java type io.github.bucket4j.grid.infinispan.SerializableFunctionAdapter
+        at org.infinispan.protostream.impl.SerializationContextImpl.getMarshallerDelegate(SerializationContextImpl.java:279)
+        at org.infinispan.protostream.WrappedMessage.writeMessage(WrappedMessage.java:240)
+        at org.infinispan.protostream.ProtobufUtil.toWrappedStream(ProtobufUtil.java:196)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There are three options to solve this problem:
+* Configure Jboss marshalling instead of default ProtoStream marshaller as described <a href="https://infinispan.org/docs/dev/titles/developing/developing.html#jboss_marshalling">there</a>.
+* Configure Java Serialization Marshaller instead of default ProtoStream marshaller, as described <a href="https://infinispan.org/docs/dev/titles/developing/developing.html#java_serialization_marshaller">there</a>.
+Do not forget to add <code>io.github.bucket4j.*</code> regexp to the whitelist if choosing this way.
+* And last way(recommended) just register <code>Bucket4j serialization context initializer</code> in the serialization configuration.
+You can do it in both programmatically and declarative ways:</p>
+</div>
+<div class="paragraph">
+<p><strong>Programmatic registration of Bucket4jProtobufContextInitializer</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">io.github.bucket4j.grid.infinispan.serialization.Bucket4jProtobufContextInitializer</span>;
+<span class="keyword">import</span> <span class="include">org.infinispan.configuration.global.GlobalConfigurationBuilder</span>;
+...
+GlobalConfigurationBuilder builder = <span class="keyword">new</span> GlobalConfigurationBuilder();
+builder.serialization().addContextInitializer(<span class="keyword">new</span> Bucket4jProtobufContextInitializer());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Declarative registration of Bucket4jProtobufContextInitializer</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;serialization&gt;</span>
+    <span class="tag">&lt;context-initializer</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">io.github.bucket4j.grid.infinispan.serialization.Bucket4jProtobufContextInitializer</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/serialization&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And that is all. Just registering <code>Bucket4jProtobufContextInitializer</code> in any way is enough to make Bucket4j compatible with ProtoStream marshaller, you do not have to care about *.proto files, annotations, whitelist etc,
+all neccessary Protobuffers configs generated by <code>Bucket4jProtobufContextInitializer</code> and registerd on the fly.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="example-of-bucket-instantiation-3"><a class="anchor" href="#example-of-bucket-instantiation-3"></a>5.4.4. Example of Bucket instantiation</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">org.infinispan.functional.FunctionalMap.ReadWriteMap&lt;K, GridBucketState&gt; map = ...;
+...
+Bucket bucket = Bucket4j.extension(Infinispan.class).builder()
+                   .addLimit(Bandwidth.simple(<span class="integer">1</span>_000, <span class="predefined-type">Duration</span>.ofMinutes(<span class="integer">1</span>)))
+                   .build(map, key, RecoveryStrategy.RECONSTRUCT);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="example-of-proxymanager-instantiation-3"><a class="anchor" href="#example-of-proxymanager-instantiation-3"></a>5.4.5. Example of ProxyManager instantiation</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">org.infinispan.functional.FunctionalMap.ReadWriteMap&lt;K, GridBucketState&gt; map = ...;
+...
+
+ProxyManager proxyManager = Bucket4j.extension(Infinispan.class).proxyManagerForMap(map);</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="oracle-coherence-integration"><a class="anchor" href="#oracle-coherence-integration"></a>5.5. Oracle Coherence integration</h3>
+<div class="paragraph">
+<p>Before use <code>bucket4j-coherence</code> module please read [bucket4j-jcache documentation](jcache-usage.md),
+because <code>bucket4j-coherence</code> is just a follow-up of <code>bucket4j-jcache</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Question:</strong> Bucket4j already supports JCache since version <code>1.2</code>. Why it was needed to introduce direct support for <code>Oracle Coherence</code>?
+<strong>Answer:</strong> Because <a href="https://www.jcp.org/en/jsr/detail?id=107">JCache API (JSR 107)</a> does not specify asynchronous API,
+developing the dedicated module <code>bucket4j-coherence</code> was the only way to provide asynchrony for users who use <code>Bucket4j</code> and <code>Oracle Coherence</code> together.</p>
+</div>
+<div class="paragraph">
+<p><strong>Question:</strong> Should I migrate from <code>bucket4j-jcache</code> to <code>bucketj-coherence</code> If I do not need in asynchronous API?
+<strong>Answer:</strong> No, you should not migrate to <code>bucketj-coherence</code> in this case.</p>
+</div>
+<div class="sect3">
+<h4 id="dependencies-4"><a class="anchor" href="#dependencies-4"></a>5.5.1. Dependencies</h4>
+<div class="paragraph">
+<p>To use <code>bucket4j-coherence</code> extension you need to add following dependency:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>com.github.vladimir-bukhtoyarov<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>bucket4j-coherence<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;version&gt;</span>7.0.0-beta-2020-04-18<span class="tag">&lt;/version&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="example-of-bucket-instantiation-4"><a class="anchor" href="#example-of-bucket-instantiation-4"></a>5.5.2. Example of Bucket instantiation</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">com.tangosol.net.NamedCache&lt;K, GridBucketState&gt; cache = ...;
+...
+
+Bucket bucket = Bucket4j.extension(Coherence.class).builder()
+                   .addLimit(Bandwidth.simple(<span class="integer">1</span>_000, <span class="predefined-type">Duration</span>.ofMinutes(<span class="integer">1</span>)))
+                   .build(cache, key, RecoveryStrategy.RECONSTRUCT);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="example-of-proxymanager-instantiation-4"><a class="anchor" href="#example-of-proxymanager-instantiation-4"></a>5.5.3. Example of ProxyManager instantiation</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">com.tangosol.net.NamedCache&lt;K, GridBucketState&gt; cache = ...;
+
+ProxyManager proxyManager = Bucket4j.extension(Coherence.class).proxyManagerForCache(cache);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="configuring-pof-serialization-for-bucket4j-library-classes"><a class="anchor" href="#configuring-pof-serialization-for-bucket4j-library-classes"></a>5.5.4. Configuring POF serialization for Bucket4j library classes</h4>
+<div class="paragraph">
+<p>If you configure nothing, then by default Java serialization will be used for serialization Bucket4j library classes. Java serialization can be rather slow and should be avoided in general.
+<code>Bucket4j</code> provides <a href="https://docs.oracle.com/cd/E24290_01/coh.371/e22837/api_pof.htm#COHDG1363">custom POF serializers</a> for all library classes that could be transferred over network.
+To let Coherence know about POF serializers you should register three serializers in the POF configuration config file:
+* <code>CoherenceEntryProcessorAdapterPofSerializer</code> for class <code>CoherenceEntryProcessorAdapter</code>
+* <code>GridBucketStatePofSerializer</code> for class <code>GridBucketState</code>
+* <code>CommandResultPofSerializer</code> for class <code>CommandResult</code></p>
+</div>
+<div class="paragraph">
+<p><strong>Example of POF serialization:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;pof-config</span> <span class="attribute-name">xmlns</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://xmlns.oracle.com/coherence/coherence-pof-config</span><span class="delimiter">&quot;</span></span>
+            <span class="attribute-name">xmlns:xsi</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.w3.org/2001/XMLSchema-instance</span><span class="delimiter">&quot;</span></span>
+            <span class="attribute-name">xsi:schemaLocation</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://xmlns.oracle.com/coherence/coherence-pof-config coherence-pof-config.xsd</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+
+    <span class="tag">&lt;user-type-list&gt;</span>
+        <span class="comment">&lt;!-- Include default Coherence types --&gt;</span>
+        <span class="tag">&lt;include&gt;</span>coherence-pof-config.xml<span class="tag">&lt;/include&gt;</span>
+
+        <span class="comment">&lt;!-- Define serializers for Bucket4j classes --&gt;</span>
+        <span class="tag">&lt;user-type&gt;</span>
+            <span class="tag">&lt;type-id&gt;</span>1001<span class="tag">&lt;/type-id&gt;</span>
+            <span class="tag">&lt;class-name&gt;</span>io.github.bucket4j.grid.coherence.CoherenceEntryProcessorAdapter<span class="tag">&lt;/class-name&gt;</span>
+            <span class="tag">&lt;serializer&gt;</span>
+                <span class="tag">&lt;class-name&gt;</span>io.github.bucket4j.grid.coherence.pof.CoherenceEntryProcessorAdapterPofSerializer<span class="tag">&lt;/class-name&gt;</span>
+            <span class="tag">&lt;/serializer&gt;</span>
+        <span class="tag">&lt;/user-type&gt;</span>
+        <span class="tag">&lt;user-type&gt;</span>
+            <span class="tag">&lt;type-id&gt;</span>1002<span class="tag">&lt;/type-id&gt;</span>
+            <span class="tag">&lt;class-name&gt;</span>io.github.bucket4j.grid.GridBucketState<span class="tag">&lt;/class-name&gt;</span>
+            <span class="tag">&lt;serializer&gt;</span>
+                <span class="tag">&lt;class-name&gt;</span>io.github.bucket4j.grid.coherence.pof.GridBucketStatePofSerializer<span class="tag">&lt;/class-name&gt;</span>
+            <span class="tag">&lt;/serializer&gt;</span>
+        <span class="tag">&lt;/user-type&gt;</span>
+        <span class="tag">&lt;user-type&gt;</span>
+            <span class="tag">&lt;type-id&gt;</span>1003<span class="tag">&lt;/type-id&gt;</span>
+            <span class="tag">&lt;class-name&gt;</span>io.github.bucket4j.grid.CommandResult<span class="tag">&lt;/class-name&gt;</span>
+            <span class="tag">&lt;serializer&gt;</span>
+                <span class="tag">&lt;class-name&gt;</span>io.github.bucket4j.grid.coherence.pof.CommandResultPofSerializer<span class="tag">&lt;/class-name&gt;</span>
+            <span class="tag">&lt;/serializer&gt;</span>
+        <span class="tag">&lt;/user-type&gt;</span>
+    <span class="tag">&lt;/user-type-list&gt;</span>
+<span class="tag">&lt;/pof-config&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Double check with <a href="https://docs.oracle.com/cd/E24290_01/coh.371/e22837/api_pof.htm#COHDG5182">official Oracle Coherence documentation</a> in case of any questions related to <code>Portable Object Format</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="asynchronous-api"><a class="anchor" href="#asynchronous-api"></a>5.6. Asynchronous API</h3>
+<div class="paragraph">
+<p>Since version <code>3.0</code> Bucket4j provides asynchronous analogs for majority of API methods.
+Async view of bucket is availble through <code>asAsync()</code> method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Bucket bucket = ...;
+AsyncBucket asyncBucket = bucket.asAsync();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Each method of class [AsyncBucket](<a href="https://github.com/vladimir-bukhtoyarov/bucket4j/blob/3.1/bucket4j-core/src/main/java/io/github/bucket4j/AsyncBucket.java" class="bare">https://github.com/vladimir-bukhtoyarov/bucket4j/blob/3.1/bucket4j-core/src/main/java/io/github/bucket4j/AsyncBucket.java</a>)
+ has full equivalence with same semantic in synchronous version in the [Bucket](<a href="https://github.com/vladimir-bukhtoyarov/bucket4j/blob/3.0/bucket4j-core/src/main/java/io/github/bucket4j/Bucket.java" class="bare">https://github.com/vladimir-bukhtoyarov/bucket4j/blob/3.0/bucket4j-core/src/main/java/io/github/bucket4j/Bucket.java</a>) class.</p>
+</div>
+<div class="sect3">
+<h4 id="example-limiting-the-rate-of-access-to-asynchronous-servlet"><a class="anchor" href="#example-limiting-the-rate-of-access-to-asynchronous-servlet"></a>5.6.1. Example - limiting the rate of access to asynchronous servlet</h4>
+<div class="paragraph">
+<p>Imagine that you develop SMS service, which allows send SMS via HTTP interface.
+You want from your architecture to be protected from overloading, clustered and fully asynchronous.</p>
+</div>
+<div class="paragraph">
+<p><strong>Overloading protection requirement:</strong></p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>To prevent fraud and service overloading you want to introduce following limit for any outbound phone number: The bucket size is 20 SMS (which cannot be exceeded at any given time), with a "refill rate" of 10 SMS per minute that continually increases tokens in the bucket.
+In other words, if client sends 10 SMS per minute, it will never be throttled,
+and moreover client have overdraft equals to 20 SMS which can be used if average is little bit higher that 10 SMS/minute on short time period.
+<strong>Solution:</strong> lets use bucket4j for this.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p><strong>Clustering requirement:</strong></p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>You want to avoid the single point of failure, if one server crashed that information about consumed tokens should not be lost,
+thus it would be better to use any distributed computation platform for storing the buckets.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p><strong>Solution:</strong> lets use JBoss Infinispan for this and <code>bucket4j-infinispan</code> extension.
+Hazelcast and Apache Ignite will be also well choice, Infinispan just selected as example.</p>
+</div>
+<div class="paragraph">
+<p><strong>Asynchronous processing requirement:</strong>
+Also for maximum scalability you want from architecture to be fully non-blocking,
+non-blocking architecture means that both SMS sending and limit checking should be asynchronous.
+<strong>Solution:</strong> lets use asynchronous features provided by bucket4j and Servlet-API.</p>
+</div>
+<div class="paragraph">
+<p><strong>Mockup of service based on top of Servlet API and bucket4j-infinispan</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">SmsServlet</span> <span class="directive">extends</span> javax.servlet.http.HttpServlet {
+
+    <span class="directive">private</span> SmsSender smsSender;
+    <span class="directive">private</span> ProxyManager&lt;<span class="predefined-type">String</span>&gt; buckets;
+    <span class="directive">private</span> Supplier&lt;BucketConfiguration&gt; configuration;
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">void</span> init(ServletConfig config) <span class="directive">throws</span> ServletException {
+        <span class="local-variable">super</span>.init(config);
+        ServletContext ctx = config.getServletContext();
+
+        smsSender = (SmsSender) ctx.getAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">sms-sender</span><span class="delimiter">&quot;</span></span>);
+
+        FunctionalMapImpl&lt;<span class="predefined-type">String</span>, GridBucketState&gt; bucketMap = (FunctionalMapImpl&lt;<span class="predefined-type">String</span>, GridBucketState&gt;) ctx.getAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">bucket-map</span><span class="delimiter">&quot;</span></span>);
+        <span class="local-variable">this</span>.buckets = Bucket4j.extension(Infinispan.class).proxyManagerForMap(bucketMap);
+
+        <span class="local-variable">this</span>.configuration = () -&gt; {
+            <span class="type">long</span> overdraft = <span class="integer">20</span>;
+            Refill refill = Refill.greedy(<span class="integer">10</span>, <span class="predefined-type">Duration</span>.ofMinutes(<span class="integer">1</span>));
+            Bandwidth limit = Bandwidth.classic(overdraft, refill);
+            <span class="keyword">return</span> Bucket4j.configurationBuilder()
+                .addLimit(limit)
+                .build();
+        };
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="directive">protected</span> <span class="type">void</span> doPost(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) <span class="directive">throws</span> <span class="exception">IOException</span>, ServletException {
+        HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
+
+        <span class="predefined-type">String</span> fromNumber = req.getParameter(<span class="string"><span class="delimiter">&quot;</span><span class="content">from</span><span class="delimiter">&quot;</span></span>);
+        <span class="predefined-type">String</span> toNumber = req.getParameter(<span class="string"><span class="delimiter">&quot;</span><span class="content">to</span><span class="delimiter">&quot;</span></span>);
+        <span class="predefined-type">String</span> text = req.getParameter(<span class="string"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span>);
+
+        Bucket bucket = buckets.getProxy(fromNumber, configuration);
+        CompletableFuture&lt;ConsumptionProbe&gt; limitCheckingFuture = bucket.asAsync().tryConsumeAndReturnRemaining(<span class="integer">1</span>);
+        <span class="directive">final</span> AsyncContext asyncContext = req.startAsync();
+        limitCheckingFuture.thenCompose(probe -&gt; {
+            <span class="keyword">if</span> (!probe.isConsumed()) {
+                <span class="predefined-type">Result</span> throttledResult = <span class="predefined-type">Result</span>.throttled(probe);
+                <span class="keyword">return</span> CompletableFuture.completedFuture(throttledResult);
+            } <span class="keyword">else</span> {
+                CompletableFuture&lt;<span class="predefined-type">Result</span>&gt; sendingFuture = smsSender.sendAsync(fromNumber, toNumber, text);
+                <span class="keyword">return</span> sendingFuture;
+            }
+        }).whenComplete((result, exception) -&gt; {
+            HttpServletResponse asyncResponse = (HttpServletResponse) asyncContext.getResponse();
+            <span class="keyword">try</span> {
+                asyncResponse.setContentType(<span class="string"><span class="delimiter">&quot;</span><span class="content">text/plain</span><span class="delimiter">&quot;</span></span>);
+                <span class="keyword">if</span> (exception != <span class="predefined-constant">null</span> || result.isFailed()) {
+                    asyncResponse.setStatus(<span class="integer">500</span>);
+                    asyncResponse.getWriter().println(<span class="string"><span class="delimiter">&quot;</span><span class="content">Internal Error</span><span class="delimiter">&quot;</span></span>);
+                } <span class="keyword">else</span> <span class="keyword">if</span> (result.isThrottled()) {
+                    asyncResponse.setStatus(<span class="integer">429</span>);
+                    asyncResponse.setHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">X-Rate-Limit-Retry-After-Seconds</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> + result.getRetryAfter());
+                    asyncResponse.getWriter().append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Too many requests</span><span class="delimiter">&quot;</span></span>);
+                } <span class="keyword">else</span> {
+                    asyncResponse.setStatus(<span class="integer">200</span>);
+                    asyncResponse.getWriter().append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Success</span><span class="delimiter">&quot;</span></span>);
+                }
+            } <span class="keyword">finally</span>{
+                asyncContext.complete();
+            }
+        });
+    }
+
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="production-checklist-especially-in-the-context-of-distributed-systems"><a class="anchor" href="#production-checklist-especially-in-the-context-of-distributed-systems"></a>5.7. Production checklist especially in the context of distributed systems</h3>
 <div class="paragraph">
 <p>Before using Bucket4j in clustered scenario you need to understand, agree and configure following points:</p>
 </div>
@@ -1262,659 +2276,16 @@ To prevent exhausting the available memory of your cluster you need to configure
 Instead Bucket4j relies on <strong>you</strong> to configure the cache with proper parameters that control redundancy and high availability.</p>
 </div>
 <div class="paragraph">
-<p>Years of experience working with distributed system has tought the author that High Availability does not come for free. You need to test and verify that your system remains available. This cannot be provided by this or any other library. Your system will most certainly go down if you do not plan for that.
-== JCache integration
-<code>Bucket4j</code> supports any GRID solution which compatible with <a href="https://www.jcp.org/en/jsr/detail?id=107">JCache API (JSR 107)</a> specification.</p>
-</div>
-<div class="paragraph">
-<p><strong>Do not forget to read</strong> [JCache production checklist](production-jcache-checklist.md) <strong>before using the Bucket4j over JCache cluster.</strong></p>
-</div>
-<div class="paragraph">
-<p>To use JCache extension you also need to add following dependency:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
-    &lt;artifactId&gt;bucket4j-jcache&lt;/artifactId&gt;
-    &lt;version&gt;7.0.0-beta-2020-04-18&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>JCache expects javax.cache.cache-api to be a provided dependency. Do not forget to add following dependency:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
-    &lt;groupId&gt;javax.cache&lt;/groupId&gt;
-    &lt;artifactId&gt;cache-api&lt;/artifactId&gt;
-    &lt;version&gt;${jcache.version}&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="example-1-limiting-access-to-http-server-by-ip-address"><a class="anchor" href="#example-1-limiting-access-to-http-server-by-ip-address"></a>6.2. Example 1 - limiting access to HTTP server by IP address</h3>
-<div class="paragraph">
-<p>Imagine that you develop any Servlet based WEB application and want to limit access per IP basis.
-You want to use same limits for each IP - 30 requests per minute.</p>
-</div>
-<div class="paragraph">
-<p>ServletFilter would be obvious place to check limits:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class IpThrottlingFilter implements javax.servlet.Filter {
-
-    private static final BucketConfiguration configuration = Bucket4j.configurationBuilder()
-                                                              .addLimit(Bandwidth.simple(30, Duration.ofMinutes(1)))
-                                                              .build();
-
-    // cache for storing token buckets, where IP is key.
-    @Inject
-    private javax.cache.Cache&lt;String, GridBucketState&gt; cache;
-
-    private ProxyManager&lt;String&gt; buckets;
-
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-         // init bucket registry
-         buckets = Bucket4j.extension(JCache.class).proxyManagerForCache(cache);
-    }
-
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
-        String ip = IpHelper.getIpFromRequest(httpRequest);
-
-        // acquire cheap proxy to bucket
-        Bucket bucket = buckets.getProxy(ip, configuration);
-
-        // tryConsume returns false immediately if no tokens available with the bucket
-        if (bucket.tryConsume(1)) {
-            // the limit is not exceeded
-            filterChain.doFilter(servletRequest, servletResponse);
-        } else {
-            // limit is exceeded
-            HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
-            httpResponse.setContentType("text/plain");
-            httpResponse.setStatus(429);
-            httpResponse.getWriter().append("Too many requests");
-        }
-    }
-
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="example-2-limiting-access-to-service-by-contract-agreements"><a class="anchor" href="#example-2-limiting-access-to-service-by-contract-agreements"></a>6.3. Example 2 - limiting access to service by contract agreements</h3>
-<div class="paragraph">
-<p>Imagine that you provides paid language translation service via HTTP.
-Each your user has unique agreement which differs from each other.
-Details of each agreement is stored in relational database, and takes significant time to fetch(for example 100ms).
-The example above will not work fine in this case, because time to create/fetch configuration of bucket from database
-will be 100 times slower than limit-checking itself.
-Bucket4j solves this problem via lazy configuration suppliers which are called if and only if bucket was not yet stored in grid,
-thus it is possible to implement solution  that will read agreement from database once per each user.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class IpThrottlingFilter implements javax.servlet.Filter {
-
-    // service to provide per user limits
-    @Inject
-    private LimitProvider limitProvider;
-
-    // cache for storing token buckets, where IP is key.
-    @Inject
-    private javax.cache.Cache&lt;String, GridBucketState&gt; cache;
-
-    private ProxyManager&lt;String&gt; buckets;
-
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-         // init bucket registry
-         buckets = Bucket4j.extension(JCache.class).proxyManagerForCache(cache);
-    }
-
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
-        String userId = AutentificationHelper.getUserIdFromRequest(httpRequest);
-
-        // prepare configuration supplier which will be called(on first interaction with proxy) if bucket was not saved yet previously.
-        Supplier&lt;BucketConfiguration&gt; configurationLazySupplier = getConfigSupplierForUser(userId);
-
-        // acquire cheap proxy to bucket
-        Bucket bucket = buckets.getProxy(ip, configurationLazySupplier);
-
-        // tryConsume returns false immediately if no tokens available with the bucket
-        if (bucket.tryConsume(1)) {
-            // the limit is not exceeded
-            filterChain.doFilter(servletRequest, servletResponse);
-        } else {
-            // limit is exceeded
-            HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
-            httpResponse.setContentType("text/plain");
-            httpResponse.setStatus(429);
-            httpResponse.getWriter().append("Too many requests");
-        }
-    }
-
-    private Supplier&lt;BucketConfiguration&gt; getConfigSupplierForUser(String userId) {
-         return () -&gt; {
-             long translationsPerDay = limitProvider.readPerDayLimitFromAgreementsDatabase(userId);
-             return Bucket4j.configurationBuilder()
-                         .addLimit(Bandwidth.simple(translationsPerDay, Duration.ofDays(1)))
-                         .build();
-         };
-    }
-
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>Question:</strong> is the provided JCache integration safe across multiple JVMs? Does it ensure that two nodes creating a bucket simultaneously on a given Cache&lt;K, V&gt; will only actually create one single bucket (without resetting a previously created one with the same key)?
-<strong>Answer:</strong> Yes. JCache integration is safe for multi node environment, Bucket4j never replaces bucket which already exists.
-This behavior is guaranteed by <strong>putIfAbsent</strong> method contract of [javax.cache.Cache](<a href="http://static.javadoc.io/javax.cache/cache-api/1.0.0/javax/cache/Cache.html" class="bare">http://static.javadoc.io/javax.cache/cache-api/1.0.0/javax/cache/Cache.html</a>) class.</p>
-</div>
-<div class="paragraph">
-<p><strong>Question:</strong> Does ProxyManager store buckets internally, could be this a reason of OutOfMemoryError?
-<strong>Answer:</strong> No. ProxyManager stores nothing about buckets which it returns, the buckets actually stored in in-memory GRID outside client JVM.
-Think about proxy returned by <code>ProxyManager#getBucket</code> just about very cheap pointer to data which actually stored somewhere outside.
-So, independently of count of buckets ProxyManager will never be a reason of crash or extreme memory consumption.</p>
-</div>
-<div class="paragraph">
-<p><strong>Question:</strong> what will happen if bucket state will be lost in the GRID  because of split-brain, human mistake or pragmatically errors introduced by GRID vendor?
-<strong>Answer:</strong> ProxyManager automatically detect this kind of situations and save bucket yet another time, to reconstruct bucket it uses provided configuration supplier.
-Reconstructed bucket remembers nothing about previously consumed tokens, so limit can be exceeded in this kind of GRID failures.</p>
-</div>
-<div class="paragraph">
-<p><strong>Question:</strong> should I always work with JCache through ProxyManager?
-<strong>Answer:</strong> It depends. When you have deal with potentially huge and unpredictable amount of buckets, it is always better to use ProxyManager.
-ProxyManager protects you from common performance pitfalls(like described in <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issues/26">this issue</a>).
-But when you have deal with one or few buckets which well known at development time, then it would be better to avoid ProxyManager
-and work directly with [GridBucket](<a href="https://github.com/vladimir-bukhtoyarov/bucket4j/blob/2.0/bucket4j-core/src/main/java/io/github/bucket4j/grid/GridBucket.java" class="bare">https://github.com/vladimir-bukhtoyarov/bucket4j/blob/2.0/bucket4j-core/src/main/java/io/github/bucket4j/grid/GridBucket.java</a>) as described in the next example.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="example-3-working-with-jcache-without-proxymanager-abstraction"><a class="anchor" href="#example-3-working-with-jcache-without-proxymanager-abstraction"></a>6.4. Example 3 - working with JCache without ProxyManager abstraction</h3>
-<div class="paragraph">
-<p>Imagine yet another time that you develop WEB application and want to protect the whole cluster by 1000 requests per second, independently from request source,
-in other words you need one single bucket which protects the system at whole. Lets create ServletFilter to check limits similar to <code>Example 1</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class GlobalThrottlingFilter implements javax.servlet.Filter {
-
-    private static final String BUCKET_ID = "global-limit";
-
-    @Inject
-    private javax.cache.Cache&lt;String, GridBucketState&gt; cache;
-
-    private Bucket bucket;
-
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-         // create bucket
-         bucket = Bucket4j.extension(JCache.class).builder()
-             .addLimit(Bandwidth.simple(1000, Duration.ofSeconds(1)))
-             .build(cache, BUCKET_ID, RecoveryStrategy.RECONSTRUCT);
-    }
-
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        // tryConsume returns false immediately if no tokens available with the bucket
-        if (bucket.tryConsume(1)) {
-            // the limit is not exceeded
-            filterChain.doFilter(servletRequest, servletResponse);
-        } else {
-            // limit is exceeded
-            HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
-            httpResponse.setContentType("text/plain");
-            httpResponse.setStatus(429);
-            httpResponse.getWriter().append("Too many requests");
-        }
-    }
-
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>As you can see the code is simpler when you work with Bucket directly without ProxyManager, so use this way always when all buckets are known at development time.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="runnable-examples-of-jcache-integration"><a class="anchor" href="#runnable-examples-of-jcache-integration"></a>6.5. Runnable examples of JCache integration</h3>
-<div class="paragraph">
-<p>Bucket4j well tested with <code>Hazelcast</code> and <code>Apache Ignite/GridGain</code>, you can use integration tests from <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/tree/2.0/bucket4j-jcache/src/test/java/io/github/bucket4j/grid/jcache">this folder</a> as live examples.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="why-jcache-specification-is-not-enough-and-since-3-0-were-introduced-the-dedicated-modules-for-infinispan-hazelcast-and-ignite"><a class="anchor" href="#why-jcache-specification-is-not-enough-and-since-3-0-were-introduced-the-dedicated-modules-for-infinispan-hazelcast-and-ignite"></a>6.6. Why JCache specification is not enough and since 3.0 were introduced the dedicated modules for Infinispan, Hazelcast and Ignite?</h3>
-<div class="paragraph">
-<p>Asynchronous processing is very important for high-throughput applications, but JCache specification does not specify asynchronous API, because two early attempts to bring this kind functionality at spec level <a href="https://github.com/jsr107/jsr107spec/issues/307">307</a>, <a href="https://github.com/jsr107/jsr107spec/issues/312">312</a> were failed in absence of consensus.
-Sad, but true, if you need for asynchronous API, then JCache extension is useless, and you need to choose from following extensions:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>[bucket4j-ignite](ignite.md)</p>
-</li>
-<li>
-<p>[bucket4j-hazelcast](hazelcast.md)</p>
-</li>
-<li>
-<p>[bucket4j-infinispan](infinispan.md)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Of course implementation the asynchronous support for any other JCache provider outside from the list above should be easy exercise,
-so feel free to return back the pull request addressed to cover your favorite JCache provider.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="verification-of-compatibility-with-particular-jcache-provider-is-your-responsibility"><a class="anchor" href="#verification-of-compatibility-with-particular-jcache-provider-is-your-responsibility"></a>6.7. Verification of compatibility with particular JCache provider is your responsibility</h3>
-<div class="paragraph">
-<p>Keep in mind that there are many non-certified implementations of JCache specification on the market.
-Many of them want to increase their popularity by declaring support for the JCache API,
-but often only the API is supported and the semantic of JCache is totally ignored.
-Usage Bucket4j with this kind of libraries should be completely avoided.</p>
-</div>
-<div class="paragraph">
-<p>Bucket4j is only compatible with implementations which obey the JCache specification rules(especially related to EntryProcessor execution).
-Oracle Coherence, Apache Ignite, Hazelcast are good examples of safe implementations of JCache.</p>
-</div>
-<div class="paragraph">
-<p>Because it is impossible to test all possible JCache providers, you need to test your provider by yourself.
-Just run this code in order to be sure that your implementation of JCache provides good isolation for EntryProcessors</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import javax.cache.Cache;
-import javax.cache.processor.EntryProcessor;
-import java.util.concurrent.CountDownLatch;
-import java.io.Serializable;
-
-public class CompatibilityTest {
-
-    final Cache&lt;String, Integer&gt; cache;
-
-
-    public CompatibilityTest(Cache&lt;String, Integer&gt; cache) {
-        this.cache = cache;
-    }
-
-    public void test() throws InterruptedException {
-        String key = "42";
-        int threads = 4;
-        int iterations = 1000;
-        cache.put(key, 0);
-        CountDownLatch latch = new CountDownLatch(threads);
-        for (int i = 0; i &lt; threads; i++) {
-            new Thread(() -&gt; {
-                try {
-                    for (int j = 0; j &lt; iterations; j++) {
-                        EntryProcessor&lt;String, Integer, Void&gt; processor = (EntryProcessor&lt;String, Integer, Void&gt; &amp; Serializable) (mutableEntry, objects) -&gt; {
-                            int value = mutableEntry.getValue();
-                            mutableEntry.setValue(value + 1);
-                            return null;
-                        };
-                        cache.invoke(key, processor);
-                    }
-                } finally {
-                    latch.countDown();
-                }
-            }).start();
-        }
-        latch.await();
-        int value = cache.get(key);
-        if (value == threads * iterations) {
-            System.out.println("Implementation which you use is compatible with Bucket4j");
-        } else {
-            String msg = "Implementation which you use is not compatible with Bucket4j";
-            msg += ", " + (threads * iterations - value) + " writes are missed";
-            throw new IllegalStateException(msg);
-        }
-    }
-
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The check does 4000 increments of integer in parallel and verifies that no one update has been missed.
-If check passed then your JCache provider is compatible with Bucket4j, the throttling will work fine in distributed and concurrent environment.
-If check is not passed, then reach to the particular JCache provider team and consult why its implementation misses the writes.
-== Hazelcast integration
-Before use <code>bucket4j-hazelcast</code> module please read [bucket4j-jcache documentation](jcache-usage.md),
-because <code>bucket4j-hazelcast</code> is just a follow-up of <code>bucket4j-jcache</code>.</p>
-</div>
-<div class="paragraph">
-<p><strong>Question:</strong> Bucket4j already supports JCache since version <code>1.2</code>. Why it was needed to introduce direct support for <code>Hazelcast</code>?
-<strong>Answer:</strong> Because <a href="https://www.jcp.org/en/jsr/detail?id=107">JCache API (JSR 107)</a> does not specify asynchronous API,
-developing the dedicated module <code>bucket4j-hazelcast</code> was the only way to provide asynchrony for users who use <code>Bucket4j</code> and <code>Hazelcast</code> together.</p>
-</div>
-<div class="paragraph">
-<p><strong>Question:</strong> Should I migrate from <code>bucket4j-jcache</code> to <code>bucket4j-hazelcast</code> If I do not need in asynchronous API?
-<strong>Answer:</strong> No, you should not migrate to <code>bucket4j-hazelcast</code> in this case.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="dependencies"><a class="anchor" href="#dependencies"></a>6.8. Dependencies</h3>
-<div class="paragraph">
-<p>To use Bucket4j extension for Hazelcast with <code>Hazelcast 4.x</code> you need to add following dependency:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
-    &lt;artifactId&gt;bucket4j-hazelcast&lt;/artifactId&gt;
-    &lt;version&gt;7.0.0-beta-2020-04-18&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If you are using legacy version of Hazelcast <code>3.x</code> then you need to add following dependency:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
-    &lt;artifactId&gt;bucket4j-hazelcast-3&lt;/artifactId&gt;
-    &lt;version&gt;7.0.0-beta-2020-04-18&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="general-compatibility-matrix-principles"><a class="anchor" href="#general-compatibility-matrix-principles"></a>6.9. General compatibility matrix principles:</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Bucket4j authors do not perform continues monitoring of new Hazelcast releases. So, there is can be case when there is no one version of Bucket4j which is compatible with newly released Hazelcast,
-just log issue to <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issues">bug tracker</a> in this case, adding support to new version of Hazelcast is usually easy exercise.</p>
-</li>
-<li>
-<p>Integrations with legacy versions of Hazelcast are not removed without a clear reason. Hence You are in safety, even you are working in a big enterprise company that does not update its infrastructure frequently because You still get new Bucket4j&#8217;s features even for legacy Hazelcast&#8217;s releases.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="example-of-bucket-instantiation"><a class="anchor" href="#example-of-bucket-instantiation"></a>6.10. Example of Bucket instantiation</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">IMap&lt;K, GridBucketState&gt; map = ...;
-...
-
-Bucket bucket = Bucket4j.extension(Hazelcast.class).builder()
-                   .addLimit(Bandwidth.simple(1_000, Duration.ofMinutes(1)))
-                   .build(map, key, RecoveryStrategy.RECONSTRUCT);</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="example-of-proxymanager-instantiation"><a class="anchor" href="#example-of-proxymanager-instantiation"></a>6.11. Example of ProxyManager instantiation</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">IMap&lt;K, GridBucketState&gt; map = ...;
-...
-
-ProxyManager proxyManager = Bucket4j.extension(Hazelcast.class).proxyManagerForMap(map);</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="configuring-custom-serialization-for-bucket4j-library-classes"><a class="anchor" href="#configuring-custom-serialization-for-bucket4j-library-classes"></a>6.12. Configuring Custom Serialization for Bucket4j library classes</h3>
-<div class="paragraph">
-<p>If you configure nothing, then by default Java serialization will be used for serialization Bucket4j library classes. Java serialization can be rather slow and should be avoided in general.
-<code>Bucket4j</code> provides <a href="https://docs.hazelcast.org/docs/3.0/manual/html/ch03s03.html">custom serializers</a> for all library classes that could be transferred over network.
-To let Hazelcast know about fast serializers you should register them programmatically in the serialization config:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import com.hazelcast.config.Config;
-import com.hazelcast.config.SerializationConfig;
-import com.hazelcast.config.SerializerConfig;
-import io.github.bucket4j.grid.hazelcast.serialization.HazelcastSerializer;
-...
-    Config config = ...
-    SerializationConfig serializationConfig = config.getSerializationConfig();
-
-    // the starting type ID number for Bucket4j classes.
-    // you free to choose any unused ID, but be aware that Bucket4j uses 2 types currently,
-    // and may use more types in the future, so leave enough empty space after baseTypeIdNumber
-    int baseTypeIdNumber = 10000;
-
-    HazelcastSerializer.addCustomSerializers(serializationConfig, baseTypeIdNumber);</code></pre>
-</div>
+<p>Years of experience working with distributed system has tought the author that High Availability does not come for free. You need to test and verify that your system remains available. This cannot be provided by this or any other library. Your system will most certainly go down if you do not plan for that.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="apache-ignite-integration"><a class="anchor" href="#apache-ignite-integration"></a>7. Apache Ignite integration</h2>
+<h2 id="third-party-articles-and-integrations"><a class="anchor" href="#third-party-articles-and-integrations"></a>6. Third-party articles and integrations</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>Before use <code>bucket4j-ignite</code> module please read [bucket4j-jcache documentation](jcache-usage.md),
-because <code>bucket4j-ignite</code> is just a follow-up of <code>bucket4j-jcache</code>.</p>
-</div>
-<div class="paragraph">
-<p>Bucket4j supports Ignite Thin-Client as well as regular deployment scenario.</p>
-</div>
-<div class="paragraph">
-<p><strong>Question:</strong> Bucket4j already supports JCache since version <code>1.2</code>. Why it was needed to introduce direct support for <code>Apache Ignite</code>?
-<strong>Answer:</strong> Because <a href="https://www.jcp.org/en/jsr/detail?id=107">JCache API (JSR 107)</a> does not specify asynchronous API,
-developing the dedicated module <code>bucket4j-ignite</code> was the only way to provide asynchrony for users who use <code>Bucket4j</code> and <code>Apache Ignite</code> together.</p>
-</div>
-<div class="paragraph">
-<p><strong>Question:</strong> Should I migrate from <code>bucket4j-jcache</code> to <code>bucketj-ignite</code> If I do not need in asynchronous API?
-<strong>Answer:</strong> No, you should not migrate to <code>bucketj-ignite</code> in this case.</p>
-</div>
 <div class="sect2">
-<h3 id="dependencies-2"><a class="anchor" href="#dependencies-2"></a>7.1. Dependencies</h3>
-<div class="paragraph">
-<p>To use <code>bucket4j-ignite</code> extension you need to add following dependency:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
-    &lt;artifactId&gt;bucket4j-ignite&lt;/artifactId&gt;
-    &lt;version&gt;7.0.0-beta-2020-04-18&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="example-of-bucket-instantiation-2"><a class="anchor" href="#example-of-bucket-instantiation-2"></a>7.2. Example of Bucket instantiation</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">org.apache.ignite.IgniteCache&lt;K, GridBucketState&gt; cache = ...;
-...
-
-Bucket bucket = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).builder()
-                   .addLimit(Bandwidth.simple(1_000, Duration.ofMinutes(1)))
-                   .build(cache, key, RecoveryStrategy.RECONSTRUCT);</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="example-of-proxymanager-instantiation-2"><a class="anchor" href="#example-of-proxymanager-instantiation-2"></a>7.3. Example of ProxyManager instantiation</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">org.apache.ignite.IgniteCache&lt;K, GridBucketState&gt; cache = ...;
-...
-
-ProxyManager proxyManager = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).proxyManagerForCache(cache);</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="example-of-bucket-instantiation-via-thin-client"><a class="anchor" href="#example-of-bucket-instantiation-via-thin-client"></a>7.4. Example of Bucket instantiation via Thin Client</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">org.apache.ignite.client.ClientCache&lt;K, GridBucketState&gt; cache = ...;
-org.apache.ignite.client.ClientCompute clientCompute = ...;
-
-...
-
-Bucket bucket = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).builder()
-                   .addLimit(Bandwidth.simple(1_000, Duration.ofMinutes(1)))
-                   .build(clientCompute, cache, key, RecoveryStrategy.RECONSTRUCT);</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="example-of-proxymanager-instantiation-via-thin-client"><a class="anchor" href="#example-of-proxymanager-instantiation-via-thin-client"></a>7.5. Example of ProxyManager instantiation via Thin Client</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">org.apache.ignite.client.ClientCache&lt;K, GridBucketState&gt; cache = ...;
-org.apache.ignite.client.ClientCompute clientCompute = ...;
-...
-
-ProxyManager proxyManager = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).proxyManagerForCache(clientCompute, cache);</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="infinispan-integration"><a class="anchor" href="#infinispan-integration"></a>8. Infinispan integration</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Before use <code>bucket4j-infinispan</code> module please read [bucket4j-jcache documentation](jcache-usage.md),
-because <code>bucket4j-infinispan</code> is just a follow-up of <code>bucket4j-jcache</code>.</p>
-</div>
-<div class="paragraph">
-<p><strong>Question:</strong> Bucket4j already supports JCache since version <code>1.2</code>. Why it was needed to introduce direct support for <code>Infinispan</code>?
-<strong>Answer:</strong> When you want to use Bucket4j together with Infinispan, you must always use <code>bucket4j-infinispan</code> module instead of <code>bucket4j-jcache</code>,
-because Infinispan does not provide mutual exclusion for entry-processors. Any attempt to use Infinispan via <code>bucket4j-jcache</code> will be failed with UnsupportedOperationException exception
-at bucket construction time.</p>
-</div>
-<div class="sect2">
-<h3 id="dependencies-3"><a class="anchor" href="#dependencies-3"></a>8.1. Dependencies</h3>
-<div class="paragraph">
-<p>To use <code>bucket4j-infinispan</code> with <code>Infinispan 9.x, 10.x</code> extension you need to add following dependency:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
-    &lt;artifactId&gt;bucket4j-infinispan&lt;/artifactId&gt;
-    &lt;version&gt;7.0.0-beta-2020-04-18&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If you are using legacy version of Infinispan <code>8.x</code> then you need to add following dependency:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
-    &lt;artifactId&gt;bucket4j-infinispan-8&lt;/artifactId&gt;
-    &lt;version&gt;7.0.0-beta-2020-04-18&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="general-compatibility-matrix-principles-2"><a class="anchor" href="#general-compatibility-matrix-principles-2"></a>8.2. General compatibility matrix principles::</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Bucket4j authors do not perform continues monitoring of new Infinispan releases. So, there is can be case when there is no one version of Bucket4j which is compatible with newly released Infinispan,
-just log issue to <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issues">bug tracker</a> in this case, adding support to new version of Infinispan is usually easy exercise.</p>
-</li>
-<li>
-<p>Integrations with legacy versions of Infinispan are not removed without a clear reason. Hence You are in safety, even you are working in a big enterprise company that does not update its infrastructure frequently because You still get new Bucket4j&#8217;s features even for legacy Infinispan&#8217;s releases.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="special-notes-for-infinispan-10-0"><a class="anchor" href="#special-notes-for-infinispan-10-0"></a>8.3. Special notes for Infinispan 10.0+</h3>
-<div class="paragraph">
-<p>As mentioned in the <a href="https://infinispan.org/docs/dev/titles/developing/developing.html#marshalling">Infinispan Marshalling documentation</a>, since release <code>10.0.0</code> Infinispan does not allow deserialization of custom payloads into Java classes.
-If you do not configure serialization(as described bellow), you will get the error like this on any attempt to use Bucket4j with brand new Infinispan release:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">Jan 02, 2020 4:57:56 PM org.infinispan.marshall.persistence.impl.PersistenceMarshallerImpl objectToBuffer
-WARN: ISPN000559: Cannot marshall 'class io.github.bucket4j.grid.infinispan.SerializableFunctionAdapter'
-java.lang.IllegalArgumentException: No marshaller registered for Java type io.github.bucket4j.grid.infinispan.SerializableFunctionAdapter
-	at org.infinispan.protostream.impl.SerializationContextImpl.getMarshallerDelegate(SerializationContextImpl.java:279)
-	at org.infinispan.protostream.WrappedMessage.writeMessage(WrappedMessage.java:240)
-	at org.infinispan.protostream.ProtobufUtil.toWrappedStream(ProtobufUtil.java:196)</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>There are three options to solve this problem:
-* Configure Jboss marshalling instead of default ProtoStream marshaller as described <a href="https://infinispan.org/docs/dev/titles/developing/developing.html#jboss_marshalling">there</a>.
-* Configure Java Serialization Marshaller instead of default ProtoStream marshaller, as described <a href="https://infinispan.org/docs/dev/titles/developing/developing.html#java_serialization_marshaller">there</a>.
-Do not forget to add <code>io.github.bucket4j.*</code> regexp to the whitelist if choosing this way.
-* And last way(recommended) just register <code>Bucket4j serialization context initializer</code> in the serialization configuration.
-You can do it in both programmatically and declarative ways:</p>
-</div>
-<div class="paragraph">
-<p><strong>Programmatic registration of Bucket4jProtobufContextInitializer</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import io.github.bucket4j.grid.infinispan.serialization.Bucket4jProtobufContextInitializer;
-import org.infinispan.configuration.global.GlobalConfigurationBuilder;
-...
-GlobalConfigurationBuilder builder = new GlobalConfigurationBuilder();
-builder.serialization().addContextInitializer(new Bucket4jProtobufContextInitializer());</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>Declarative registration of Bucket4jProtobufContextInitializer</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;serialization&gt;
-    &lt;context-initializer class="io.github.bucket4j.grid.infinispan.serialization.Bucket4jProtobufContextInitializer"/&gt;
-&lt;/serialization&gt;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>And that is all. Just registering <code>Bucket4jProtobufContextInitializer</code> in any way is enough to make Bucket4j compatible with ProtoStream marshaller, you do not have to care about *.proto files, annotations, whitelist etc,
-all neccessary Protobuffers configs generated by <code>Bucket4jProtobufContextInitializer</code> and registerd on the fly.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="example-of-bucket-instantiation-3"><a class="anchor" href="#example-of-bucket-instantiation-3"></a>8.4. Example of Bucket instantiation</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">org.infinispan.functional.FunctionalMap.ReadWriteMap&lt;K, GridBucketState&gt; map = ...;
-...
-Bucket bucket = Bucket4j.extension(Infinispan.class).builder()
-                   .addLimit(Bandwidth.simple(1_000, Duration.ofMinutes(1)))
-                   .build(map, key, RecoveryStrategy.RECONSTRUCT);</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="example-of-proxymanager-instantiation-3"><a class="anchor" href="#example-of-proxymanager-instantiation-3"></a>8.5. Example of ProxyManager instantiation</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">org.infinispan.functional.FunctionalMap.ReadWriteMap&lt;K, GridBucketState&gt; map = ...;
-...
-
-ProxyManager proxyManager = Bucket4j.extension(Infinispan.class).proxyManagerForMap(map);</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="third-party-demos-and-articles"><a class="anchor" href="#third-party-demos-and-articles"></a>9. Third-party demos and articles:</h2>
-<div class="sectionbody">
+<h3 id="third-party-articles"><a class="anchor" href="#third-party-articles"></a>6.1. Third-party articles:</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1927,9 +2298,15 @@ ProxyManager proxyManager = Bucket4j.extension(Infinispan.class).proxyManagerFor
 <p><a href="http://www.programmersought.com/article/2524209291/">ProgrammerSought Bucket4j - preliminary understanding</a></p>
 </li>
 <li>
-<p><a href="https://www.baeldung.com/spring-bucket4j">Baeldung - Rate Limiting a Spring API Using Bucket4j</a>
-== Third-party integrations</p>
+<p><a href="https://www.baeldung.com/spring-bucket4j">Baeldung - Rate Limiting a Spring API Using Bucket4j</a></p>
 </li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="third-party-integrations"><a class="anchor" href="#third-party-integrations"></a>6.2. Third-party integrations</h3>
+<div class="ulist">
+<ul>
 <li>
 <p><a href="https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit">marcosbarbero/spring-cloud-zuul-ratelimit</a></p>
 </li>
@@ -1946,8 +2323,9 @@ ProxyManager proxyManager = Bucket4j.extension(Infinispan.class).proxyManagerFor
 </div>
 </div>
 </div>
+</div>
 <div class="sect1">
-<h2 id="release-notes"><a class="anchor" href="#release-notes"></a>10. Release notes</h2>
+<h2 id="release-notes"><a class="anchor" href="#release-notes"></a>7. Release notes</h2>
 <div class="sectionbody">
 <div class="ulist">
 <div class="title">2021</div>
@@ -2052,7 +2430,7 @@ ProxyManager proxyManager = Bucket4j.extension(Infinispan.class).proxyManagerFor
 <div id="footer">
 <div id="footer-text">
 Version 7.0.0-beta-2020-04-18<br>
-Last updated 2021-11-16 16:32:00 +0300
+Last updated 2021-11-16 23:14:07 +0300
 </div>
 </div>
 </body>
