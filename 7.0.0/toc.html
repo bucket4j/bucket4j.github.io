@@ -437,7 +437,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Bucket4j 7.0.0 Reference</h1>
 <div class="details">
 <span id="revnumber">version 7.0.0,</span>
-<span id="revdate">2021-11-26 10</span>
+<span id="revdate">2021-11-26 13</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -566,7 +566,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#example-of-verbose-api-usage">5.2.3. Example of Verbose API usage</a></li>
 </ul>
 </li>
-<li><a href="#on-the-fly-configuration-replacement">5.3. On-the-fly configuration replacement</a></li>
+<li><a href="#on-the-fly-configuration-replacement">5.3. On-the-fly configuration replacement</a>
+<ul class="sectlevel3">
+<li><a href="#why-configuration-replacement-is-not-trivial">5.3.1. Why configuration replacement is not trivial?</a></li>
+<li><a href="#taking-control-over-replacement-process-via-bandwidth-identifiers">5.3.2. Taking control over replacement process via bandwidth identifiers</a></li>
+<li><a href="#tokensinheritancestrategy-explanation">5.3.3. TokensInheritanceStrategy explanation</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1067,8 +1073,7 @@ In the Bucket4j library code the <code>Bucket</code> is represented by interface
 <h4 id="bucket-bonfiguration"><a class="anchor" href="#bucket-bonfiguration"></a>2.2.2. BucketConfiguration</h4>
 <div class="paragraph">
 <p><code>BucketConfiguration</code> can be described as collection of <a href="#bandwidth">limits</a> that are used by <a href="#bucket">Bucket</a> during its job. Configuration
-In the Bucket4j library code the <code>BucketConfiguration</code> is represented by class <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/blob/7.0/bucket4j-core/src/main/java/io/github/bucket4j/BucketConfiguration.java">io.github.bucket4j.BucketConfiguration</a>. Configuration is immutable, there is no way to add or remove a limit to already created configuration.
-However, you can replace configuration of bucket via creating new configuration instance and calling <code>bucket.replaceConfiguration(newConfiguration)</code>.</p>
+In the Bucket4j library code the <code>BucketConfiguration</code> is represented by class <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/blob/7.0/bucket4j-core/src/main/java/io/github/bucket4j/BucketConfiguration.java">io.github.bucket4j.BucketConfiguration</a>. Configuration is immutable, there is no way to add or remove a limit to already created configuration. However, you can replace configuration of bucket via creating new configuration instance and calling <code>bucket.replaceConfiguration(newConfiguration)</code>.</p>
 </div>
 <div class="paragraph">
 <p>Usually you should not create BucketConfiguration directly(excepting the case with configuration replacement) because <a href="#local-bucket-builder">BucketBuilder</a> does for you behind the scene, for rare cases when you need to create configuration directly you have to use <code>ConfigurationBuilder</code> that is available by factory method:</p>
@@ -2511,7 +2516,191 @@ if (probe.isConsumed()) {
 <div class="sect2">
 <h3 id="on-the-fly-configuration-replacement"><a class="anchor" href="#on-the-fly-configuration-replacement"></a>5.3. On-the-fly configuration replacement</h3>
 <div class="paragraph">
-<p>TODO&#8230;&#8203;</p>
+<p>As previously mentioned in the definition for <a href="#bucket-bonfiguration">BucketConfiguration</a> it is immutable object.
+It is not possible to add, remove or change the limits for already created configuration, however, you can replace configuration of bucket via creating new configuration instance and calling <code>bucket.replaceConfiguration(newConfiguration, tokensInheritanceStrategy)</code>.</p>
+</div>
+<div class="sect3">
+<h4 id="why-configuration-replacement-is-not-trivial"><a class="anchor" href="#why-configuration-replacement-is-not-trivial"></a>5.3.1. Why configuration replacement is not trivial?</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The first problem of configuration replacement is making decision how to propagate available tokens from bucket with previous configuration to bucket with new configuration. If you don&#8217;t care about previous bucket state then use <code>TokensInheritanceStrategy.RESET</code>. But it becomes to a tricky problem when we expect that previous consumption(that has not been compensated by refill yet) should take effect to the bucket with new configuration. In this case you need to make a choice between:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#tokens-inheritance-strategy-proportionally">TokensInheritanceStrategy.PROPORTIONALLY</a></p>
+</li>
+<li>
+<p><a href="#tokens-inheritance-strategy-as-is">TokensInheritanceStrategy.AS_IS</a></p>
+</li>
+<li>
+<p><a href="#tokens-inheritance-strategy-additive">TokensInheritanceStrategy.ADDITIVE</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>There is another problem when you are choosing <a href="#tokens-inheritance-strategy-proportionally">PROPORTIONALLY</a>, <a href="#tokens-inheritance-strategy-as-is">AS_IS</a> or <a href="#tokens-inheritance-strategy-additive">ADDITIVE</a> or <a href="#tokens-inheritance-strategy-as-is">AS_IS</a>  and bucket has more then one bandwidth. For example how does replaceConfiguration implementation should bind bandwidths to each other in the following example?</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Bucket bucket = Bucket4j.builder()
+    .addLimit(Bandwidth.simple(10, Duration.ofSeconds(1)))
+    .addLimit(Bandwidth.simple(10000, Duration.ofHours(1)))
+    .build();
+    ...
+BucketConfiguration newConfiguration = Bucket4j.configurationBuilder()
+    .addLimit(Bandwidth.simple(5000, Duration.ofHours(1)))
+    .addLimit(Bandwidth.simple(100, Duration.ofSeconds(10)))
+    .build();
+bucket.replaceConfiguration(newConfiguration, TokensInheritanceStrategy.AS_IS);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It is obviously that simple strategy - copying tokens by bandwidth index will not work well in this case, because of it highly depends on order in which bandwidths were mentioneed in new and previous configuration.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="taking-control-over-replacement-process-via-bandwidth-identifiers"><a class="anchor" href="#taking-control-over-replacement-process-via-bandwidth-identifiers"></a>5.3.2. Taking control over replacement process via bandwidth identifiers</h4>
+<div class="paragraph">
+<p>Instead of inventing the backward maggic Bucket4j provides to you ability to deap controll of this process by specifying identifiers for bandwidth,
+so in case of multiple bandwidth configuratoin replacement code can copy available tokens by bandwidth ID. So it is better to rewrite code above as following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Bucket bucket = Bucket4j.builder()
+     .addLimit(Bandwidth.simple(10, Duration.ofSeconds(1)).withId("technical-limit"))
+     .addLimit(Bandwidth.simple(10000, Duration.ofHours(1)).withId("business-limit"))
+     .build();
+     ...
+     BucketConfiguration newConfiguration = Bucket4j.configurationBuilder()
+        .addLimit(Bandwidth.simple(5000, Duration.ofHours(1)).withId("business-limit"))
+        .addLimit(Bandwidth.simple(100, Duration.ofSeconds(10)).withId("technical-limit"))
+        .build();
+     bucket.replaceConfiguration(newConfiguration, TokensInheritanceStrategy.PROPORTIONALLY);</code></pre>
+</div>
+</div>
+<div class="ulist">
+<div class="title">There are following rules for bandwidth identifiers:</div>
+<ul>
+<li>
+<p>By default bandwidth has &lt;b&gt;null&lt;/b&gt; identifier.</p>
+</li>
+<li>
+<p>null value of identifier equals to another null value if and only if there is only one bandwidth with null identifier.</p>
+</li>
+<li>
+<p>If identifier for bandwidth is specified then it must has unique in the bucket. Bucket does not allow to create several bandwidth with same ID.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="tokensinheritancestrategy-explanation"><a class="anchor" href="#tokensinheritancestrategy-explanation"></a>5.3.3. TokensInheritanceStrategy explanation</h4>
+<div class="paragraph">
+<p><strong>TokensInheritanceStrategy</strong> specifies the rules for inheritance of available tokens during configuration replacement process.</p>
+</div>
+<div class="dlist">
+<div class="title">There are four strategies:</div>
+<dl>
+<dt class="hdlist1">PROPORTIONALLY</dt>
+<dd>
+<p>Makes to copy available tokens proportional to bandwidth capacity by following formula: <strong>newAvailableTokens = availableTokensBeforeReplacement * (newBandwidthCapacity / capacityBeforeReplacement)</strong></p>
+<div class="ulist">
+<div class="title">PROPORTIONALLY strategy examples:</div>
+<ul>
+<li>
+<p><strong>Example 1:</strong> imagine bandwidth that was created by <code>Bandwidth.classic(100, Refill.gready(10, Duration.ofMinutes(1)))</code>.<br></p>
+<div class="paragraph">
+<p>At the moment of config replacement it was 40 available tokens.<br></p>
+</div>
+<div class="paragraph">
+<p>After replacing this bandwidth by following <code>Bandwidth.classic(200, Refill.gready(10, Duration.ofMinutes(1)))</code> 40 available tokens will be multiplied by 2(200/100), and after replacement we will have 80 available tokens.</p>
+</div>
+</li>
+<li>
+<p><strong>Example 2:</strong> imagine bandwidth that was created by <code>Bandwidth.classic(100, Refill.gready(10, Duration.ofMinutes(1)))</code>.
+At the moment of config replacement it was 40 available tokens. After replacing this bandwidth by following <code>Bandwidth.classic(20, Refill.gready(10, Duration.ofMinutes(1)))</code> 40 available tokens will be multiplied by 0.2(20/100), and after replacement we will have 8 available tokens.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">AS_IS</dt>
+<dd>
+<p>Instructs to copy available tokens as is, but with one exclusion: if available tokens is greater than new capacity, available tokens will be decreased to new capacity.</p>
+<div class="ulist">
+<div class="title">AS_IS strategy examples:</div>
+<ul>
+<li>
+<p><strong>Example 1:</strong> imagine bandwidth that was created by <code>Bandwidth.classic(100, Refill.gready(10, Duration.ofMinutes(1)))</code>.<br></p>
+<div class="paragraph">
+<p>At the moment of config replacement it was 40 available tokens.<br></p>
+</div>
+<div class="paragraph">
+<p>After replacing this bandwidth by following <code>Bandwidth.classic(200, Refill.gready(10, Duration.ofMinutes(1)))}</code> 40 available tokens will be just copied, and after replacement we will have 40 available tokens.</p>
+</div>
+</li>
+<li>
+<p><strong>Example 2:</strong> imagine bandwidth that was created by <code>Bandwidth.classic(100, Refill.gready(10, Duration.ofMinutes(1)))</code>.<br></p>
+<div class="paragraph">
+<p>At the moment of config replacement it was 40 available tokens.<br></p>
+</div>
+<div class="paragraph">
+<p>After replacing this bandwidth by following <code>Bandwidth.classic(20, Refill.gready(10, Duration.ofMinutes(1)))</code> 40 available tokens can not be copied as is, because it is greater than new capacity, so available tokens will be reduced to 20.</p>
+</div>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">RESET</dt>
+<dd>
+<p>Use this mode when you want just to forget about previous bucket state. RESET just instructs to erases all previous state. Using this strategy equals to removing bucket and creating again with new configuration.</p>
+</dd>
+<dt class="hdlist1">ADDITIVE</dt>
+<dd>
+<p>Instructs to copy available tokens as is, but with one exclusion: if new bandwidth capacity is greater than old capacity, available tokens will be increased by the difference between the old and the new configuration.<br></p>
+<div class="paragraph">
+<p><strong>The formula is following:</strong><br>
+<code>newAvailableTokens = Math.min(availableTokensBeforeReplacement, newBandwidthCapacity) + Math.max(0, newBandwidthCapacity - capacityBeforeReplacement)</code><br></p>
+</div>
+<div class="ulist">
+<div class="title">ADDITIVE strategy examples:</div>
+<ul>
+<li>
+<p><strong>Example 1:</strong> imagine bandwidth that was created by <code>Bandwidth.classic(100, Refill.gready(10, Duration.ofMinutes(1)))</code>.<br></p>
+<div class="paragraph">
+<p>At the moment of configuration replacement, it was 40 available tokens.<br></p>
+</div>
+<div class="paragraph">
+<p>After replacing this bandwidth by following <code>Bandwidth.classic(200, Refill.gready(10, Duration.ofMinutes(1)))</code> 40 available tokens will be copied and added to the difference between old and new configuration, and after replacement, we will have 140 available tokens.</p>
+</div>
+</li>
+<li>
+<p><strong>Example 2:</strong> imagine bandwidth that was created by <code>Bandwidth.classic(100, Refill.gready(10, Duration.ofMinutes(1)))</code>.<br></p>
+<div class="paragraph">
+<p>At the moment of config replacement it was 40 available tokens.<br></p>
+</div>
+<div class="paragraph">
+<p>After replacing this bandwidth by following <code>Bandwidth.classic(20, Refill.gready(10, Duration.ofMinutes(1))))</code>,
+and after replacement we will have 20 available tokens.</p>
+</div>
+</li>
+<li>
+<p><strong>Example 3:</strong> imagine bandwidth that was created by <code>Bandwidth.classic(100, Refill.gready(10, Duration.ofMinutes(1)))</code>.<br></p>
+<div class="paragraph">
+<p>At the moment of config replacement it was 10 available tokens.</p>
+</div>
+<div class="paragraph">
+<p>After replacing this bandwidth by following <code>Bandwidth.classic(20, Refill.gready(10, Duration.ofMinutes(1))))</code>, and after replacement we will have 10 available tokens.</p>
+</div>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
 </div>
 </div>
 </div>
