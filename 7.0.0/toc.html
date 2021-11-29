@@ -437,7 +437,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Bucket4j 7.0.0 Reference</h1>
 <div class="details">
 <span id="revnumber">version 7.0.0,</span>
-<span id="revdate">2021-11-26 13</span>
+<span id="revdate">2021-11-29 09</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -463,17 +463,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#returning-tokens-back-to-bucket">2.1.8. Returning tokens back to bucket</a></li>
 <li><a href="#customizing-time-measurement-choosing-nanotime-time-resolution">2.1.9. Customizing time measurement - choosing nanotime time resolution</a></li>
 <li><a href="#customizing-time-measurement-specify-custom-time-measurement-strategy">2.1.10. Customizing time measurement -  Specify custom time measurement strategy</a></li>
-<li><a href="#change-configuration-of-bucket-on-the-fly">2.1.11. Change configuration of bucket on the fly</a></li>
-<li><a href="#using-the-verboseresult-api">2.1.12. Using the VerboseResult API</a></li>
 </ul>
 </li>
-<li><a href="#vocabulary">2.2. Vocabulary</a>
+<li><a href="#concepts">2.2. Concepts</a>
 <ul class="sectlevel3">
 <li><a href="#bucket">2.2.1. Bucket</a></li>
 <li><a href="#bucket-bonfiguration">2.2.2. BucketConfiguration</a></li>
 <li><a href="#bandwidth">2.2.3. Limitation/Bandwidth</a></li>
-<li><a href="#bucket-state">2.2.4. BucketState</a></li>
-<li><a href="#local-bucket-builder">2.2.5. BucketBuilder</a></li>
+<li><a href="#refill">2.2.4. Refill</a></li>
+<li><a href="#bucket-state">2.2.5. BucketState</a></li>
+<li><a href="#local-bucket-builder">2.2.6. BucketBuilder</a></li>
 </ul>
 </li>
 <li><a href="#technical-limitations">2.3. Technical limitations</a>
@@ -482,10 +481,49 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#limitation-for-refill-period">2.3.2. Limitation for refill period</a></li>
 </ul>
 </li>
-<li><a href="#generic-production-checklist">2.4. Generic production checklist</a>
+<li><a href="#basic-api-reference">2.4. Basic API Reference</a>
 <ul class="sectlevel3">
-<li><a href="#be-wary-of-long-periods">2.4.1. Be wary of long periods</a></li>
-<li><a href="#short-timed-bursts">2.4.2. Be wary of short-timed bursts</a></li>
+<li><a href="#io-github-bucket4j-bucket">2.4.1. io.github.bucket4j.Bucket</a>
+<ul class="sectlevel4">
+<li><a href="#tryconsume">tryConsume</a></li>
+<li><a href="#consumeignoringratelimits">consumeIgnoringRateLimits</a></li>
+<li><a href="#tryconsumeandreturnremaining">tryConsumeAndReturnRemaining</a></li>
+<li><a href="#estimateabilitytoconsume">estimateAbilityToConsume</a></li>
+<li><a href="#tryconsumeasmuchaspossible">tryConsumeAsMuchAsPossible</a></li>
+<li><a href="#addtokens">addTokens</a></li>
+<li><a href="#forceaddtokens">forceAddTokens</a></li>
+<li><a href="#getavailabletokens">getAvailableTokens</a></li>
+<li><a href="#builder">builder</a></li>
+<li><a href="#replaceconfiguration">replaceConfiguration</a></li>
+<li><a href="#asblocking">asBlocking</a>
+<ul class="sectlevel5">
+<li><a href="#asscheduler">asScheduler</a></li>
+</ul>
+</li>
+<li><a href="#asverbose">asVerbose</a></li>
+<li><a href="#tolistenable">toListenable</a></li>
+</ul>
+</li>
+<li><a href="#blocking-bucket">2.4.2. io.github.bucket4j.BlockingBucket</a>
+<ul class="sectlevel4">
+<li><a href="#tryconsume-2">tryConsume</a></li>
+<li><a href="#tryconsumeuninterruptibly">tryConsumeUninterruptibly</a></li>
+<li><a href="#consume">consume</a></li>
+<li><a href="#consumeuninterruptibly">consumeUninterruptibly</a></li>
+</ul>
+</li>
+<li><a href="#scheduling-bucket">2.4.3. io.github.bucket4j.SchedulingBucket</a>
+<ul class="sectlevel4">
+<li><a href="#tryconsume-3">tryConsume</a></li>
+<li><a href="#consume-2">consume</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#generic-production-checklist">2.5. Generic production checklist</a>
+<ul class="sectlevel3">
+<li><a href="#be-wary-of-long-periods">2.5.1. Be wary of long periods</a></li>
+<li><a href="#short-timed-bursts">2.5.2. Be wary of short-timed bursts</a></li>
 </ul>
 </li>
 </ul>
@@ -551,7 +589,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#advanced-features">5. Advanced features</a>
 <ul class="sectlevel2">
-<li><a href="#listening-for-bucket-events">5.1. Listening for bucket events</a>
+<li><a href="#listener">5.1. Listening for bucket events</a>
 <ul class="sectlevel3">
 <li><a href="#what-can-be-listened">5.1.1. What can be listened</a></li>
 <li><a href="#listener-api-corner-cases">5.1.2. Listener API - corner cases</a></li>
@@ -566,7 +604,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#example-of-verbose-api-usage">5.2.3. Example of Verbose API usage</a></li>
 </ul>
 </li>
-<li><a href="#on-the-fly-configuration-replacement">5.3. On-the-fly configuration replacement</a>
+<li><a href="#configuration-replacement">5.3. On-the-fly configuration replacement</a>
 <ul class="sectlevel3">
 <li><a href="#why-configuration-replacement-is-not-trivial">5.3.1. Why configuration replacement is not trivial?</a></li>
 <li><a href="#taking-control-over-replacement-process-via-bandwidth-identifiers">5.3.2. Taking control over replacement process via bandwidth identifiers</a></li>
@@ -684,7 +722,7 @@ You need to add dependency to your project as described bellow in order to be ab
 <div class="listingblock">
 <div class="title">Maven dependency</div>
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
     &lt;artifactId&gt;bucket4j-core&lt;/artifactId&gt;
     &lt;version&gt;7.0.0&lt;/version&gt;
@@ -694,7 +732,7 @@ You need to add dependency to your project as described bellow in order to be ab
 <div class="listingblock">
 <div class="title">Gradle dependency</div>
 <div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.0.0'</code></pre>
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.0.0'</code></pre>
 </div>
 </div>
 </div>
@@ -707,7 +745,7 @@ But acquiring stacktraces is very cost operation by itself, and you want to do i
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// define the limit 1 time per 10 minute
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// define the limit 1 time per 10 minute
 Bandwidth limit = Bandwidth.simple(1, Duration.ofMinutes(10));
 // construct the bucket
 Bucket bucket = Bucket4j.builder().addLimit(limit).build();
@@ -736,7 +774,7 @@ and by contract with provider you should poll not often than 100 times per 1 min
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// define the limit 100 times per 1 minute
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// define the limit 100 times per 1 minute
 Bandwidth limit = Bandwidth.simple(100, Duration.ofMinutes(1));
 // construct the bucket
 Bucket bucket = Bucket4j.builder().addLimit(limit).build();
@@ -777,7 +815,7 @@ because we have deal with overdraft, but it is not rocket science:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import io.github.bucket4j.Bucket4j;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.github.bucket4j.Bucket4j;
 
 public class ThrottlingFilter implements javax.servlet.Filter {
 
@@ -821,7 +859,7 @@ public class ThrottlingFilter implements javax.servlet.Filter {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">        HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">        HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
         ConsumptionProbe probe = bucket.tryConsumeAndReturnRemaining(1);
         if (probe.isConsumed()) {
             // the limit is not exceeded
@@ -847,7 +885,7 @@ To solve problem you can construct following bucket:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">static final long MAX_WAIT_NANOS = TimeUnit.HOURS.toNanos(1);
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">static final long MAX_WAIT_NANOS = TimeUnit.HOURS.toNanos(1);
 // ...
 
 Bucket bucket = Bucket4j.builder()
@@ -875,7 +913,7 @@ But sometimes, you may want to have lesser initial size, for example for case of
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">int initialTokens = 42;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">int initialTokens = 42;
 Bandwidth limit = Bandwidth
     .simple(1000, Duration.ofHours(1))
     .withInitialTokens(initialTokens);
@@ -898,7 +936,7 @@ For example the bandwidth bellow will refill 10 tokens per 1 second instead of 1
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// When refill created via "intervally" factory method then greediness is turned-off.
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// When refill created via "intervally" factory method then greediness is turned-off.
 Refill refill = Refill.intervally(10, Duration.ofSeconds(1));
 Bandwidth bandwidth = Bandwidth.classic(600, refill);</code></pre>
 </div>
@@ -909,7 +947,7 @@ This option can be used to configure clear interval boundary i.e. start of secon
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">   // imagine that wall clock is 16:20, and we need to schedule the first refill to 17:00
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">   // imagine that wall clock is 16:20, and we need to schedule the first refill to 17:00
    Instant firstRefillTime = ZonedDateTime.now()
              .truncatedTo(ChronoUnit.HOURS)
              .plus(1, ChronoUnit.HOURS)
@@ -929,7 +967,7 @@ This option can be used to configure clear interval boundary i.e. start of secon
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Bucket wallet;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket wallet;
 ...
 if (wallet.tryConsume(50)) { // get 50 cents from wallet
     try {
@@ -950,7 +988,7 @@ But rarely(for example benchmarking) you wish the nanosecond precision:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Bucket4j.builder().withNanosecondPrecision()</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket4j.builder().withNanosecondPrecision()</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -967,7 +1005,7 @@ if you want to use time provided by this clock instead of time provided by JVM t
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class ClusteredTimeMeter implements TimeMeter {
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class ClusteredTimeMeter implements TimeMeter {
 
     @Override
     public long currentTimeNanos() {
@@ -978,69 +1016,15 @@ if you want to use time provided by this clock instead of time provided by JVM t
 
 Bandwidth limit = Bandwidth.simple(100, Duration.ofMinutes(1));
 Bucket bucket = Bucket4j.builder()
-                .withCustomTimePrecision(new ClusteredTimeMeter())
-                .addLimit(limit)
-                .build();</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="change-configuration-of-bucket-on-the-fly"><a class="anchor" href="#change-configuration-of-bucket-on-the-fly"></a>2.1.11. Change configuration of bucket on the fly</h4>
-<div class="paragraph">
-<p>Sometimes you want to change configuration for already created bucket.
-For example because client upgrade its service plan and you want to provide additional tokens for him.
-If you do not want to lose information about already consumed tokens,
-then you can reconfigure bucket on the fly instead of creation new instance of bucket:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Bucket bucket = ...
-
-
-Bandwidth newLimit = Bandwidth.simple(newCapacity, Duration.ofMinutes(1));
-BucketConfiguration newConfiguration = Bucket4j.configurationBuilder()
-                .addLimit(newLimit)
-                .build();
-bucket.replaceConfiguration(newConfiguration, TokensInheritanceStrategy.PROPORTIONALLY)
-// or bucket.replaceConfiguration(newConfiguration, TokensInheritanceStrategy.AS_IS)</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Read javadocs for more information.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="using-the-verboseresult-api"><a class="anchor" href="#using-the-verboseresult-api"></a>2.1.12. Using the VerboseResult API</h4>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Verbose API</dt>
-<dd>
-<p>is the</p>
-</dd>
-</dl>
-</div>
-<div class="paragraph">
-<p>The <code>VerboseResult</code> API can be used to retrieve the current <code>BucketConfiguration</code> of a bucket, as well as low-level diagnostic  which can be used to include an HTTP headers that describes the current rate limit.</p>
-</div>
-<div class="listingblock">
-<div class="title">For example:</div>
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">VerboseResult&lt;ConsumptionProbe&gt; verboseResult = bucket.asVerbose().tryConsumeAndReturnRemaining(numberOfTokens);
-ConsumptionProbe probe = verboseResult.getValue();
-BucketConfiguration bucketConfiguration = verboseResult.getConfiguration();
-long capacity = Arrays.stream(bucketConfiguration.getBandwidths())
-                .mapToLong(Bandwidth::getCapacity)
-                .max().getAsLong();
-VerboseResult.Diagnostics diagnostics = result.getDiagnostics()
-response.addHeader("RateLimit-Limit", "" + capacity));
-response.addHeader("RateLimit-Remaining", "" + diagnostics.getAvailableTokens());
-response.addHeader("RateLimit-Reset", "" + TimeUnit.NANOSECONDS.toSeconds(diagnostics.calculateFullRefillingTime()));</code></pre>
+    .withCustomTimePrecision(new ClusteredTimeMeter())
+    .addLimit(limit)
+    .build();</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="vocabulary"><a class="anchor" href="#vocabulary"></a>2.2. Vocabulary</h3>
+<h3 id="concepts"><a class="anchor" href="#concepts"></a>2.2. Concepts</h3>
 <div class="sect3">
 <h4 id="bucket"><a class="anchor" href="#bucket"></a>2.2.1. Bucket</h4>
 <div class="paragraph">
@@ -1063,7 +1047,7 @@ In the Bucket4j library code the <code>Bucket</code> is represented by interface
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Bucket bucket = Bucket.builder()
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = Bucket.builder()
    .addLimit(...)
    .build();</code></pre>
 </div>
@@ -1080,7 +1064,7 @@ In the Bucket4j library code the <code>BucketConfiguration</code> is represented
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">BucketConfiguration configuration = BucketConfiguration.builder()
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">BucketConfiguration configuration = BucketConfiguration.builder()
     .addLimit(...)
     .build()</code></pre>
 </div>
@@ -1102,7 +1086,7 @@ Mostly users configure single limit per configuration, but it is strongly recomm
 <div class="sect3">
 <h4 id="bandwidth"><a class="anchor" href="#bandwidth"></a>2.2.3. Limitation/Bandwidth</h4>
 <div class="paragraph">
-<p>Limitations that are used by bucket can be denoted in terms of bandwidths. Each bandwidth can be denoted as:</p>
+<p>Limitations that are used by bucket can be denoted in terms of bandwidths. Bandwidth is denoted by following terms:</p>
 </div>
 <div class="dlist">
 <dl>
@@ -1112,32 +1096,25 @@ Mostly users configure single limit per configuration, but it is strongly recomm
 </dd>
 <dt class="hdlist1">Refill</dt>
 <dd>
-<p>Refill is the term that directly inherited from classic interpretation of token-bucket algorithm, this specifies how fast tokens can be refilled after it were consumed from bucket.</p>
+<p><a href="#refill">Refill</a> specifies how fast tokens can be refilled after it were consumed from bucket.</p>
 </dd>
 <dt class="hdlist1">Initial tokens</dt>
 <dd>
-<p>Bucket4j extend token-bucket algorithm by allowing to specify initial amount of tokens for each bandwidth. By default, initial amount of tokens equals to capacity, and can be changed by <code>withInitialTokens</code> method:</p>
-</dd>
-</dl>
-</div>
+<p>Bucket4j extend token-bucket algorithm by allowing to specify initial amount of tokens for each bandwidth. By default, initial amount of tokens equals to capacity, and can be changed by <code>withInitialTokens</code> method:<br></p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Bandwidth bandwidth = Bandwidth.simple(42, Duration.ofMinutes(1))
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bandwidth bandwidth = Bandwidth.simple(42, Duration.ofMinutes(1))
                           .withInitialTokens(13);</code></pre>
 </div>
 </div>
-<div class="dlist">
-<dl>
+</dd>
 <dt class="hdlist1">ID</dt>
 <dd>
 <p>Identifier is the optional attribute that is null by default. You may prefer to assign identifiers for bandwidths if you use on the fly configuration replacement and your buckets have more than one bandwidth per bucket, otherwise it is better to avoid using identifiers in order to preserve memory.
-Identifier for a bandwidth can be specified by <code>withId</code> method:</p>
-</dd>
-</dl>
-</div>
+Identifier for a bandwidth can be specified by <code>withId</code> method:<br></p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">BucketConfiguration configuration = BucketConfiguration.builder()
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">BucketConfiguration configuration = BucketConfiguration.builder()
         .addLimit(Bandwidth.simple(1000, Duration.ofMinutes(1)).withId("business-limit"))
         .addLimit(Bandwidth.simple(100, Duration.ofSeconds(1)).withId("burst-protection"))
         .build();</code></pre>
@@ -1155,9 +1132,72 @@ Identifiers are critical for on the fly configuration replacement functionality 
 </tr>
 </table>
 </div>
+</dd>
+</dl>
+</div>
 </div>
 <div class="sect3">
-<h4 id="bucket-state"><a class="anchor" href="#bucket-state"></a>2.2.4. BucketState</h4>
+<h4 id="refill"><a class="anchor" href="#refill"></a>2.2.4. Refill</h4>
+<div class="paragraph">
+<p>Specifies the speed of tokens regeneration.</p>
+</div>
+<div class="dlist">
+<div class="title">There are tree types of refill:</div>
+<dl>
+<dt class="hdlist1">Greedy</dt>
+<dd>
+<p>This type of refill regenerates tokens in greedy manner, it tries to add the tokens to bucket as soon as possible. For example refill "10 tokens per 1 second" adds 1 token per each 100 millisecond, in other words refill will not wait 1 second to regenerate whole bunch of 10 tokens. The three refills bellow do refill of tokens with same speed:<br></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Refill.greedy(600, Duration.ofMinutes(1));
+Refill.greedy(10, Duration.ofSeconds(1));
+Refill.greedy(1, Duration.ofMillis(100));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>Greedy</code> is default type of refill that is used when you create <code>simple</code> bandwidth<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// the two lines of code bellow are fully equivalent
+Bandwidth.simple(100, Duration.ofMinutes(1))
+Bandwidth.classic(100, Refill.greedy(100, Duration.ofMinutes(1)))</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Intervally</dt>
+<dd>
+<p>This type of refill regenerates tokens in intervally manner. "Intervally" in opposite to "greedy"  will wait until whole period will be elapsed before regenerate the whole amount of tokens.<br></p>
+<div class="listingblock">
+<div class="title">Example:<br></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// generates 100 tokens each minute
+Refill.greedy(100, Duration.ofMinutes(1));</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">IntervallyAligned</dt>
+<dd>
+<p>This type of refill regenerates that does refill of tokens in intervally manner. Intervally" in opposite to "greedy"  will wait until whole period will be elapsed before regenerate the whole amount of tokens. In additional to <strong>Intervally</strong> it is possible to specify the time when first refill should happen.  This type can be used to configure clear interval boundary i.e. start of second, minute, hour, day. To get more details reed javadocs for <code>Refill#intervallyAligned</code> method.<br></p>
+<div class="listingblock">
+<div class="title">Example:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// imagine that wall clock is 16:20, the first refill will happen at 17:00
+// first refill will happen in the beginning of next hour
+Instant firstRefillTime = ZonedDateTime.now()
+  .truncatedTo(ChronoUnit.HOURS)
+  .plus(1, ChronoUnit.HOURS)
+  .toInstant();
+
+Bandwidth.classic(400, Refill.intervallyAligned(400, Duration.ofHours(1), firstRefillTime, true));</code></pre>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="bucket-state"><a class="anchor" href="#bucket-state"></a>2.2.5. BucketState</h4>
 <div class="paragraph">
 <p>BucketState is the place where bucket stores own mutable state like:</p>
 </div>
@@ -1176,7 +1216,7 @@ Identifiers are critical for on the fly configuration replacement functionality 
 </div>
 </div>
 <div class="sect3">
-<h4 id="local-bucket-builder"><a class="anchor" href="#local-bucket-builder"></a>2.2.5. BucketBuilder</h4>
+<h4 id="local-bucket-builder"><a class="anchor" href="#local-bucket-builder"></a>2.2.6. BucketBuilder</h4>
 <div class="paragraph">
 <p>It was explicitly decided by library authors to not provide for end users to construct a library entity via direct constructors.</p>
 </div>
@@ -1196,7 +1236,7 @@ Identifiers are critical for on the fly configuration replacement functionality 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Bucket bucket = Bucket.builder()
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = Bucket.builder()
     .addLimit(Bandwidth.simple())
     .withNanosecondPrecision()
     .withSynchronizationStrategy(SynchronizationStrategy.LOCK_FREE)
@@ -1217,17 +1257,17 @@ Identifiers are critical for on the fly configuration replacement functionality 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Bandwidth.simple(2, Duration.ofNanos(1));</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bandwidth.simple(2, Duration.ofNanos(1));</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Bandwidth.simple(1001, Duration.ofNanos(1000));</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bandwidth.simple(1001, Duration.ofNanos(1000));</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Bandwidth.simple(1_000_001, Duration.ofMillis(1));</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bandwidth.simple(1_000_001, Duration.ofMillis(1));</code></pre>
 </div>
 </div>
 </div>
@@ -1238,7 +1278,7 @@ Identifiers are critical for on the fly configuration replacement functionality 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Duration.ofNanos(Long.MAX_VALUE);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Duration.ofNanos(Long.MAX_VALUE);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1246,7 +1286,7 @@ Identifiers are critical for on the fly configuration replacement functionality 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Bandwidth.simple(42, Duration.ofMinutes(153722867280912930));
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bandwidth.simple(42, Duration.ofMinutes(153722867280912930));
 
 Exception in thread "main" java.lang.ArithmeticException: long overflow
 	at java.lang.Math.multiplyExact(Math.java:892)
@@ -1259,13 +1299,705 @@ Exception in thread "main" java.lang.ArithmeticException: long overflow
 </div>
 </div>
 <div class="sect2">
-<h3 id="generic-production-checklist"><a class="anchor" href="#generic-production-checklist"></a>2.4. Generic production checklist</h3>
+<h3 id="basic-api-reference"><a class="anchor" href="#basic-api-reference"></a>2.4. Basic API Reference</h3>
+<div class="sect3">
+<h4 id="io-github-bucket4j-bucket"><a class="anchor" href="#io-github-bucket4j-bucket"></a>2.4.1. io.github.bucket4j.Bucket</h4>
+<div class="sect4">
+<h5 id="tryconsume"><a class="anchor" href="#tryconsume"></a>tryConsume</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">/**
+* Tries to consume a specified number of tokens from this bucket.
+*
+* @param numTokens The number of tokens to consume from the bucket, must be a positive number.
+*
+* @return {@code true} if the tokens were consumed, {@code false} otherwise.
+*/
+boolean tryConsume(long numTokens);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="consumeignoringratelimits"><a class="anchor" href="#consumeignoringratelimits"></a>consumeIgnoringRateLimits</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * Consumes {@code tokens} from bucket ignoring all limits.
+     * In result of this operation amount of tokens in the bucket could became negative.
+     *
+     * There are two possible reasons to use this method:
+     * &lt;ul&gt;
+     * &lt;li&gt;An operation with high priority should be executed independently of rate limits, but it should take effect to subsequent operation with bucket.&lt;/li&gt;
+     * &lt;li&gt;You want to apply custom blocking strategy instead of default which applied on {@code asScheduler().consume(tokens)} &lt;/li&gt;
+     * &lt;/ul&gt;
+     *
+     * @param tokens amount of tokens that should be consumed from bucket.
+     *
+     * @return
+     * the amount of rate limit violation in nanoseconds calculated in following way:
+     * &lt;ul&gt;
+     *     &lt;li&gt;&lt;tt&gt;zero&lt;/tt&gt; if rate limit was not violated. For example bucket had 5 tokens before invocation of {@code consumeIgnoringRateLimits(2)},
+     *     after invocation there are 3 tokens remain in the bucket, since limits were not violated &lt;tt&gt;zero&lt;/tt&gt; returned as result.&lt;/li&gt;
+     *     &lt;li&gt;Positive value which describes the amount of rate limit violation in nanoseconds.
+     *     For example bucket with limit 10 tokens per 1 second, currently has the 2 tokens available, last refill happen 100 milliseconds ago, and {@code consumeIgnoringRateLimits(6)} called.
+     *     &lt;tt&gt;300_000_000&lt;/tt&gt; will be returned as result and available tokens in the bucket will became &lt;tt&gt;-3&lt;/tt&gt;, and any variation of {@code tryConsume...} will not be successful for 400 milliseconds(time required to refill amount of available tokens until 1).
+     *     &lt;/li&gt;
+     * &lt;/ul&gt;
+     */
+    long consumeIgnoringRateLimits(long tokens);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="tryconsumeandreturnremaining"><a class="anchor" href="#tryconsumeandreturnremaining"></a>tryConsumeAndReturnRemaining</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * Tries to consume a specified number of tokens from this bucket.
+     *
+     * @param numTokens The number of tokens to consume from the bucket, must be a positive number.
+     *
+     * @return {@link ConsumptionProbe} which describes both result of consumption and tokens remaining in the bucket after consumption.
+     */
+    ConsumptionProbe tryConsumeAndReturnRemaining(long numTokens);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="estimateabilitytoconsume"><a class="anchor" href="#estimateabilitytoconsume"></a>estimateAbilityToConsume</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * Estimates ability to consume a specified number of tokens.
+     *
+     * @param numTokens The number of tokens to consume, must be a positive number.
+     *
+     * @return {@link EstimationProbe} which describes the ability to consume.
+     */
+    EstimationProbe estimateAbilityToConsume(long numTokens);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="tryconsumeasmuchaspossible"><a class="anchor" href="#tryconsumeasmuchaspossible"></a>tryConsumeAsMuchAsPossible</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * Tries to consume as much tokens from this bucket as available at the moment of invocation.
+     *
+     * @return number of tokens which has been consumed, or zero if was consumed nothing.
+     */
+    long tryConsumeAsMuchAsPossible();
+    /**
+     * Tries to consume as much tokens from bucket as available in the bucket at the moment of invocation,
+     * but tokens which should be consumed is limited by {@code limit}.
+     *
+     * @param limit maximum number of tokens to consume, should be positive.
+     *
+     * @return number of tokens which has been consumed, or zero if was consumed nothing.
+     */
+    long tryConsumeAsMuchAsPossible(long limit);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="addtokens"><a class="anchor" href="#addtokens"></a>addTokens</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * Add &lt;tt&gt;tokensToAdd&lt;/tt&gt; to bucket.
+     * Resulted count of tokens are calculated by following formula:
+     * &lt;pre&gt;newTokens = Math.min(capacity, currentTokens + tokensToAdd)&lt;/pre&gt;
+     * in other words resulted number of tokens never exceeds capacity independent of &lt;tt&gt;tokensToAdd&lt;/tt&gt;.
+     *
+     * &lt;h3&gt;Example of usage&lt;/h3&gt;
+     * The "compensating transaction" is one of obvious use case, when any piece of code consumed tokens from bucket, tried to do something and failed, the "addTokens" will be helpful to return tokens back to bucket:
+     * &lt;pre&gt;{@code
+     *      Bucket wallet;
+     *      ...
+     *      if(wallet.tryConsume(50)) {// get 50 cents from wallet
+     *         try {
+     *             buyCocaCola();
+     *         } catch(NoCocaColaException e) {
+     *             // return money to wallet
+     *             wallet.addTokens(50);
+     *         }
+     *      };
+     * }&lt;/pre&gt;
+     *
+     * @param tokensToAdd number of tokens to add
+     */
+    void addTokens(long tokensToAdd);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="forceaddtokens"><a class="anchor" href="#forceaddtokens"></a>forceAddTokens</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * Add &lt;tt&gt;tokensToAdd&lt;/tt&gt; to bucket. In opposite to {@link #addTokens(long)} usage of this method can lead to overflow bucket capacity.
+     *
+     * &lt;h3&gt;Example of usage&lt;/h3&gt;
+     * The "compensating transaction" is one of obvious use case, when any piece of code consumed tokens from bucket, tried to do something and failed, the "addTokens" will be helpful to return tokens back to bucket:
+     * &lt;pre&gt;{@code
+     *      Bucket wallet;
+     *      ...
+     *      if(wallet.tryConsume(50)) {// get 50 cents from wallet
+     *         try {
+     *             buyCocaCola();
+     *         } catch(NoCocaColaException e) {
+     *             // return money to wallet
+     *             wallet.addTokens(50);
+     *         }
+     *      };
+     * }&lt;/pre&gt;
+     *
+     * @param tokensToAdd number of tokens to add
+     */
+    void forceAddTokens(long tokensToAdd);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="getavailabletokens"><a class="anchor" href="#getavailabletokens"></a>getAvailableTokens</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * Returns amount of available tokens in this bucket.
+* &lt;p&gt;
+*     Typically you should avoid using of this method for, because available tokens can be changed by concurrent transactions for case of multithreaded/multi-process environment.
+*
+* @return amount of available tokens
+*/
+long getAvailableTokens();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="builder"><a class="anchor" href="#builder"></a>builder</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">/**
+* Creates the new builder of in-memory buckets.
+*
+* @return new instance of {@link LocalBucketBuilder}
+*/
+static LocalBucketBuilder builder() {
+    return new LocalBucketBuilder();
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="replaceconfiguration"><a class="anchor" href="#replaceconfiguration"></a>replaceConfiguration</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * Replaces configuration of this bucket.
+     *
+     * &lt;p&gt;
+     * The first hard problem of configuration replacement is making decision how to propagate available tokens from bucket with previous configuration to bucket with new configuration.
+     * If you don't care about previous bucket state then use {@link TokensInheritanceStrategy#RESET}.
+     * But it becomes to a tricky problem when we expect that previous consumption(that has not been compensated by refill yet) should take effect to the bucket with new configuration.
+     * In this case you need to make a choice between {@link TokensInheritanceStrategy#PROPORTIONALLY} and {@link TokensInheritanceStrategy#AS_IS}, read documentation about both with strong attention.
+     *
+     * &lt;p&gt; There is another problem when you are choosing {@link TokensInheritanceStrategy#PROPORTIONALLY} and {@link TokensInheritanceStrategy#AS_IS} and bucket has more then one bandwidth.
+     * For example how does replaceConfiguration implementation should bind bandwidths to each other in the following example?
+     * &lt;pre&gt;
+     * &lt;code&gt;
+     *     Bucket bucket = Bucket4j.builder()
+     *                       .addLimit(Bandwidth.simple(10, Duration.ofSeconds(1)))
+     *                       .addLimit(Bandwidth.simple(10000, Duration.ofHours(1)))
+     *                       .build();
+     *     ...
+     *     BucketConfiguration newConfiguration = Bucket4j.configurationBuilder()
+     *                                               .addLimit(Bandwidth.simple(5000, Duration.ofHours(1)))
+     *                                               .addLimit(Bandwidth.simple(100, Duration.ofSeconds(10)))
+     *                                               .build();
+     *     bucket.replaceConfiguration(newConfiguration, TokensInheritanceStrategy.AS_IS);
+     * &lt;/code&gt;
+     * &lt;/pre&gt;
+     * It is obviously that simple strategy - copying tokens by bandwidth index will not work well in this case, because of it highly depends from order.
+     * Instead of inventing the backward maggic Bucket4j provides to you ability to deap controll of this process by specifying identifiers for bandwidth,
+     * so in case of multiple bandwidth configuratoin replacement code can copy available tokens by bandwidth ID. So it is better to rewrite code above as following:
+     * &lt;pre&gt;
+     * &lt;code&gt;
+     * Bucket bucket = Bucket4j.builder()
+     *                            .addLimit(Bandwidth.simple(10, Duration.ofSeconds(1)).withId("technical-limit"))
+     *                            .addLimit(Bandwidth.simple(10000, Duration.ofHours(1)).withId("business-limit"))
+     *                            .build();
+     * ...
+     * BucketConfiguration newConfiguration = Bucket4j.configurationBuilder()
+     *                            .addLimit(Bandwidth.simple(5000, Duration.ofHours(1)).withId("business-limit"))
+     *                            .addLimit(Bandwidth.simple(100, Duration.ofSeconds(10)).withId("technical-limit"))
+     *                            .build();
+     * bucket.replaceConfiguration(newConfiguration, TokensInheritanceStrategy.AS_IS);
+     * &lt;/code&gt;
+     * &lt;/pre&gt;
+     *
+     *
+     * &lt;p&gt;
+ *     There are following rules for bandwidth identifiers:
+     * &lt;ul&gt;
+     *     &lt;li&gt;
+     *          By default bandwidth has &lt;b&gt;null&lt;/b&gt; identifier.
+     *     &lt;/li&gt;
+     *     &lt;li&gt;
+     *         null value of identifier equals to another null value if and only if there is only one bandwidth with null identifier.
+     *     &lt;/li&gt;
+     *     &lt;li&gt;
+     *         If identifier for bandwidth is specified then it must has unique in the bucket. Bucket does not allow to create several bandwidth with same ID.
+     *     &lt;/li&gt;
+     *     &lt;li&gt;
+     *         {@link TokensInheritanceStrategy#RESET} strategy will be applied for tokens migration during config replacement for bandwidth which has no bound bandwidth with same ID in previous configuration,
+     *         idependently of strategy that was requested.
+     *     &lt;/li&gt;
+     * &lt;/ul&gt;
+     *
+     * @param newConfiguration the new configuration
+     * @param tokensInheritanceStrategy specifies the rules for inheritance of available tokens
+     */
+     void replaceConfiguration(BucketConfiguration newConfiguration, TokensInheritanceStrategy tokensInheritanceStrategy);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="#configuration-replacement">configuration replacement</a> section for more details.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="asblocking"><a class="anchor" href="#asblocking"></a>asBlocking</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * Returns the blocking API for this bucket, that provides operations which are able to block caller thread in case of lack of tokens.
+     *
+     * @return the blocking API for this bucket.
+     *
+     * @see BlockingBucket
+     */
+    BlockingBucket asBlocking();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="#blocking-bucket">BlockingBucket</a> section for more details.</p>
+</div>
+<div class="sect5">
+<h6 id="asscheduler"><a class="anchor" href="#asscheduler"></a>asScheduler</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * Returns the scheduling API for this bucket, that provides operations which can delay user operation via {@link java.util.concurrent.ScheduledExecutorService} in case of lack of tokens.
+     *
+     * @return the scheduling API for this bucket.
+     *
+     * @see SchedulingBucket
+     */
+    SchedulingBucket asScheduler();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="#scheduling-bucket">SchedulingBucket</a> section for more details.</p>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="asverbose"><a class="anchor" href="#asverbose"></a>asVerbose</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * Returns the verbose API for this bucket.
+     *
+     * @return the verbose API for this bucket.
+     */
+    VerboseBucket asVerbose();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="#verbose-api">Verbose API</a> section for more details.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="tolistenable"><a class="anchor" href="#tolistenable"></a>toListenable</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * Returns new copy of this bucket instance decorated by {@code listener}.
+     * The created bucket will share same tokens with source bucket and vice versa.
+     *
+     * See javadocs for {@link BucketListener} in order to understand semantic of listener.
+     *
+     * @param listener the listener of bucket events.
+     *
+     * @return new bucket instance decorated by {@code listener}
+     */
+    Bucket toListenable(BucketListener listener);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="#listener">Listening bucket events</a> section for more details.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="blocking-bucket"><a class="anchor" href="#blocking-bucket"></a>2.4.2. io.github.bucket4j.BlockingBucket</h4>
+<div class="sect4">
+<h5 id="tryconsume-2"><a class="anchor" href="#tryconsume-2"></a>tryConsume</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * Tries to consume a specified number of tokens from the bucket.
+     *
+     * &lt;p&gt;
+     * The algorithm is following:
+     * &lt;ul&gt;
+     *     &lt;li&gt;If bucket has enough tokens, then tokens consumed and &lt;tt&gt;true&lt;/tt&gt; returned immediately.&lt;/li&gt;
+     *     &lt;li&gt;If bucket has no enough tokens,
+     *     and required amount of tokens can not be refilled,
+     *     even after waiting of &lt;code&gt;maxWaitTimeNanos&lt;/code&gt; nanoseconds,
+     *     then consumes nothing and returns &lt;tt&gt;false&lt;/tt&gt; immediately.
+     *     &lt;/li&gt;
+     *     &lt;li&gt;
+     *         If bucket has no enough tokens,
+     *         but deficit can be closed in period of time less then &lt;code&gt;maxWaitTimeNanos&lt;/code&gt; nanoseconds,
+     *         then tokens consumed(reserved in fair manner) from bucket and current thread blocked for a time required to close deficit,
+     *         after unblocking method returns &lt;tt&gt;true&lt;/tt&gt;.
+     *
+     *         &lt;p&gt;
+     *         &lt;strong&gt;Note:&lt;/strong&gt; If InterruptedException happen when thread was blocked
+     *         then tokens will be not returned back to bucket,
+     *         but you can use {@link Bucket#addTokens(long)} to returned tokens back.
+     *     &lt;/li&gt;
+     * &lt;/ul&gt;
+     *
+     * @param numTokens The number of tokens to consume from the bucket.
+     * @param maxWaitTimeNanos limit of time(in nanoseconds) which thread can wait.
+     * @param blockingStrategy specifies the way to block current thread to amount of time required to refill missed number of tokens in the bucket
+     *
+     * @return true if {@code numTokens} has been consumed or false when {@code numTokens} has not been consumed
+     *
+     * @throws InterruptedException in case of current thread has been interrupted during the waiting
+     */
+    boolean tryConsume(long numTokens, long maxWaitTimeNanos, BlockingStrategy blockingStrategy) throws InterruptedException;</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * This is just overloaded equivalent of {@link #tryConsume(long, long, BlockingStrategy)}
+     *
+     * @see #tryConsume(long, long, BlockingStrategy)
+     *
+     * @param numTokens The number of tokens to consume from the bucket.
+     * @param maxWait limit of time which thread can wait.
+     * @param blockingStrategy specifies the way to block current thread to amount of time required to refill missed number of tokens in the bucket
+     *
+     * @return true if {@code numTokens} has been consumed or false when {@code numTokens} has not been consumed
+     *
+     * @throws InterruptedException in case of current thread has been interrupted during the waiting
+     */
+    default boolean tryConsume(long numTokens, Duration maxWait, BlockingStrategy blockingStrategy) throws InterruptedException {
+        return tryConsume(numTokens, maxWait.toNanos(), blockingStrategy);
+    }</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * This is just overloaded equivalent of {@link #tryConsume(long, long, BlockingStrategy)}
+     *
+     * @see #tryConsume(long, long, BlockingStrategy)
+     *
+     * @param numTokens The number of tokens to consume from the bucket.
+     * @param maxWaitTimeNanos limit of time(in nanoseconds) which thread can wait.
+     *
+     * @return true if {@code numTokens} has been consumed or false when {@code numTokens} has not been consumed
+     *
+     * @throws InterruptedException in case of current thread has been interrupted during the waiting
+     */
+    default boolean tryConsume(long numTokens, long maxWaitTimeNanos) throws InterruptedException {
+        return tryConsume(numTokens, maxWaitTimeNanos, BlockingStrategy.PARKING);
+    }</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * This is just overloaded equivalent of {@link #tryConsume(long, long, BlockingStrategy)}
+     *
+     * @see #tryConsume(long, long, BlockingStrategy)
+     *
+     * @param numTokens The number of tokens to consume from the bucket.
+     * @param maxWait limit of time which thread can wait.
+     *
+     * @return true if {@code numTokens} has been consumed or false when {@code numTokens} has not been consumed
+     *
+     * @throws InterruptedException in case of current thread has been interrupted during the waiting
+     */
+    default boolean tryConsume(long numTokens, Duration maxWait) throws InterruptedException {
+        return tryConsume(numTokens, maxWait.toNanos(), BlockingStrategy.PARKING);
+    }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="tryconsumeuninterruptibly"><a class="anchor" href="#tryconsumeuninterruptibly"></a>tryConsumeUninterruptibly</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * Has same semantic with {@link #tryConsume(long, long, BlockingStrategy)} but ignores interrupts(just restores interruption flag on exit).
+     *
+     * @param numTokens The number of tokens to consume from the bucket.
+     * @param maxWaitTimeNanos limit of time(in nanoseconds) which thread can wait.
+     * @param blockingStrategy specifies the way to block current thread to amount of time required to refill missed number of tokens in the bucket
+     *
+     * @return true if {@code numTokens} has been consumed or false when {@code numTokens} has not been consumed
+     *
+     * @see #tryConsume(long, long, BlockingStrategy)
+     */
+    boolean tryConsumeUninterruptibly(long numTokens, long maxWaitTimeNanos, UninterruptibleBlockingStrategy blockingStrategy);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * This is just overloaded equivalent of {@link #tryConsumeUninterruptibly(long, long, UninterruptibleBlockingStrategy)}
+     *
+     * @param numTokens The number of tokens to consume from the bucket.
+     * @param maxWait limit of time which thread can wait.
+     * @param blockingStrategy specifies the way to block current thread to amount of time required to refill missed number of tokens in the bucket
+     *
+     * @return true if {@code numTokens} has been consumed or false when {@code numTokens} has not been consumed
+     *
+     * @see #tryConsumeUninterruptibly(long, long, UninterruptibleBlockingStrategy)
+     */
+    default boolean tryConsumeUninterruptibly(long numTokens, Duration maxWait, UninterruptibleBlockingStrategy blockingStrategy) {
+        return tryConsumeUninterruptibly(numTokens, maxWait.toNanos(), blockingStrategy);
+    }</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * This is just overloaded equivalent of {@link #tryConsumeUninterruptibly(long, long, UninterruptibleBlockingStrategy)}
+     *
+     * @param numTokens The number of tokens to consume from the bucket.
+     * @param maxWaitTimeNanos limit of time(in nanoseconds) which thread can wait.
+     *
+     * @return true if {@code numTokens} has been consumed or false when {@code numTokens} has not been consumed
+     *
+     * @see #tryConsumeUninterruptibly(long, long, UninterruptibleBlockingStrategy)
+     */
+    default boolean tryConsumeUninterruptibly(long numTokens, long maxWaitTimeNanos) {
+        return tryConsumeUninterruptibly(numTokens, maxWaitTimeNanos, UninterruptibleBlockingStrategy.PARKING);
+    }</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * This is just overloaded equivalent of {@link #tryConsumeUninterruptibly(long, long, UninterruptibleBlockingStrategy)}
+     *
+     * @param numTokens The number of tokens to consume from the bucket.
+     * @param maxWait limit of time which thread can wait.
+     *
+     * @return true if {@code numTokens} has been consumed or false when {@code numTokens} has not been consumed
+     *
+     * @see #tryConsumeUninterruptibly(long, long, UninterruptibleBlockingStrategy)
+     */
+    default boolean tryConsumeUninterruptibly(long numTokens, Duration maxWait) {
+        return tryConsumeUninterruptibly(numTokens, maxWait.toNanos(), UninterruptibleBlockingStrategy.PARKING);
+    }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="consume"><a class="anchor" href="#consume"></a>consume</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * Consumes a specified number of tokens from the bucket.
+     *
+     * &lt;p&gt;
+     * The algorithm is following:
+     * &lt;ul&gt;
+     *     &lt;li&gt;If bucket has enough tokens, then tokens consumed and method returns immediately.&lt;/li&gt;
+     *     &lt;li&gt;
+     *         If bucket has no enough tokens, then required amount of tokens will be reserved for future consumption
+     *         and current thread will be blocked for a time required to close deficit.
+     *     &lt;/li&gt;
+     *     &lt;li&gt;
+     *         &lt;strong&gt;Note:&lt;/strong&gt; If InterruptedException happen when thread was blocked
+     *         then tokens will be not returned back to bucket,
+     *         but you can use {@link Bucket#addTokens(long)} to returned tokens back.
+     *     &lt;/li&gt;
+     * &lt;/ul&gt;
+     *
+     * @param numTokens The number of tokens to consume from the bucket.
+     * @param blockingStrategy specifies the way to block current thread to amount of time required to refill missed number of tokens in the bucket
+     *
+     *
+     * @throws InterruptedException in case of current thread has been interrupted during the waiting
+     */
+    void consume(long numTokens, BlockingStrategy blockingStrategy) throws InterruptedException;</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * This is just overloaded equivalent of {@link #consume(long, BlockingStrategy)}
+     *
+     * @param numTokens The number of tokens to consume from the bucket.
+     *
+     * @throws InterruptedException in case of current thread has been interrupted during the waiting
+     *
+     * @see #consume(long, BlockingStrategy)
+     */
+    default void consume(long numTokens) throws InterruptedException {
+        consume(numTokens, BlockingStrategy.PARKING);
+    }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="consumeuninterruptibly"><a class="anchor" href="#consumeuninterruptibly"></a>consumeUninterruptibly</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * Has same semantic with {@link #consume(long, BlockingStrategy)} but ignores interrupts(just restores interruption flag on exit).
+     *
+     * @param numTokens The number of tokens to consume from the bucket.
+     * @param blockingStrategy specifies the way to block current thread to amount of time required to refill missed number of tokens in the bucket
+     *
+     * @see #consume(long, BlockingStrategy)
+     */
+    void consumeUninterruptibly(long numTokens, UninterruptibleBlockingStrategy blockingStrategy);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * This is just overloaded equivalent of {@link #consumeUninterruptibly(long, UninterruptibleBlockingStrategy)}
+     *
+     * @param numTokens The number of tokens to consume from the bucket.
+     *
+     * @see #consumeUninterruptibly(long, UninterruptibleBlockingStrategy)
+     */
+    default void consumeUninterruptibly(long numTokens) {
+        consumeUninterruptibly(numTokens, UninterruptibleBlockingStrategy.PARKING);
+    }</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="scheduling-bucket"><a class="anchor" href="#scheduling-bucket"></a>2.4.3. io.github.bucket4j.SchedulingBucket</h4>
+<div class="sect4">
+<h5 id="tryconsume-3"><a class="anchor" href="#tryconsume-3"></a>tryConsume</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">/**
+* Tries to consume the specified number of tokens from the bucket.
+*
+* &lt;p&gt;
+* &lt;strong&gt;The algorithm for all type of buckets is following:&lt;/strong&gt;
+* &lt;ul&gt;
+*     &lt;li&gt;Implementation issues asynchronous request to back-end behind the bucket(for local bucket it is just a synchronous call) in way which specific for each particular back-end.&lt;/li&gt;
+*     &lt;li&gt;Then uncompleted future returned to the caller.&lt;/li&gt;
+*     &lt;li&gt;If back-end provides signal(through callback) that asynchronous request failed, then future completed exceptionally.&lt;/li&gt;
+*     &lt;li&gt;When back-end provides signal(through callback) that request is done(for local bucket response got immediately), then following post-processing rules will be applied:
+*          &lt;ul&gt;
+*              &lt;li&gt;
+*                  If tokens were consumed then future immediately completed by &lt;tt&gt;true&lt;/tt&gt;.
+*              &lt;/li&gt;
+*              &lt;li&gt;
+*                  If tokens were not consumed because were not enough tokens in the bucket and &lt;tt&gt;maxWaitNanos&lt;/tt&gt; nanoseconds is not enough time to refill deficit,
+*                  then future immediately completed by &lt;tt&gt;false&lt;/tt&gt;.
+*              &lt;/li&gt;
+*              &lt;li&gt;
+*                  If tokens were reserved(effectively consumed) then &lt;tt&gt;task&lt;/tt&gt; to delayed completion will be scheduled to the &lt;tt&gt;scheduler&lt;/tt&gt; via {@link ScheduledExecutorService#schedule(Runnable, long, TimeUnit)},
+*                  when delay equals to time required to refill the deficit of tokens. After scheduler executes task the future completed by &lt;tt&gt;true&lt;/tt&gt;.
+*              &lt;/li&gt;
+*          &lt;/ul&gt;
+*     &lt;/li&gt;
+* &lt;/ul&gt;
+* It is strongly not recommended to do any heavy work in thread which completes the future,
+* because typically this will be a back-end thread which handles NIO selectors,
+* blocking this thread will take negative performance effect to back-end throughput,
+* so you always should resume control flow in another executor via methods like {@link CompletableFuture#thenApplyAsync(Function, Executor)}.
+*
+* @param numTokens The number of tokens to consume from the bucket.
+* @param maxWaitNanos limit of time(in nanoseconds) which thread can wait.
+* @param scheduler used to delayed future completion
+*/
+CompletableFuture&lt;Boolean&gt; tryConsume(long numTokens, long maxWaitNanos, ScheduledExecutorService scheduler);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * This is just overloaded equivalent of {@link #tryConsume(long, long, ScheduledExecutorService)}
+     *
+     * @param numTokens The number of tokens to consume from the bucket.
+     * @param maxWait limit of time which thread can wait.
+     * @param scheduler used to delayed future completion
+     *
+     * @see #tryConsume(long, long, ScheduledExecutorService)
+     */
+    default CompletableFuture&lt;Boolean&gt; tryConsume(long numTokens, Duration maxWait, ScheduledExecutorService scheduler) {
+        return tryConsume(numTokens, maxWait.toNanos(), scheduler);
+    }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="consume-2"><a class="anchor" href="#consume-2"></a>consume</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+     * Consumes the specified number of tokens from the bucket.
+     *
+     * &lt;p&gt;
+     * &lt;strong&gt;The algorithm for all type of buckets is following:&lt;/strong&gt;
+     * &lt;ul&gt;
+     *     &lt;li&gt;Implementation issues asynchronous request to back-end behind the bucket(for local bucket it is just a synchronous call) in way which specific for each particular back-end.&lt;/li&gt;
+     *     &lt;li&gt;Then uncompleted future returned to the caller.&lt;/li&gt;
+     *     &lt;li&gt;If back-end provides signal(through callback) that asynchronous request failed, then future completed exceptionally.&lt;/li&gt;
+     *     &lt;li&gt;When back-end provides signal(through callback) that request is done(for local bucket response got immediately), then following post-processing rules will be applied:
+     *          &lt;ul&gt;
+     *              &lt;li&gt;
+     *                  If tokens were consumed then future immediately completed.
+     *              &lt;/li&gt;
+     *              &lt;li&gt;
+     *                  Else tokens reserved(effectively consumed) and &lt;tt&gt;task&lt;/tt&gt; to delayed completion will be scheduled to the &lt;tt&gt;scheduler&lt;/tt&gt; via {@link ScheduledExecutorService#schedule(Runnable, long, TimeUnit)},
+     *                  when delay equals to time required to refill the deficit of tokens. After scheduler executes task the future completed.
+     *              &lt;/li&gt;
+     *          &lt;/ul&gt;
+     *     &lt;/li&gt;
+     * &lt;/ul&gt;
+     * It is strongly not recommended to do any heavy work in thread which completes the future,
+     * because typically this will be a back-end thread which handles NIO selectors,
+     * blocking this thread will take negative performance effect to back-end throughput,
+     * so you always should resume control flow in another executor via methods like {@link CompletableFuture#thenApplyAsync(Function, Executor)}.
+     *
+     * @param numTokens The number of tokens to consume from the bucket.
+     * @param scheduler used to delayed future completion
+     *
+     */
+    CompletableFuture&lt;Void&gt; consume(long numTokens, ScheduledExecutorService scheduler);</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="generic-production-checklist"><a class="anchor" href="#generic-production-checklist"></a>2.5. Generic production checklist</h3>
 <div class="paragraph">
 <p>The considerations described bellow are applicable to each solution based on the token-bucket or leaky-bucket algorithm.
 You need to understand, agree and configure following points:</p>
 </div>
 <div class="sect3">
-<h4 id="be-wary-of-long-periods"><a class="anchor" href="#be-wary-of-long-periods"></a>2.4.1. Be wary of long periods</h4>
+<h4 id="be-wary-of-long-periods"><a class="anchor" href="#be-wary-of-long-periods"></a>2.5.1. Be wary of long periods</h4>
 <div class="paragraph">
 <p>When you are planning to use any solution based on token-bucket for throttling incoming requests,
 you need to pay close attention to the throttling time window.</p>
@@ -1289,7 +2021,7 @@ you need to pay close attention to the throttling time window.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Bucket bucket = Bucket4j.jCacheBuilder(RecoveryStrategy.RECONSTRUCT)
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = Bucket4j.jCacheBuilder(RecoveryStrategy.RECONSTRUCT)
     .addLimit(Bandwidth.simple(10000, Duration.ofSeconds(3_600))
     .addLimit(Bandwidth.simple(20, Duration.ofSeconds(1)) // attacker is unable to achieve 1000RPS and crash service in short time
     .build(cache, bucketId);</code></pre>
@@ -1300,7 +2032,7 @@ you need to pay close attention to the throttling time window.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="short-timed-bursts"><a class="anchor" href="#short-timed-bursts"></a>2.4.2. Be wary of short-timed bursts</h4>
+<h4 id="short-timed-bursts"><a class="anchor" href="#short-timed-bursts"></a>2.5.2. Be wary of short-timed bursts</h4>
 <div class="paragraph">
 <p>Token bucket is an efficient algorithm with low and fixed memory footprint, independently of the incoming request-rate(it can be millions per second) the bucket consumes no more then 40 bytes(five longs).
 But an efficient memory footprint has its own cost - bandwidth limitation is only satisfied over a long period of time. In other words you cannot avoid short-timed bursts.</p>
@@ -1353,7 +2085,7 @@ But an efficient memory footprint has its own cost - bandwidth limitation is onl
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
     &lt;artifactId&gt;bucket4j-jcache&lt;/artifactId&gt;
     &lt;version&gt;7.0.0&lt;/version&gt;
@@ -1365,7 +2097,7 @@ But an efficient memory footprint has its own cost - bandwidth limitation is onl
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;javax.cache&lt;/groupId&gt;
     &lt;artifactId&gt;cache-api&lt;/artifactId&gt;
     &lt;version&gt;${jcache.version}&lt;/version&gt;
@@ -1383,7 +2115,7 @@ You want to use same limits for each IP - 30 requests per minute.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class IpThrottlingFilter implements javax.servlet.Filter {
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class IpThrottlingFilter implements javax.servlet.Filter {
 
     private static final BucketConfiguration configuration = Bucket4j.configurationBuilder()
                                                               .addLimit(Bandwidth.simple(30, Duration.ofMinutes(1)))
@@ -1439,7 +2171,7 @@ thus it is possible to implement solution  that will read agreement from databas
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class IpThrottlingFilter implements javax.servlet.Filter {
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class IpThrottlingFilter implements javax.servlet.Filter {
 
     // service to provide per user limits
     @Inject
@@ -1525,7 +2257,7 @@ in other words you need one single bucket which protects the system at whole. Le
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class GlobalThrottlingFilter implements javax.servlet.Filter {
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class GlobalThrottlingFilter implements javax.servlet.Filter {
 
     private static final String BUCKET_ID = "global-limit";
 
@@ -1612,7 +2344,7 @@ Just run this code in order to be sure that your implementation of JCache provid
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import javax.cache.Cache;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import javax.cache.Cache;
 import javax.cache.processor.EntryProcessor;
 import java.util.concurrent.CountDownLatch;
 import java.io.Serializable;
@@ -1691,7 +2423,7 @@ developing the dedicated module <code>bucket4j-hazelcast</code> was the only way
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
     &lt;artifactId&gt;bucket4j-hazelcast&lt;/artifactId&gt;
     &lt;version&gt;7.0.0&lt;/version&gt;
@@ -1703,7 +2435,7 @@ developing the dedicated module <code>bucket4j-hazelcast</code> was the only way
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
     &lt;artifactId&gt;bucket4j-hazelcast-3&lt;/artifactId&gt;
     &lt;version&gt;7.0.0&lt;/version&gt;
@@ -1729,7 +2461,7 @@ just log issue to <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issu
 <h4 id="example-of-bucket-instantiation"><a class="anchor" href="#example-of-bucket-instantiation"></a>3.2.3. Example of Bucket instantiation</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">IMap&lt;K, GridBucketState&gt; map = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IMap&lt;K, GridBucketState&gt; map = ...;
 ...
 
 Bucket bucket = Bucket4j.extension(Hazelcast.class).builder()
@@ -1742,7 +2474,7 @@ Bucket bucket = Bucket4j.extension(Hazelcast.class).builder()
 <h4 id="example-of-proxymanager-instantiation"><a class="anchor" href="#example-of-proxymanager-instantiation"></a>3.2.4. Example of ProxyManager instantiation</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">IMap&lt;K, GridBucketState&gt; map = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IMap&lt;K, GridBucketState&gt; map = ...;
 ...
 
 ProxyManager proxyManager = Bucket4j.extension(Hazelcast.class).proxyManagerForMap(map);</code></pre>
@@ -1758,7 +2490,7 @@ To let Hazelcast know about fast serializers you should register them programmat
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import com.hazelcast.config.Config;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import com.hazelcast.config.Config;
 import com.hazelcast.config.SerializationConfig;
 import com.hazelcast.config.SerializerConfig;
 import io.github.bucket4j.grid.hazelcast.serialization.HazelcastSerializer;
@@ -1816,7 +2548,7 @@ developing the dedicated module <code>bucket4j-ignite</code> was the only way to
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
     &lt;artifactId&gt;bucket4j-ignite&lt;/artifactId&gt;
     &lt;version&gt;7.0.0&lt;/version&gt;
@@ -1828,7 +2560,7 @@ developing the dedicated module <code>bucket4j-ignite</code> was the only way to
 <h4 id="example-of-bucket-instantiation-2"><a class="anchor" href="#example-of-bucket-instantiation-2"></a>4.1.2. Example of Bucket instantiation</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">org.apache.ignite.IgniteCache&lt;K, GridBucketState&gt; cache = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.IgniteCache&lt;K, GridBucketState&gt; cache = ...;
 ...
 
 Bucket bucket = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).builder()
@@ -1841,7 +2573,7 @@ Bucket bucket = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).
 <h4 id="example-of-proxymanager-instantiation-2"><a class="anchor" href="#example-of-proxymanager-instantiation-2"></a>4.1.3. Example of ProxyManager instantiation</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">org.apache.ignite.IgniteCache&lt;K, GridBucketState&gt; cache = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.IgniteCache&lt;K, GridBucketState&gt; cache = ...;
 ...
 
 ProxyManager proxyManager = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).proxyManagerForCache(cache);</code></pre>
@@ -1852,7 +2584,7 @@ ProxyManager proxyManager = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ig
 <h4 id="example-of-bucket-instantiation-via-thin-client"><a class="anchor" href="#example-of-bucket-instantiation-via-thin-client"></a>4.1.4. Example of Bucket instantiation via Thin Client</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">org.apache.ignite.client.ClientCache&lt;K, GridBucketState&gt; cache = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.client.ClientCache&lt;K, GridBucketState&gt; cache = ...;
 org.apache.ignite.client.ClientCompute clientCompute = ...;
 
 ...
@@ -1867,7 +2599,7 @@ Bucket bucket = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).
 <h4 id="example-of-proxymanager-instantiation-via-thin-client"><a class="anchor" href="#example-of-proxymanager-instantiation-via-thin-client"></a>4.1.5. Example of ProxyManager instantiation via Thin Client</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">org.apache.ignite.client.ClientCache&lt;K, GridBucketState&gt; cache = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.client.ClientCache&lt;K, GridBucketState&gt; cache = ...;
 org.apache.ignite.client.ClientCompute clientCompute = ...;
 ...
 
@@ -1895,7 +2627,7 @@ at bucket construction time.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
     &lt;artifactId&gt;bucket4j-infinispan&lt;/artifactId&gt;
     &lt;version&gt;7.0.0&lt;/version&gt;
@@ -1907,7 +2639,7 @@ at bucket construction time.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
     &lt;artifactId&gt;bucket4j-infinispan-8&lt;/artifactId&gt;
     &lt;version&gt;7.0.0&lt;/version&gt;
@@ -1937,7 +2669,7 @@ If you do not configure serialization(as described bellow), you will get the err
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">Jan 02, 2020 4:57:56 PM org.infinispan.marshall.persistence.impl.PersistenceMarshallerImpl objectToBuffer
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Jan 02, 2020 4:57:56 PM org.infinispan.marshall.persistence.impl.PersistenceMarshallerImpl objectToBuffer
 WARN: ISPN000559: Cannot marshall 'class io.github.bucket4j.grid.infinispan.SerializableFunctionAdapter'
 java.lang.IllegalArgumentException: No marshaller registered for Java type io.github.bucket4j.grid.infinispan.SerializableFunctionAdapter
 	at org.infinispan.protostream.impl.SerializationContextImpl.getMarshallerDelegate(SerializationContextImpl.java:279)
@@ -1958,7 +2690,7 @@ You can do it in both programmatically and declarative ways:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import io.github.bucket4j.grid.infinispan.serialization.Bucket4jProtobufContextInitializer;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.github.bucket4j.grid.infinispan.serialization.Bucket4jProtobufContextInitializer;
 import org.infinispan.configuration.global.GlobalConfigurationBuilder;
 ...
 GlobalConfigurationBuilder builder = new GlobalConfigurationBuilder();
@@ -1970,7 +2702,7 @@ builder.serialization().addContextInitializer(new Bucket4jProtobufContextInitial
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;serialization&gt;
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;serialization&gt;
     &lt;context-initializer class="io.github.bucket4j.grid.infinispan.serialization.Bucket4jProtobufContextInitializer"/&gt;
 &lt;/serialization&gt;</code></pre>
 </div>
@@ -1984,7 +2716,7 @@ all neccessary Protobuffers configs generated by <code>Bucket4jProtobufContextIn
 <h4 id="example-of-bucket-instantiation-3"><a class="anchor" href="#example-of-bucket-instantiation-3"></a>4.2.4. Example of Bucket instantiation</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">org.infinispan.functional.FunctionalMap.ReadWriteMap&lt;K, GridBucketState&gt; map = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.infinispan.functional.FunctionalMap.ReadWriteMap&lt;K, GridBucketState&gt; map = ...;
 ...
 Bucket bucket = Bucket4j.extension(Infinispan.class).builder()
                    .addLimit(Bandwidth.simple(1_000, Duration.ofMinutes(1)))
@@ -1996,7 +2728,7 @@ Bucket bucket = Bucket4j.extension(Infinispan.class).builder()
 <h4 id="example-of-proxymanager-instantiation-3"><a class="anchor" href="#example-of-proxymanager-instantiation-3"></a>4.2.5. Example of ProxyManager instantiation</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">org.infinispan.functional.FunctionalMap.ReadWriteMap&lt;K, GridBucketState&gt; map = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.infinispan.functional.FunctionalMap.ReadWriteMap&lt;K, GridBucketState&gt; map = ...;
 ...
 
 ProxyManager proxyManager = Bucket4j.extension(Infinispan.class).proxyManagerForMap(map);</code></pre>
@@ -2026,7 +2758,7 @@ developing the dedicated module <code>bucket4j-coherence</code> was the only way
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
     &lt;artifactId&gt;bucket4j-coherence&lt;/artifactId&gt;
     &lt;version&gt;7.0.0&lt;/version&gt;
@@ -2038,7 +2770,7 @@ developing the dedicated module <code>bucket4j-coherence</code> was the only way
 <h4 id="example-of-bucket-instantiation-4"><a class="anchor" href="#example-of-bucket-instantiation-4"></a>4.3.2. Example of Bucket instantiation</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">com.tangosol.net.NamedCache&lt;K, GridBucketState&gt; cache = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">com.tangosol.net.NamedCache&lt;K, GridBucketState&gt; cache = ...;
 ...
 
 Bucket bucket = Bucket4j.extension(Coherence.class).builder()
@@ -2051,7 +2783,7 @@ Bucket bucket = Bucket4j.extension(Coherence.class).builder()
 <h4 id="example-of-proxymanager-instantiation-4"><a class="anchor" href="#example-of-proxymanager-instantiation-4"></a>4.3.3. Example of ProxyManager instantiation</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">com.tangosol.net.NamedCache&lt;K, GridBucketState&gt; cache = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">com.tangosol.net.NamedCache&lt;K, GridBucketState&gt; cache = ...;
 
 ProxyManager proxyManager = Bucket4j.extension(Coherence.class).proxyManagerForCache(cache);</code></pre>
 </div>
@@ -2072,7 +2804,7 @@ To let Coherence know about POF serializers you should register three serializer
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;pof-config xmlns="http://xmlns.oracle.com/coherence/coherence-pof-config"
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;pof-config xmlns="http://xmlns.oracle.com/coherence/coherence-pof-config"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://xmlns.oracle.com/coherence/coherence-pof-config coherence-pof-config.xsd"&gt;
 
@@ -2119,7 +2851,7 @@ Async view of bucket is availble through <code>asAsync()</code> method:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Bucket bucket = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = ...;
 AsyncBucket asyncBucket = bucket.asAsync();</code></pre>
 </div>
 </div>
@@ -2172,7 +2904,7 @@ non-blocking architecture means that both SMS sending and limit checking should 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public class SmsServlet extends javax.servlet.http.HttpServlet {
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class SmsServlet extends javax.servlet.http.HttpServlet {
 
     private SmsSender smsSender;
     private ProxyManager&lt;String&gt; buckets;
@@ -2299,7 +3031,7 @@ Instead Bucket4j relies on <strong>you</strong> to configure the cache with prop
 <h2 id="advanced-features"><a class="anchor" href="#advanced-features"></a>5. Advanced features</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="listening-for-bucket-events"><a class="anchor" href="#listening-for-bucket-events"></a>5.1. Listening for bucket events</h3>
+<h3 id="listener"><a class="anchor" href="#listener"></a>5.1. Listening for bucket events</h3>
 <div class="sect3">
 <h4 id="what-can-be-listened"><a class="anchor" href="#what-can-be-listened"></a>5.1.1. What can be listened</h4>
 <div class="ulist">
@@ -2376,7 +3108,7 @@ You can do post-aggregation of monitoring statistics via features built-into you
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">BucketListener listener = new MyListener();
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">BucketListener listener = new MyListener();
 
 Bucket bucket = Bucket4j.builder()
                     .addLimit(Bandwidth.simple(100, Duration.ofMinutes(1)))
@@ -2392,7 +3124,7 @@ Bucket bucket = Bucket4j.builder()
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">public static Bucket decorateBucketByStatListener(Bucket originalBucket, String bucketName, MetricRegistry registry) {
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public static Bucket decorateBucketByStatListener(Bucket originalBucket, String bucketName, MetricRegistry registry) {
   SimpleBucketListener stat = new SimpleBucketListener();
   registry.register(name + ".consumed", (Gauge&lt;Long&gt;) stat::getConsumed);
   registry.register(name + ".rejected", (Gauge&lt;Long&gt;) stat::getRejected);
@@ -2427,28 +3159,28 @@ Bucket bucket = Bucket4j.builder()
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// for io.github.bucket4j.Bucket
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// for io.github.bucket4j.Bucket
 Bucket bucket = ...;
 bucket.asVerbose();</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// for io.github.bucket4j.Bucket
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// for io.github.bucket4j.Bucket
 Bucket bucket = ...;
 VerboseBucket verboseBucket = bucket.asVerbose();</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// for io.github.bucket4j.distributed.BucketProxy
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// for io.github.bucket4j.distributed.BucketProxy
 BucketProxy bucket = ...;
 VerboseBucket verboseBucket = bucket.asVerbose();</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// for io.github.bucket4j.distributed.AsyncBucketProxy
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// for io.github.bucket4j.distributed.AsyncBucketProxy
 AsyncBucketProxy bucket = ...;
 AsyncVerboseBucket verboseBucket = bucket.asVerbose();</code></pre>
 </div>
@@ -2486,7 +3218,7 @@ BlockingBucket and ScheduledBucket do not provide the verbose analogs. VerboseRe
 <h4 id="example-of-verbose-api-usage"><a class="anchor" href="#example-of-verbose-api-usage"></a>5.2.3. Example of Verbose API usage</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">VerboseResult&lt;ConsumptionProbe&gt; verboseResult = bucket.asVerbose().tryConsumeAndReturnRemaining(numberOfTokens);
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">VerboseResult&lt;ConsumptionProbe&gt; verboseResult = bucket.asVerbose().tryConsumeAndReturnRemaining(numberOfTokens);
 
 BucketConfiguration bucketConfiguration = verboseResult.getConfiguration();
 long capacity = Arrays.stream(bucketConfiguration.getBandwidths())
@@ -2514,7 +3246,7 @@ if (probe.isConsumed()) {
 </div>
 </div>
 <div class="sect2">
-<h3 id="on-the-fly-configuration-replacement"><a class="anchor" href="#on-the-fly-configuration-replacement"></a>5.3. On-the-fly configuration replacement</h3>
+<h3 id="configuration-replacement"><a class="anchor" href="#configuration-replacement"></a>5.3. On-the-fly configuration replacement</h3>
 <div class="paragraph">
 <p>As previously mentioned in the definition for <a href="#bucket-bonfiguration">BucketConfiguration</a> it is immutable object.
 It is not possible to add, remove or change the limits for already created configuration, however, you can replace configuration of bucket via creating new configuration instance and calling <code>bucket.replaceConfiguration(newConfiguration, tokensInheritanceStrategy)</code>.</p>
@@ -2570,7 +3302,7 @@ so in case of multiple bandwidth configuratoin replacement code can copy availab
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Bucket bucket = Bucket4j.builder()
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = Bucket4j.builder()
      .addLimit(Bandwidth.simple(10, Duration.ofSeconds(1)).withId("technical-limit"))
      .addLimit(Bandwidth.simple(10000, Duration.ofHours(1)).withId("business-limit"))
      .build();
@@ -2712,5 +3444,8 @@ Version 7.0.0<br>
 Last updated 2021-11-26 12:01:13 +0300
 </div>
 </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
 </body>
 </html>
