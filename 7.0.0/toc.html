@@ -5,17 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<title>Bucket4j 7.0.0-beta-2020-04-18 Reference</title>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-30W1SHWN4N"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-30W1SHWN4N');
-</script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5275939145150040" crossorigin="anonymous"></script>
+<title>Bucket4j 7.0.0 Reference</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -439,13 +429,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-30W1SHWN4N"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-30W1SHWN4N');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5275939145150040" crossorigin="anonymous"></script>
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
 <h1>Bucket4j 7.0.0 Reference</h1>
 <div class="details">
 <span id="revnumber">version 7.0.0,</span>
-<span id="revdate">2021-11-29 09</span>
+<span id="revdate">2021-12-01 16</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -555,68 +555,65 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#example-of-bucket-instantiation">3.2.3. Example of Bucket instantiation</a></li>
 <li><a href="#example-of-proxymanager-instantiation">3.2.4. Example of ProxyManager instantiation</a></li>
 <li><a href="#configuring-custom-serialization-for-bucket4j-library-classes">3.2.5. Configuring Custom Serialization for Bucket4j library classes</a></li>
+<li><a href="#known-issues-related-with-docker-andor-springboot">3.2.6. Known issues related with Docker and(or) SpringBoot</a></li>
 </ul>
 </li>
+<li><a href="#apache-ignite-integration">3.3. Apache Ignite integration</a>
+<ul class="sectlevel3">
+<li><a href="#dependencies-2">3.3.1. Dependencies</a></li>
+<li><a href="#example-of-bucket-instantiation-2">3.3.2. Example of Bucket instantiation</a></li>
+<li><a href="#example-of-proxymanager-instantiation-2">3.3.3. Example of ProxyManager instantiation</a></li>
+<li><a href="#example-of-bucket-instantiation-via-thin-client">3.3.4. Example of Bucket instantiation via Thin Client</a></li>
+<li><a href="#example-of-proxymanager-instantiation-via-thin-client">3.3.5. Example of ProxyManager instantiation via Thin Client</a></li>
 </ul>
 </li>
-<li><a href="#known-issues-related-with-docker-andor-springboot">4. Known issues related with Docker and(or) SpringBoot</a>
+<li><a href="#infinispan-integration">3.4. Infinispan integration</a>
+<ul class="sectlevel3">
+<li><a href="#dependencies-3">3.4.1. Dependencies</a></li>
+<li><a href="#general-compatibility-matrix-principles-2">3.4.2. General compatibility matrix principles::</a></li>
+<li><a href="#special-notes-for-infinispan-10-0">3.4.3. Special notes for Infinispan 10.0+</a></li>
+<li><a href="#example-of-bucket-instantiation-3">3.4.4. Example of Bucket instantiation</a></li>
+<li><a href="#example-of-proxymanager-instantiation-3">3.4.5. Example of ProxyManager instantiation</a></li>
+</ul>
+</li>
+<li><a href="#oracle-coherence-integration">3.5. Oracle Coherence integration</a>
+<ul class="sectlevel3">
+<li><a href="#dependencies-4">3.5.1. Dependencies</a></li>
+<li><a href="#example-of-bucket-instantiation-4">3.5.2. Example of Bucket instantiation</a></li>
+<li><a href="#example-of-proxymanager-instantiation-4">3.5.3. Example of ProxyManager instantiation</a></li>
+<li><a href="#configuring-pof-serialization-for-bucket4j-library-classes">3.5.4. Configuring POF serialization for Bucket4j library classes</a></li>
+</ul>
+</li>
+<li><a href="#asynchronous-api">3.6. Asynchronous API</a>
+<ul class="sectlevel3">
+<li><a href="#example-limiting-the-rate-of-access-to-asynchronous-servlet">3.6.1. Example - limiting the rate of access to asynchronous servlet</a></li>
+</ul>
+</li>
+<li><a href="#production-checklist-especially-in-the-context-of-distributed-systems">3.7. Production checklist especially in the context of distributed systems</a></li>
+</ul>
+</li>
+<li><a href="#advanced-features">4. Advanced features</a>
 <ul class="sectlevel2">
-<li><a href="#apache-ignite-integration">4.1. Apache Ignite integration</a>
+<li><a href="#listener">4.1. Listening for bucket events</a>
 <ul class="sectlevel3">
-<li><a href="#dependencies-2">4.1.1. Dependencies</a></li>
-<li><a href="#example-of-bucket-instantiation-2">4.1.2. Example of Bucket instantiation</a></li>
-<li><a href="#example-of-proxymanager-instantiation-2">4.1.3. Example of ProxyManager instantiation</a></li>
-<li><a href="#example-of-bucket-instantiation-via-thin-client">4.1.4. Example of Bucket instantiation via Thin Client</a></li>
-<li><a href="#example-of-proxymanager-instantiation-via-thin-client">4.1.5. Example of ProxyManager instantiation via Thin Client</a></li>
+<li><a href="#what-can-be-listened">4.1.1. What can be listened</a></li>
+<li><a href="#listener-api-corner-cases">4.1.2. Listener API - corner cases</a></li>
+<li><a href="#how-to-attach-listener-to-bucket">4.1.3. How to attach listener to bucket?</a></li>
+<li><a href="#example-of-integration-with-dropwizard-metrics-core">4.1.4. Example of integration with Dropwizard metrics-core</a></li>
 </ul>
 </li>
-<li><a href="#infinispan-integration">4.2. Infinispan integration</a>
+<li><a href="#verbose-api">4.2. Verbose API</a>
 <ul class="sectlevel3">
-<li><a href="#dependencies-3">4.2.1. Dependencies</a></li>
-<li><a href="#general-compatibility-matrix-principles-2">4.2.2. General compatibility matrix principles::</a></li>
-<li><a href="#special-notes-for-infinispan-10-0">4.2.3. Special notes for Infinispan 10.0+</a></li>
-<li><a href="#example-of-bucket-instantiation-3">4.2.4. Example of Bucket instantiation</a></li>
-<li><a href="#example-of-proxymanager-instantiation-3">4.2.5. Example of ProxyManager instantiation</a></li>
+<li><a href="#verbose-api-entry-points">4.2.1. Verbose API entry-points</a></li>
+<li><a href="#principles-of-result-decoration">4.2.2. Principles of result decoration</a></li>
+<li><a href="#example-of-verbose-api-usage">4.2.3. Example of Verbose API usage</a></li>
 </ul>
 </li>
-<li><a href="#oracle-coherence-integration">4.3. Oracle Coherence integration</a>
+<li><a href="#configuration-replacement">4.3. On-the-fly configuration replacement</a>
 <ul class="sectlevel3">
-<li><a href="#dependencies-4">4.3.1. Dependencies</a></li>
-<li><a href="#example-of-bucket-instantiation-4">4.3.2. Example of Bucket instantiation</a></li>
-<li><a href="#example-of-proxymanager-instantiation-4">4.3.3. Example of ProxyManager instantiation</a></li>
-<li><a href="#configuring-pof-serialization-for-bucket4j-library-classes">4.3.4. Configuring POF serialization for Bucket4j library classes</a></li>
-</ul>
-</li>
-<li><a href="#asynchronous-api">4.4. Asynchronous API</a>
-<ul class="sectlevel3">
-<li><a href="#example-limiting-the-rate-of-access-to-asynchronous-servlet">4.4.1. Example - limiting the rate of access to asynchronous servlet</a></li>
-</ul>
-</li>
-<li><a href="#production-checklist-especially-in-the-context-of-distributed-systems">4.5. Production checklist especially in the context of distributed systems</a></li>
-</ul>
-</li>
-<li><a href="#advanced-features">5. Advanced features</a>
-<ul class="sectlevel2">
-<li><a href="#listener">5.1. Listening for bucket events</a>
-<ul class="sectlevel3">
-<li><a href="#what-can-be-listened">5.1.1. What can be listened</a></li>
-<li><a href="#listener-api-corner-cases">5.1.2. Listener API - corner cases</a></li>
-<li><a href="#how-to-attach-listener-to-bucket">5.1.3. How to attach listener to bucket?</a></li>
-<li><a href="#example-of-integration-with-dropwizard-metrics-core">5.1.4. Example of integration with Dropwizard metrics-core</a></li>
-</ul>
-</li>
-<li><a href="#verbose-api">5.2. Verbose API</a>
-<ul class="sectlevel3">
-<li><a href="#verbose-api-entry-points">5.2.1. Verbose API entry-points</a></li>
-<li><a href="#principles-of-result-decoration">5.2.2. Principles of result decoration</a></li>
-<li><a href="#example-of-verbose-api-usage">5.2.3. Example of Verbose API usage</a></li>
-</ul>
-</li>
-<li><a href="#configuration-replacement">5.3. On-the-fly configuration replacement</a>
-<ul class="sectlevel3">
-<li><a href="#why-configuration-replacement-is-not-trivial">5.3.1. Why configuration replacement is not trivial?</a></li>
-<li><a href="#taking-control-over-replacement-process-via-bandwidth-identifiers">5.3.2. Taking control over replacement process via bandwidth identifiers</a></li>
-<li><a href="#tokensinheritancestrategy-explanation">5.3.3. TokensInheritanceStrategy explanation</a></li>
+<li><a href="#why-configuration-replacement-is-not-trivial">4.3.1. Why configuration replacement is not trivial?</a></li>
+<li><a href="#taking-control-over-replacement-process-via-bandwidth-identifiers">4.3.2. Taking control over replacement process via bandwidth identifiers</a></li>
+<li><a href="#tokensinheritancestrategy-explanation">4.3.3. TokensInheritanceStrategy explanation</a></li>
 </ul>
 </li>
 </ul>
@@ -1395,8 +1392,12 @@ boolean tryConsume(long numTokens);</code></pre>
      *
      * @return number of tokens which has been consumed, or zero if was consumed nothing.
      */
-    long tryConsumeAsMuchAsPossible();
-    /**
+    long tryConsumeAsMuchAsPossible();</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
      * Tries to consume as much tokens from bucket as available in the bucket at the moment of invocation,
      * but tokens which should be consumed is limited by {@code limit}.
      *
@@ -1486,14 +1487,14 @@ long getAvailableTokens();</code></pre>
 <h5 id="builder"><a class="anchor" href="#builder"></a>builder</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">/**
-* Creates the new builder of in-memory buckets.
-*
-* @return new instance of {@link LocalBucketBuilder}
-*/
-static LocalBucketBuilder builder() {
-    return new LocalBucketBuilder();
-}</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
+    * Creates the new builder of in-memory buckets.
+    *
+    * @return new instance of {@link LocalBucketBuilder}
+    */
+    static LocalBucketBuilder builder() {
+        return new LocalBucketBuilder();
+    }</code></pre>
 </div>
 </div>
 </div>
@@ -2515,12 +2516,8 @@ import io.github.bucket4j.grid.hazelcast.serialization.HazelcastSerializer;
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="known-issues-related-with-docker-andor-springboot"><a class="anchor" href="#known-issues-related-with-docker-andor-springboot"></a>4. Known issues related with Docker and(or) SpringBoot</h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="known-issues-related-with-docker-andor-springboot"><a class="anchor" href="#known-issues-related-with-docker-andor-springboot"></a>3.2.6. Known issues related with Docker and(or) SpringBoot</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2531,8 +2528,10 @@ import io.github.bucket4j.grid.hazelcast.serialization.HazelcastSerializer;
 </li>
 </ul>
 </div>
+</div>
+</div>
 <div class="sect2">
-<h3 id="apache-ignite-integration"><a class="anchor" href="#apache-ignite-integration"></a>4.1. Apache Ignite integration</h3>
+<h3 id="apache-ignite-integration"><a class="anchor" href="#apache-ignite-integration"></a>3.3. Apache Ignite integration</h3>
 <div class="paragraph">
 <p>Before use <code>bucket4j-ignite</code> module please read [bucket4j-jcache documentation](jcache-usage.md),
 because <code>bucket4j-ignite</code> is just a follow-up of <code>bucket4j-jcache</code>.</p>
@@ -2550,7 +2549,7 @@ developing the dedicated module <code>bucket4j-ignite</code> was the only way to
 <strong>Answer:</strong> No, you should not migrate to <code>bucketj-ignite</code> in this case.</p>
 </div>
 <div class="sect3">
-<h4 id="dependencies-2"><a class="anchor" href="#dependencies-2"></a>4.1.1. Dependencies</h4>
+<h4 id="dependencies-2"><a class="anchor" href="#dependencies-2"></a>3.3.1. Dependencies</h4>
 <div class="paragraph">
 <p>To use <code>bucket4j-ignite</code> extension you need to add following dependency:</p>
 </div>
@@ -2565,7 +2564,7 @@ developing the dedicated module <code>bucket4j-ignite</code> was the only way to
 </div>
 </div>
 <div class="sect3">
-<h4 id="example-of-bucket-instantiation-2"><a class="anchor" href="#example-of-bucket-instantiation-2"></a>4.1.2. Example of Bucket instantiation</h4>
+<h4 id="example-of-bucket-instantiation-2"><a class="anchor" href="#example-of-bucket-instantiation-2"></a>3.3.2. Example of Bucket instantiation</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.IgniteCache&lt;K, GridBucketState&gt; cache = ...;
@@ -2578,7 +2577,7 @@ Bucket bucket = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).
 </div>
 </div>
 <div class="sect3">
-<h4 id="example-of-proxymanager-instantiation-2"><a class="anchor" href="#example-of-proxymanager-instantiation-2"></a>4.1.3. Example of ProxyManager instantiation</h4>
+<h4 id="example-of-proxymanager-instantiation-2"><a class="anchor" href="#example-of-proxymanager-instantiation-2"></a>3.3.3. Example of ProxyManager instantiation</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.IgniteCache&lt;K, GridBucketState&gt; cache = ...;
@@ -2589,7 +2588,7 @@ ProxyManager proxyManager = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ig
 </div>
 </div>
 <div class="sect3">
-<h4 id="example-of-bucket-instantiation-via-thin-client"><a class="anchor" href="#example-of-bucket-instantiation-via-thin-client"></a>4.1.4. Example of Bucket instantiation via Thin Client</h4>
+<h4 id="example-of-bucket-instantiation-via-thin-client"><a class="anchor" href="#example-of-bucket-instantiation-via-thin-client"></a>3.3.4. Example of Bucket instantiation via Thin Client</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.client.ClientCache&lt;K, GridBucketState&gt; cache = ...;
@@ -2604,7 +2603,7 @@ Bucket bucket = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).
 </div>
 </div>
 <div class="sect3">
-<h4 id="example-of-proxymanager-instantiation-via-thin-client"><a class="anchor" href="#example-of-proxymanager-instantiation-via-thin-client"></a>4.1.5. Example of ProxyManager instantiation via Thin Client</h4>
+<h4 id="example-of-proxymanager-instantiation-via-thin-client"><a class="anchor" href="#example-of-proxymanager-instantiation-via-thin-client"></a>3.3.5. Example of ProxyManager instantiation via Thin Client</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.client.ClientCache&lt;K, GridBucketState&gt; cache = ...;
@@ -2617,7 +2616,7 @@ ProxyManager proxyManager = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ig
 </div>
 </div>
 <div class="sect2">
-<h3 id="infinispan-integration"><a class="anchor" href="#infinispan-integration"></a>4.2. Infinispan integration</h3>
+<h3 id="infinispan-integration"><a class="anchor" href="#infinispan-integration"></a>3.4. Infinispan integration</h3>
 <div class="paragraph">
 <p>Before use <code>bucket4j-infinispan</code> module please read [bucket4j-jcache documentation](jcache-usage.md),
 because <code>bucket4j-infinispan</code> is just a follow-up of <code>bucket4j-jcache</code>.</p>
@@ -2629,7 +2628,7 @@ because Infinispan does not provide mutual exclusion for entry-processors. Any a
 at bucket construction time.</p>
 </div>
 <div class="sect3">
-<h4 id="dependencies-3"><a class="anchor" href="#dependencies-3"></a>4.2.1. Dependencies</h4>
+<h4 id="dependencies-3"><a class="anchor" href="#dependencies-3"></a>3.4.1. Dependencies</h4>
 <div class="paragraph">
 <p>To use <code>bucket4j-infinispan</code> with <code>Infinispan 9.x, 10.x</code> extension you need to add following dependency:</p>
 </div>
@@ -2656,7 +2655,7 @@ at bucket construction time.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="general-compatibility-matrix-principles-2"><a class="anchor" href="#general-compatibility-matrix-principles-2"></a>4.2.2. General compatibility matrix principles::</h4>
+<h4 id="general-compatibility-matrix-principles-2"><a class="anchor" href="#general-compatibility-matrix-principles-2"></a>3.4.2. General compatibility matrix principles::</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2670,7 +2669,7 @@ just log issue to <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issu
 </div>
 </div>
 <div class="sect3">
-<h4 id="special-notes-for-infinispan-10-0"><a class="anchor" href="#special-notes-for-infinispan-10-0"></a>4.2.3. Special notes for Infinispan 10.0+</h4>
+<h4 id="special-notes-for-infinispan-10-0"><a class="anchor" href="#special-notes-for-infinispan-10-0"></a>3.4.3. Special notes for Infinispan 10.0+</h4>
 <div class="paragraph">
 <p>As mentioned in the <a href="https://infinispan.org/docs/dev/titles/developing/developing.html#marshalling">Infinispan Marshalling documentation</a>, since release <code>10.0.0</code> Infinispan does not allow deserialization of custom payloads into Java classes.
 If you do not configure serialization(as described bellow), you will get the error like this on any attempt to use Bucket4j with brand new Infinispan release:</p>
@@ -2721,7 +2720,7 @@ all neccessary Protobuffers configs generated by <code>Bucket4jProtobufContextIn
 </div>
 </div>
 <div class="sect3">
-<h4 id="example-of-bucket-instantiation-3"><a class="anchor" href="#example-of-bucket-instantiation-3"></a>4.2.4. Example of Bucket instantiation</h4>
+<h4 id="example-of-bucket-instantiation-3"><a class="anchor" href="#example-of-bucket-instantiation-3"></a>3.4.4. Example of Bucket instantiation</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.infinispan.functional.FunctionalMap.ReadWriteMap&lt;K, GridBucketState&gt; map = ...;
@@ -2733,7 +2732,7 @@ Bucket bucket = Bucket4j.extension(Infinispan.class).builder()
 </div>
 </div>
 <div class="sect3">
-<h4 id="example-of-proxymanager-instantiation-3"><a class="anchor" href="#example-of-proxymanager-instantiation-3"></a>4.2.5. Example of ProxyManager instantiation</h4>
+<h4 id="example-of-proxymanager-instantiation-3"><a class="anchor" href="#example-of-proxymanager-instantiation-3"></a>3.4.5. Example of ProxyManager instantiation</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.infinispan.functional.FunctionalMap.ReadWriteMap&lt;K, GridBucketState&gt; map = ...;
@@ -2745,7 +2744,7 @@ ProxyManager proxyManager = Bucket4j.extension(Infinispan.class).proxyManagerFor
 </div>
 </div>
 <div class="sect2">
-<h3 id="oracle-coherence-integration"><a class="anchor" href="#oracle-coherence-integration"></a>4.3. Oracle Coherence integration</h3>
+<h3 id="oracle-coherence-integration"><a class="anchor" href="#oracle-coherence-integration"></a>3.5. Oracle Coherence integration</h3>
 <div class="paragraph">
 <p>Before use <code>bucket4j-coherence</code> module please read [bucket4j-jcache documentation](jcache-usage.md),
 because <code>bucket4j-coherence</code> is just a follow-up of <code>bucket4j-jcache</code>.</p>
@@ -2760,7 +2759,7 @@ developing the dedicated module <code>bucket4j-coherence</code> was the only way
 <strong>Answer:</strong> No, you should not migrate to <code>bucketj-coherence</code> in this case.</p>
 </div>
 <div class="sect3">
-<h4 id="dependencies-4"><a class="anchor" href="#dependencies-4"></a>4.3.1. Dependencies</h4>
+<h4 id="dependencies-4"><a class="anchor" href="#dependencies-4"></a>3.5.1. Dependencies</h4>
 <div class="paragraph">
 <p>To use <code>bucket4j-coherence</code> extension you need to add following dependency:</p>
 </div>
@@ -2775,7 +2774,7 @@ developing the dedicated module <code>bucket4j-coherence</code> was the only way
 </div>
 </div>
 <div class="sect3">
-<h4 id="example-of-bucket-instantiation-4"><a class="anchor" href="#example-of-bucket-instantiation-4"></a>4.3.2. Example of Bucket instantiation</h4>
+<h4 id="example-of-bucket-instantiation-4"><a class="anchor" href="#example-of-bucket-instantiation-4"></a>3.5.2. Example of Bucket instantiation</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">com.tangosol.net.NamedCache&lt;K, GridBucketState&gt; cache = ...;
@@ -2788,7 +2787,7 @@ Bucket bucket = Bucket4j.extension(Coherence.class).builder()
 </div>
 </div>
 <div class="sect3">
-<h4 id="example-of-proxymanager-instantiation-4"><a class="anchor" href="#example-of-proxymanager-instantiation-4"></a>4.3.3. Example of ProxyManager instantiation</h4>
+<h4 id="example-of-proxymanager-instantiation-4"><a class="anchor" href="#example-of-proxymanager-instantiation-4"></a>3.5.3. Example of ProxyManager instantiation</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">com.tangosol.net.NamedCache&lt;K, GridBucketState&gt; cache = ...;
@@ -2798,7 +2797,7 @@ ProxyManager proxyManager = Bucket4j.extension(Coherence.class).proxyManagerForC
 </div>
 </div>
 <div class="sect3">
-<h4 id="configuring-pof-serialization-for-bucket4j-library-classes"><a class="anchor" href="#configuring-pof-serialization-for-bucket4j-library-classes"></a>4.3.4. Configuring POF serialization for Bucket4j library classes</h4>
+<h4 id="configuring-pof-serialization-for-bucket4j-library-classes"><a class="anchor" href="#configuring-pof-serialization-for-bucket4j-library-classes"></a>3.5.4. Configuring POF serialization for Bucket4j library classes</h4>
 <div class="paragraph">
 <p>If you configure nothing, then by default Java serialization will be used for serialization Bucket4j library classes. Java serialization can be rather slow and should be avoided in general.
 <code>Bucket4j</code> provides <a href="https://docs.oracle.com/cd/E24290_01/coh.371/e22837/api_pof.htm#COHDG1363">custom POF serializers</a> for all library classes that could be transferred over network.
@@ -2852,7 +2851,7 @@ To let Coherence know about POF serializers you should register three serializer
 </div>
 </div>
 <div class="sect2">
-<h3 id="asynchronous-api"><a class="anchor" href="#asynchronous-api"></a>4.4. Asynchronous API</h3>
+<h3 id="asynchronous-api"><a class="anchor" href="#asynchronous-api"></a>3.6. Asynchronous API</h3>
 <div class="paragraph">
 <p>Since version <code>3.0</code> Bucket4j provides asynchronous analogs for majority of API methods.
 Async view of bucket is availble through <code>asAsync()</code> method:</p>
@@ -2868,7 +2867,7 @@ AsyncBucket asyncBucket = bucket.asAsync();</code></pre>
  has full equivalence with same semantic in synchronous version in the [Bucket](<a href="https://github.com/vladimir-bukhtoyarov/bucket4j/blob/3.0/bucket4j-core/src/main/java/io/github/bucket4j/Bucket.java" class="bare">https://github.com/vladimir-bukhtoyarov/bucket4j/blob/3.0/bucket4j-core/src/main/java/io/github/bucket4j/Bucket.java</a>) class.</p>
 </div>
 <div class="sect3">
-<h4 id="example-limiting-the-rate-of-access-to-asynchronous-servlet"><a class="anchor" href="#example-limiting-the-rate-of-access-to-asynchronous-servlet"></a>4.4.1. Example - limiting the rate of access to asynchronous servlet</h4>
+<h4 id="example-limiting-the-rate-of-access-to-asynchronous-servlet"><a class="anchor" href="#example-limiting-the-rate-of-access-to-asynchronous-servlet"></a>3.6.1. Example - limiting the rate of access to asynchronous servlet</h4>
 <div class="paragraph">
 <p>Imagine that you develop SMS service, which allows send SMS via HTTP interface.
 You want from your architecture to be protected from overloading, clustered and fully asynchronous.</p>
@@ -2984,7 +2983,7 @@ non-blocking architecture means that both SMS sending and limit checking should 
 </div>
 </div>
 <div class="sect2">
-<h3 id="production-checklist-especially-in-the-context-of-distributed-systems"><a class="anchor" href="#production-checklist-especially-in-the-context-of-distributed-systems"></a>4.5. Production checklist especially in the context of distributed systems</h3>
+<h3 id="production-checklist-especially-in-the-context-of-distributed-systems"><a class="anchor" href="#production-checklist-especially-in-the-context-of-distributed-systems"></a>3.7. Production checklist especially in the context of distributed systems</h3>
 <div class="paragraph">
 <p>Before using Bucket4j in clustered scenario you need to understand, agree and configure following points:</p>
 </div>
@@ -3036,12 +3035,12 @@ Instead Bucket4j relies on <strong>you</strong> to configure the cache with prop
 </div>
 </div>
 <div class="sect1">
-<h2 id="advanced-features"><a class="anchor" href="#advanced-features"></a>5. Advanced features</h2>
+<h2 id="advanced-features"><a class="anchor" href="#advanced-features"></a>4. Advanced features</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="listener"><a class="anchor" href="#listener"></a>5.1. Listening for bucket events</h3>
+<h3 id="listener"><a class="anchor" href="#listener"></a>4.1. Listening for bucket events</h3>
 <div class="sect3">
-<h4 id="what-can-be-listened"><a class="anchor" href="#what-can-be-listened"></a>5.1.1. What can be listened</h4>
+<h4 id="what-can-be-listened"><a class="anchor" href="#what-can-be-listened"></a>4.1.1. What can be listened</h4>
 <div class="ulist">
 <div class="title">You can decorate the bucket by listener in order to track following events:</div>
 <ul>
@@ -3064,7 +3063,7 @@ Instead Bucket4j relies on <strong>you</strong> to configure the cache with prop
 </div>
 </div>
 <div class="sect3">
-<h4 id="listener-api-corner-cases"><a class="anchor" href="#listener-api-corner-cases"></a>5.1.2. Listener API - corner cases</h4>
+<h4 id="listener-api-corner-cases"><a class="anchor" href="#listener-api-corner-cases"></a>4.1.2. Listener API - corner cases</h4>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
@@ -3110,7 +3109,7 @@ You can do post-aggregation of monitoring statistics via features built-into you
 </div>
 </div>
 <div class="sect3">
-<h4 id="how-to-attach-listener-to-bucket"><a class="anchor" href="#how-to-attach-listener-to-bucket"></a>5.1.3. How to attach listener to bucket?</h4>
+<h4 id="how-to-attach-listener-to-bucket"><a class="anchor" href="#how-to-attach-listener-to-bucket"></a>4.1.3. How to attach listener to bucket?</h4>
 <div class="paragraph">
 <p>The bucket can be decorated by listener via <code>toListenable</code> method.</p>
 </div>
@@ -3126,7 +3125,7 @@ Bucket bucket = Bucket4j.builder()
 </div>
 </div>
 <div class="sect3">
-<h4 id="example-of-integration-with-dropwizard-metrics-core"><a class="anchor" href="#example-of-integration-with-dropwizard-metrics-core"></a>5.1.4. Example of integration with Dropwizard metrics-core</h4>
+<h4 id="example-of-integration-with-dropwizard-metrics-core"><a class="anchor" href="#example-of-integration-with-dropwizard-metrics-core"></a>4.1.4. Example of integration with Dropwizard metrics-core</h4>
 <div class="paragraph">
 <p><code>io.github.bucket4j.SimpleBucketListener</code> is simple implementation of <code>io.github.bucket4j.BucketListener</code> interface that available out of the box. Bellow the example of exposing statistics via Dropwizard Metrics(for Micrometer it should be quite similar):</p>
 </div>
@@ -3147,7 +3146,7 @@ Bucket bucket = Bucket4j.builder()
 </div>
 </div>
 <div class="sect2">
-<h3 id="verbose-api"><a class="anchor" href="#verbose-api"></a>5.2. Verbose API</h3>
+<h3 id="verbose-api"><a class="anchor" href="#verbose-api"></a>4.2. Verbose API</h3>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Verbose API</dt>
@@ -3161,7 +3160,7 @@ Bucket bucket = Bucket4j.builder()
 </dl>
 </div>
 <div class="sect3">
-<h4 id="verbose-api-entry-points"><a class="anchor" href="#verbose-api-entry-points"></a>5.2.1. Verbose API entry-points</h4>
+<h4 id="verbose-api-entry-points"><a class="anchor" href="#verbose-api-entry-points"></a>4.2.1. Verbose API entry-points</h4>
 <div class="paragraph">
 <p>The way to get access for <code>Verbose API</code> is the same for all type of buckets, just call <code>asVerbose()</code> method:</p>
 </div>
@@ -3207,7 +3206,7 @@ BlockingBucket and ScheduledBucket do not provide the verbose analogs. VerboseRe
 </div>
 </div>
 <div class="sect3">
-<h4 id="principles-of-result-decoration"><a class="anchor" href="#principles-of-result-decoration"></a>5.2.2. Principles of result decoration</h4>
+<h4 id="principles-of-result-decoration"><a class="anchor" href="#principles-of-result-decoration"></a>4.2.2. Principles of result decoration</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -3223,7 +3222,7 @@ BlockingBucket and ScheduledBucket do not provide the verbose analogs. VerboseRe
 </div>
 </div>
 <div class="sect3">
-<h4 id="example-of-verbose-api-usage"><a class="anchor" href="#example-of-verbose-api-usage"></a>5.2.3. Example of Verbose API usage</h4>
+<h4 id="example-of-verbose-api-usage"><a class="anchor" href="#example-of-verbose-api-usage"></a>4.2.3. Example of Verbose API usage</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">VerboseResult&lt;ConsumptionProbe&gt; verboseResult = bucket.asVerbose().tryConsumeAndReturnRemaining(numberOfTokens);
@@ -3254,13 +3253,13 @@ if (probe.isConsumed()) {
 </div>
 </div>
 <div class="sect2">
-<h3 id="configuration-replacement"><a class="anchor" href="#configuration-replacement"></a>5.3. On-the-fly configuration replacement</h3>
+<h3 id="configuration-replacement"><a class="anchor" href="#configuration-replacement"></a>4.3. On-the-fly configuration replacement</h3>
 <div class="paragraph">
 <p>As previously mentioned in the definition for <a href="#bucket-bonfiguration">BucketConfiguration</a> it is immutable object.
 It is not possible to add, remove or change the limits for already created configuration, however, you can replace configuration of bucket via creating new configuration instance and calling <code>bucket.replaceConfiguration(newConfiguration, tokensInheritanceStrategy)</code>.</p>
 </div>
 <div class="sect3">
-<h4 id="why-configuration-replacement-is-not-trivial"><a class="anchor" href="#why-configuration-replacement-is-not-trivial"></a>5.3.1. Why configuration replacement is not trivial?</h4>
+<h4 id="why-configuration-replacement-is-not-trivial"><a class="anchor" href="#why-configuration-replacement-is-not-trivial"></a>4.3.1. Why configuration replacement is not trivial?</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3303,7 +3302,7 @@ bucket.replaceConfiguration(newConfiguration, TokensInheritanceStrategy.AS_IS);<
 </div>
 </div>
 <div class="sect3">
-<h4 id="taking-control-over-replacement-process-via-bandwidth-identifiers"><a class="anchor" href="#taking-control-over-replacement-process-via-bandwidth-identifiers"></a>5.3.2. Taking control over replacement process via bandwidth identifiers</h4>
+<h4 id="taking-control-over-replacement-process-via-bandwidth-identifiers"><a class="anchor" href="#taking-control-over-replacement-process-via-bandwidth-identifiers"></a>4.3.2. Taking control over replacement process via bandwidth identifiers</h4>
 <div class="paragraph">
 <p>Instead of inventing the backward maggic Bucket4j provides to you ability to deap controll of this process by specifying identifiers for bandwidth,
 so in case of multiple bandwidth configuratoin replacement code can copy available tokens by bandwidth ID. So it is better to rewrite code above as following:</p>
@@ -3338,7 +3337,7 @@ so in case of multiple bandwidth configuratoin replacement code can copy availab
 </div>
 </div>
 <div class="sect3">
-<h4 id="tokensinheritancestrategy-explanation"><a class="anchor" href="#tokensinheritancestrategy-explanation"></a>5.3.3. TokensInheritanceStrategy explanation</h4>
+<h4 id="tokensinheritancestrategy-explanation"><a class="anchor" href="#tokensinheritancestrategy-explanation"></a>4.3.3. TokensInheritanceStrategy explanation</h4>
 <div class="paragraph">
 <p><strong>TokensInheritanceStrategy</strong> specifies the rules for inheritance of available tokens during configuration replacement process.</p>
 </div>
