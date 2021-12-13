@@ -445,7 +445,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Bucket4j 7.0.0 Reference</h1>
 <div class="details">
 <span id="revnumber">version 7.0.0,</span>
-<span id="revdate">2021-12-01 16</span>
+<span id="revdate">2021-12-13 18</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -538,17 +538,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#distributed-facilities">3. Distributed facilities</a>
 <ul class="sectlevel2">
-<li><a href="#jcache-integration">3.1. JCache integration</a>
+<li><a href="#bucket4j-jcache">3.1. JCache integration</a>
 <ul class="sectlevel3">
 <li><a href="#example-1-limiting-access-to-http-server-by-ip-address">3.1.1. Example 1 - limiting access to HTTP server by IP address</a></li>
 <li><a href="#example-2-limiting-access-to-service-by-contract-agreements">3.1.2. Example 2 - limiting access to service by contract agreements</a></li>
-<li><a href="#example-3-working-with-jcache-without-proxymanager-abstraction">3.1.3. Example 3 - working with JCache without ProxyManager abstraction</a></li>
-<li><a href="#runnable-examples-of-jcache-integration">3.1.4. Runnable examples of JCache integration</a></li>
-<li><a href="#why-jcache-specification-is-not-enough-and-since-3-0-were-introduced-the-dedicated-modules-for-infinispan-hazelcast-and-ignite">3.1.5. Why JCache specification is not enough and since 3.0 were introduced the dedicated modules for Infinispan, Hazelcast and Ignite?</a></li>
-<li><a href="#verification-of-compatibility-with-particular-jcache-provider-is-your-responsibility">3.1.6. Verification of compatibility with particular JCache provider is your responsibility</a></li>
+<li><a href="#why-jcache-specification-is-not-enough-in-modern-stacks-and-since-3-0-were-introduced-the-dedicated-modules-for-infinispan-hazelcast-coherence-and-ignite">3.1.3. Why JCache specification is not enough in modern stacks and since 3.0 were introduced the dedicated modules for Infinispan, Hazelcast, Coherence and Ignite?</a></li>
+<li><a href="#verification-of-compatibility-with-particular-jcache-provider-is-your-responsibility">3.1.4. Verification of compatibility with particular JCache provider is your responsibility</a></li>
 </ul>
 </li>
-<li><a href="#hazelcast-integration">3.2. Hazelcast integration</a>
+<li><a href="#bucket4j-hazelcast">3.2. Hazelcast integration</a>
 <ul class="sectlevel3">
 <li><a href="#dependencies">3.2.1. Dependencies</a></li>
 <li><a href="#general-compatibility-matrix-principles">3.2.2. General compatibility matrix principles:</a></li>
@@ -558,7 +556,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#known-issues-related-with-docker-andor-springboot">3.2.6. Known issues related with Docker and(or) SpringBoot</a></li>
 </ul>
 </li>
-<li><a href="#apache-ignite-integration">3.3. Apache Ignite integration</a>
+<li><a href="#bucket4j-ignite">3.3. Apache Ignite integration</a>
 <ul class="sectlevel3">
 <li><a href="#dependencies-2">3.3.1. Dependencies</a></li>
 <li><a href="#example-of-bucket-instantiation-2">3.3.2. Example of Bucket instantiation</a></li>
@@ -567,7 +565,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#example-of-proxymanager-instantiation-via-thin-client">3.3.5. Example of ProxyManager instantiation via Thin Client</a></li>
 </ul>
 </li>
-<li><a href="#infinispan-integration">3.4. Infinispan integration</a>
+<li><a href="#bucket4j-infinispan">3.4. Infinispan integration</a>
 <ul class="sectlevel3">
 <li><a href="#dependencies-3">3.4.1. Dependencies</a></li>
 <li><a href="#general-compatibility-matrix-principles-2">3.4.2. General compatibility matrix principles::</a></li>
@@ -576,7 +574,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#example-of-proxymanager-instantiation-3">3.4.5. Example of ProxyManager instantiation</a></li>
 </ul>
 </li>
-<li><a href="#oracle-coherence-integration">3.5. Oracle Coherence integration</a>
+<li><a href="#bucket4j-coherence">3.5. Oracle Coherence integration</a>
 <ul class="sectlevel3">
 <li><a href="#dependencies-4">3.5.1. Dependencies</a></li>
 <li><a href="#example-of-bucket-instantiation-4">3.5.2. Example of Bucket instantiation</a></li>
@@ -589,7 +587,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#example-limiting-the-rate-of-access-to-asynchronous-servlet">3.6.1. Example - limiting the rate of access to asynchronous servlet</a></li>
 </ul>
 </li>
-<li><a href="#production-checklist-especially-in-the-context-of-distributed-systems">3.7. Production checklist especially in the context of distributed systems</a></li>
+<li><a href="#distributed-checklist">3.7. Production checklist especially in the context of distributed systems</a></li>
 </ul>
 </li>
 <li><a href="#advanced-features">4. Advanced features</a>
@@ -2082,12 +2080,21 @@ But an efficient memory footprint has its own cost - bandwidth limitation is onl
 <h2 id="distributed-facilities"><a class="anchor" href="#distributed-facilities"></a>3. Distributed facilities</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="jcache-integration"><a class="anchor" href="#jcache-integration"></a>3.1. JCache integration</h3>
+<h3 id="bucket4j-jcache"><a class="anchor" href="#bucket4j-jcache"></a>3.1. JCache integration</h3>
 <div class="paragraph">
 <p><code>Bucket4j</code> supports any GRID solution which compatible with <a href="https://www.jcp.org/en/jsr/detail?id=107">JCache API (JSR 107)</a> specification.</p>
 </div>
-<div class="paragraph">
-<p><strong>Do not forget to read</strong> [JCache production checklist](production-jcache-checklist.md) <strong>before using the Bucket4j over JCache cluster.</strong></p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Do not forget to read <a href="#distributed-checklist">Distributed usage checklist</a>  before using the Bucket4j over JCache cluster.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>To use JCache extension you also need to add following dependency:</p>
@@ -2115,9 +2122,13 @@ But an efficient memory footprint has its own cost - bandwidth limitation is onl
 </div>
 <div class="sect3">
 <h4 id="example-1-limiting-access-to-http-server-by-ip-address"><a class="anchor" href="#example-1-limiting-access-to-http-server-by-ip-address"></a>3.1.1. Example 1 - limiting access to HTTP server by IP address</h4>
+<div class="quoteblock">
+<blockquote>
 <div class="paragraph">
 <p>Imagine that you develop any Servlet based WEB application and want to limit access per IP basis.
 You want to use same limits for each IP - 30 requests per minute.</p>
+</div>
+</blockquote>
 </div>
 <div class="paragraph">
 <p>ServletFilter would be obvious place to check limits:</p>
@@ -2132,7 +2143,7 @@ You want to use same limits for each IP - 30 requests per minute.</p>
 
     // cache for storing token buckets, where IP is key.
     @Inject
-    private javax.cache.Cache&lt;String, GridBucketState&gt; cache;
+    private javax.cache.Cache&lt;String, byte[]&gt; cache;
 
     private ProxyManager&lt;String&gt; buckets;
 
@@ -2169,14 +2180,17 @@ You want to use same limits for each IP - 30 requests per minute.</p>
 </div>
 <div class="sect3">
 <h4 id="example-2-limiting-access-to-service-by-contract-agreements"><a class="anchor" href="#example-2-limiting-access-to-service-by-contract-agreements"></a>3.1.2. Example 2 - limiting access to service by contract agreements</h4>
+<div class="quoteblock">
+<blockquote>
 <div class="paragraph">
-<p>Imagine that you provides paid language translation service via HTTP.
-Each your user has unique agreement which differs from each other.
+<p>Imagine that you provide paid language translation service via HTTP. Each user has unique agreement which differs from each other.
 Details of each agreement is stored in relational database, and takes significant time to fetch(for example 100ms).
 The example above will not work fine in this case, because time to create/fetch configuration of bucket from database
 will be 100 times slower than limit-checking itself.
 Bucket4j solves this problem via lazy configuration suppliers which are called if and only if bucket was not yet stored in grid,
 thus it is possible to implement solution  that will read agreement from database once per each user.</p>
+</div>
+</blockquote>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2188,14 +2202,14 @@ thus it is possible to implement solution  that will read agreement from databas
 
     // cache for storing token buckets, where IP is key.
     @Inject
-    private javax.cache.Cache&lt;String, GridBucketState&gt; cache;
+    private javax.cache.Cache&lt;String, byte[]&gt; cache;
 
     private ProxyManager&lt;String&gt; buckets;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
          // init bucket registry
-         buckets = Bucket4j.extension(JCache.class).proxyManagerForCache(cache);
+         buckets = new JCacheProxyManager&lt;&gt;(getCache(), ClientSideConfig.getDefault());
     }
 
     @Override
@@ -2207,7 +2221,7 @@ thus it is possible to implement solution  that will read agreement from databas
         Supplier&lt;BucketConfiguration&gt; configurationLazySupplier = getConfigSupplierForUser(userId);
 
         // acquire cheap proxy to bucket
-        Bucket bucket = buckets.getProxy(ip, configurationLazySupplier);
+        Bucket bucket = proxyManager.builder().build(key, configurationLazySupplier);
 
         // tryConsume returns false immediately if no tokens available with the bucket
         if (bucket.tryConsume(1)) {
@@ -2234,122 +2248,67 @@ thus it is possible to implement solution  that will read agreement from databas
 }</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p><strong>Question:</strong> is the provided JCache integration safe across multiple JVMs? Does it ensure that two nodes creating a bucket simultaneously on a given Cache&lt;K, V&gt; will only actually create one single bucket (without resetting a previously created one with the same key)?
-<strong>Answer:</strong> Yes. JCache integration is safe for multi node environment, Bucket4j never replaces bucket which already exists.
-This behavior is guaranteed by <strong>putIfAbsent</strong> method contract of [javax.cache.Cache](<a href="http://static.javadoc.io/javax.cache/cache-api/1.0.0/javax/cache/Cache.html" class="bare">http://static.javadoc.io/javax.cache/cache-api/1.0.0/javax/cache/Cache.html</a>) class.</p>
-</div>
-<div class="paragraph">
-<p><strong>Question:</strong> Does ProxyManager store buckets internally, could be this a reason of OutOfMemoryError?
-<strong>Answer:</strong> No. ProxyManager stores nothing about buckets which it returns, the buckets actually stored in in-memory GRID outside client JVM.
-Think about proxy returned by <code>ProxyManager#getBucket</code> just about very cheap pointer to data which actually stored somewhere outside.
-So, independently of count of buckets ProxyManager will never be a reason of crash or extreme memory consumption.</p>
-</div>
-<div class="paragraph">
-<p><strong>Question:</strong> what will happen if bucket state will be lost in the GRID  because of split-brain, human mistake or pragmatically errors introduced by GRID vendor?
-<strong>Answer:</strong> ProxyManager automatically detect this kind of situations and save bucket yet another time, to reconstruct bucket it uses provided configuration supplier.
-Reconstructed bucket remembers nothing about previously consumed tokens, so limit can be exceeded in this kind of GRID failures.</p>
-</div>
-<div class="paragraph">
-<p><strong>Question:</strong> should I always work with JCache through ProxyManager?
-<strong>Answer:</strong> It depends. When you have deal with potentially huge and unpredictable amount of buckets, it is always better to use ProxyManager.
-ProxyManager protects you from common performance pitfalls(like described in <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issues/26">this issue</a>).
-But when you have deal with one or few buckets which well known at development time, then it would be better to avoid ProxyManager
-and work directly with [GridBucket](<a href="https://github.com/vladimir-bukhtoyarov/bucket4j/blob/2.0/bucket4j-core/src/main/java/io/github/bucket4j/grid/GridBucket.java" class="bare">https://github.com/vladimir-bukhtoyarov/bucket4j/blob/2.0/bucket4j-core/src/main/java/io/github/bucket4j/grid/GridBucket.java</a>) as described in the next example.</p>
-</div>
 </div>
 <div class="sect3">
-<h4 id="example-3-working-with-jcache-without-proxymanager-abstraction"><a class="anchor" href="#example-3-working-with-jcache-without-proxymanager-abstraction"></a>3.1.3. Example 3 - working with JCache without ProxyManager abstraction</h4>
+<h4 id="why-jcache-specification-is-not-enough-in-modern-stacks-and-since-3-0-were-introduced-the-dedicated-modules-for-infinispan-hazelcast-coherence-and-ignite"><a class="anchor" href="#why-jcache-specification-is-not-enough-in-modern-stacks-and-since-3-0-were-introduced-the-dedicated-modules-for-infinispan-hazelcast-coherence-and-ignite"></a>3.1.3. Why JCache specification is not enough in modern stacks and since 3.0 were introduced the dedicated modules for Infinispan, Hazelcast, Coherence and Ignite?</h4>
 <div class="paragraph">
-<p>Imagine yet another time that you develop WEB application and want to protect the whole cluster by 1000 requests per second, independently from request source,
-in other words you need one single bucket which protects the system at whole. Lets create ServletFilter to check limits similar to <code>Example 1</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class GlobalThrottlingFilter implements javax.servlet.Filter {
-
-    private static final String BUCKET_ID = "global-limit";
-
-    @Inject
-    private javax.cache.Cache&lt;String, GridBucketState&gt; cache;
-
-    private Bucket bucket;
-
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-         // create bucket
-         bucket = Bucket4j.extension(JCache.class).builder()
-             .addLimit(Bandwidth.simple(1000, Duration.ofSeconds(1)))
-             .build(cache, BUCKET_ID, RecoveryStrategy.RECONSTRUCT);
-    }
-
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        // tryConsume returns false immediately if no tokens available with the bucket
-        if (bucket.tryConsume(1)) {
-            // the limit is not exceeded
-            filterChain.doFilter(servletRequest, servletResponse);
-        } else {
-            // limit is exceeded
-            HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
-            httpResponse.setContentType("text/plain");
-            httpResponse.setStatus(429);
-            httpResponse.getWriter().append("Too many requests");
-        }
-    }
-
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>As you can see the code is simpler when you work with Bucket directly without ProxyManager, so use this way always when all buckets are known at development time.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="runnable-examples-of-jcache-integration"><a class="anchor" href="#runnable-examples-of-jcache-integration"></a>3.1.4. Runnable examples of JCache integration</h4>
-<div class="paragraph">
-<p>Bucket4j well tested with <code>Hazelcast</code> and <code>Apache Ignite/GridGain</code>, you can use integration tests from <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/tree/2.0/bucket4j-jcache/src/test/java/io/github/bucket4j/grid/jcache">this folder</a> as live examples.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="why-jcache-specification-is-not-enough-and-since-3-0-were-introduced-the-dedicated-modules-for-infinispan-hazelcast-and-ignite"><a class="anchor" href="#why-jcache-specification-is-not-enough-and-since-3-0-were-introduced-the-dedicated-modules-for-infinispan-hazelcast-and-ignite"></a>3.1.5. Why JCache specification is not enough and since 3.0 were introduced the dedicated modules for Infinispan, Hazelcast and Ignite?</h4>
-<div class="paragraph">
-<p>Asynchronous processing is very important for high-throughput applications, but JCache specification does not specify asynchronous API, because two early attempts to bring this kind functionality at spec level <a href="https://github.com/jsr107/jsr107spec/issues/307">307</a>, <a href="https://github.com/jsr107/jsr107spec/issues/312">312</a> were failed in absence of consensus.
-Sad, but true, if you need for asynchronous API, then JCache extension is useless, and you need to choose from following extensions:</p>
+<p>Asynchronous processing is very important for high-throughput applications, but JCache specification does not specify asynchronous API, because two early attempts to bring this kind functionality at spec level <a href="https://github.com/jsr107/jsr107spec/issues/307">307</a>, <a href="https://github.com/jsr107/jsr107spec/issues/312">312</a> were failed in absence of consensus.</p>
 </div>
 <div class="ulist">
+<div class="title">Sad, but true, if you need for asynchronous API, then JCache extension is useless, and you need to choose from following extensions:</div>
 <ul>
 <li>
-<p>[bucket4j-ignite](ignite.md)</p>
+<p><a href="#bucket4j-ignite">bucket4j-ignite</a></p>
 </li>
 <li>
-<p>[bucket4j-hazelcast](hazelcast.md)</p>
+<p><a href="#bucket4j-hazelcast">bucket4j-hazelcast</a></p>
 </li>
 <li>
-<p>[bucket4j-infinispan](infinispan.md)</p>
+<p><a href="#bucket4j-infinispan">bucket4j-infinispan</a></p>
+</li>
+<li>
+<p><a href="#bucket4j-coherence">bucket4j-coherence</a></p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Of course implementation the asynchronous support for any other JCache provider outside from the list above should be easy exercise,
-so feel free to return back the pull request addressed to cover your favorite JCache provider.</p>
+<p>Also, implementation the asynchronous support for any other JCache provider outside from the list above should be easy exercise, so feel free to return back the pull request addressed to cover your favorite JCache provider.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="verification-of-compatibility-with-particular-jcache-provider-is-your-responsibility"><a class="anchor" href="#verification-of-compatibility-with-particular-jcache-provider-is-your-responsibility"></a>3.1.6. Verification of compatibility with particular JCache provider is your responsibility</h4>
-<div class="paragraph">
-<p>Keep in mind that there are many non-certified implementations of JCache specification on the market.
+<h4 id="verification-of-compatibility-with-particular-jcache-provider-is-your-responsibility"><a class="anchor" href="#verification-of-compatibility-with-particular-jcache-provider-is-your-responsibility"></a>3.1.4. Verification of compatibility with particular JCache provider is your responsibility</h4>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Keep in mind that there are many non-certified implementations of JCache specification on the market.
 Many of them want to increase their popularity by declaring support for the JCache API,
 but often only the API is supported and the semantic of JCache is totally ignored.
-Usage Bucket4j with this kind of libraries should be completely avoided.</p>
+Usage Bucket4j with this kind of libraries should be completely avoided.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>Bucket4j is only compatible with implementations which obey the JCache specification rules(especially related to EntryProcessor execution).
-Oracle Coherence, Apache Ignite, Hazelcast are good examples of safe implementations of JCache.</p>
+<p>Bucket4j is only compatible with implementations which obey the JCache specification rules(especially related to EntryProcessor execution). Oracle Coherence, Apache Ignite, Hazelcast are good examples of safe implementations of JCache.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Because it is impossible to test all possible JCache providers, you need to test your provider by yourself.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>Because it is impossible to test all possible JCache providers, you need to test your provider by yourself.
-Just run this code in order to be sure that your implementation of JCache provides good isolation for EntryProcessors</p>
+<p>Just run this code in order to be sure that your implementation of JCache provides good isolation for EntryProcessors</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2405,13 +2364,12 @@ public class CompatibilityTest {
 </div>
 <div class="paragraph">
 <p>The check does 4000 increments of integer in parallel and verifies that no one update has been missed.
-If check passed then your JCache provider is compatible with Bucket4j, the throttling will work fine in distributed and concurrent environment.
-If check is not passed, then reach to the particular JCache provider team and consult why its implementation misses the writes.</p>
+If check passed then your JCache provider is compatible with Bucket4j, the throttling will work fine in distributed and concurrent environment. If check is not passed, then reach to the particular JCache provider team and consult why its implementation misses the writes.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="hazelcast-integration"><a class="anchor" href="#hazelcast-integration"></a>3.2. Hazelcast integration</h3>
+<h3 id="bucket4j-hazelcast"><a class="anchor" href="#bucket4j-hazelcast"></a>3.2. Hazelcast integration</h3>
 <div class="paragraph">
 <p>Before use <code>bucket4j-hazelcast</code> module please read [bucket4j-jcache documentation](jcache-usage.md),
 because <code>bucket4j-hazelcast</code> is just a follow-up of <code>bucket4j-jcache</code>.</p>
@@ -2470,7 +2428,7 @@ just log issue to <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issu
 <h4 id="example-of-bucket-instantiation"><a class="anchor" href="#example-of-bucket-instantiation"></a>3.2.3. Example of Bucket instantiation</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IMap&lt;K, GridBucketState&gt; map = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IMap&lt;K, byte[]&gt; map = ...;
 ...
 
 Bucket bucket = Bucket4j.extension(Hazelcast.class).builder()
@@ -2483,7 +2441,7 @@ Bucket bucket = Bucket4j.extension(Hazelcast.class).builder()
 <h4 id="example-of-proxymanager-instantiation"><a class="anchor" href="#example-of-proxymanager-instantiation"></a>3.2.4. Example of ProxyManager instantiation</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IMap&lt;K, GridBucketState&gt; map = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IMap&lt;K, byte[]&gt; map = ...;
 ...
 
 ProxyManager proxyManager = Bucket4j.extension(Hazelcast.class).proxyManagerForMap(map);</code></pre>
@@ -2531,7 +2489,7 @@ import io.github.bucket4j.grid.hazelcast.serialization.HazelcastSerializer;
 </div>
 </div>
 <div class="sect2">
-<h3 id="apache-ignite-integration"><a class="anchor" href="#apache-ignite-integration"></a>3.3. Apache Ignite integration</h3>
+<h3 id="bucket4j-ignite"><a class="anchor" href="#bucket4j-ignite"></a>3.3. Apache Ignite integration</h3>
 <div class="paragraph">
 <p>Before use <code>bucket4j-ignite</code> module please read [bucket4j-jcache documentation](jcache-usage.md),
 because <code>bucket4j-ignite</code> is just a follow-up of <code>bucket4j-jcache</code>.</p>
@@ -2567,7 +2525,7 @@ developing the dedicated module <code>bucket4j-ignite</code> was the only way to
 <h4 id="example-of-bucket-instantiation-2"><a class="anchor" href="#example-of-bucket-instantiation-2"></a>3.3.2. Example of Bucket instantiation</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.IgniteCache&lt;K, GridBucketState&gt; cache = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.IgniteCache&lt;K, byte[]&gt; cache = ...;
 ...
 
 Bucket bucket = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).builder()
@@ -2580,7 +2538,7 @@ Bucket bucket = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).
 <h4 id="example-of-proxymanager-instantiation-2"><a class="anchor" href="#example-of-proxymanager-instantiation-2"></a>3.3.3. Example of ProxyManager instantiation</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.IgniteCache&lt;K, GridBucketState&gt; cache = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.IgniteCache&lt;K, byte[]&gt; cache = ...;
 ...
 
 ProxyManager proxyManager = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).proxyManagerForCache(cache);</code></pre>
@@ -2591,7 +2549,7 @@ ProxyManager proxyManager = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ig
 <h4 id="example-of-bucket-instantiation-via-thin-client"><a class="anchor" href="#example-of-bucket-instantiation-via-thin-client"></a>3.3.4. Example of Bucket instantiation via Thin Client</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.client.ClientCache&lt;K, GridBucketState&gt; cache = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.client.ClientCache&lt;K, byte[]&gt; cache = ...;
 org.apache.ignite.client.ClientCompute clientCompute = ...;
 
 ...
@@ -2606,7 +2564,7 @@ Bucket bucket = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).
 <h4 id="example-of-proxymanager-instantiation-via-thin-client"><a class="anchor" href="#example-of-proxymanager-instantiation-via-thin-client"></a>3.3.5. Example of ProxyManager instantiation via Thin Client</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.client.ClientCache&lt;K, GridBucketState&gt; cache = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.client.ClientCache&lt;K, bute[]&gt; cache = ...;
 org.apache.ignite.client.ClientCompute clientCompute = ...;
 ...
 
@@ -2616,7 +2574,7 @@ ProxyManager proxyManager = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ig
 </div>
 </div>
 <div class="sect2">
-<h3 id="infinispan-integration"><a class="anchor" href="#infinispan-integration"></a>3.4. Infinispan integration</h3>
+<h3 id="bucket4j-infinispan"><a class="anchor" href="#bucket4j-infinispan"></a>3.4. Infinispan integration</h3>
 <div class="paragraph">
 <p>Before use <code>bucket4j-infinispan</code> module please read [bucket4j-jcache documentation](jcache-usage.md),
 because <code>bucket4j-infinispan</code> is just a follow-up of <code>bucket4j-jcache</code>.</p>
@@ -2723,7 +2681,7 @@ all neccessary Protobuffers configs generated by <code>Bucket4jProtobufContextIn
 <h4 id="example-of-bucket-instantiation-3"><a class="anchor" href="#example-of-bucket-instantiation-3"></a>3.4.4. Example of Bucket instantiation</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.infinispan.functional.FunctionalMap.ReadWriteMap&lt;K, GridBucketState&gt; map = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.infinispan.functional.FunctionalMap.ReadWriteMap&lt;K, byte[]&gt; map = ...;
 ...
 Bucket bucket = Bucket4j.extension(Infinispan.class).builder()
                    .addLimit(Bandwidth.simple(1_000, Duration.ofMinutes(1)))
@@ -2735,7 +2693,7 @@ Bucket bucket = Bucket4j.extension(Infinispan.class).builder()
 <h4 id="example-of-proxymanager-instantiation-3"><a class="anchor" href="#example-of-proxymanager-instantiation-3"></a>3.4.5. Example of ProxyManager instantiation</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.infinispan.functional.FunctionalMap.ReadWriteMap&lt;K, GridBucketState&gt; map = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.infinispan.functional.FunctionalMap.ReadWriteMap&lt;K, byte[]&gt; map = ...;
 ...
 
 ProxyManager proxyManager = Bucket4j.extension(Infinispan.class).proxyManagerForMap(map);</code></pre>
@@ -2744,7 +2702,7 @@ ProxyManager proxyManager = Bucket4j.extension(Infinispan.class).proxyManagerFor
 </div>
 </div>
 <div class="sect2">
-<h3 id="oracle-coherence-integration"><a class="anchor" href="#oracle-coherence-integration"></a>3.5. Oracle Coherence integration</h3>
+<h3 id="bucket4j-coherence"><a class="anchor" href="#bucket4j-coherence"></a>3.5. Oracle Coherence integration</h3>
 <div class="paragraph">
 <p>Before use <code>bucket4j-coherence</code> module please read [bucket4j-jcache documentation](jcache-usage.md),
 because <code>bucket4j-coherence</code> is just a follow-up of <code>bucket4j-jcache</code>.</p>
@@ -2777,7 +2735,7 @@ developing the dedicated module <code>bucket4j-coherence</code> was the only way
 <h4 id="example-of-bucket-instantiation-4"><a class="anchor" href="#example-of-bucket-instantiation-4"></a>3.5.2. Example of Bucket instantiation</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">com.tangosol.net.NamedCache&lt;K, GridBucketState&gt; cache = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">com.tangosol.net.NamedCache&lt;K, byte[]&gt; cache = ...;
 ...
 
 Bucket bucket = Bucket4j.extension(Coherence.class).builder()
@@ -2790,7 +2748,7 @@ Bucket bucket = Bucket4j.extension(Coherence.class).builder()
 <h4 id="example-of-proxymanager-instantiation-4"><a class="anchor" href="#example-of-proxymanager-instantiation-4"></a>3.5.3. Example of ProxyManager instantiation</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">com.tangosol.net.NamedCache&lt;K, GridBucketState&gt; cache = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">com.tangosol.net.NamedCache&lt;K, byte[]&gt; cache = ...;
 
 ProxyManager proxyManager = Bucket4j.extension(Coherence.class).proxyManagerForCache(cache);</code></pre>
 </div>
@@ -2924,7 +2882,7 @@ non-blocking architecture means that both SMS sending and limit checking should 
 
         smsSender = (SmsSender) ctx.getAttribute("sms-sender");
 
-        FunctionalMapImpl&lt;String, GridBucketState&gt; bucketMap = (FunctionalMapImpl&lt;String, GridBucketState&gt;) ctx.getAttribute("bucket-map");
+        FunctionalMapImpl&lt;String, byte[]&gt; bucketMap = (FunctionalMapImpl&lt;String, byte[]&gt;) ctx.getAttribute("bucket-map");
         this.buckets = Bucket4j.extension(Infinispan.class).proxyManagerForMap(bucketMap);
 
         this.configuration = () -&gt; {
@@ -2983,7 +2941,7 @@ non-blocking architecture means that both SMS sending and limit checking should 
 </div>
 </div>
 <div class="sect2">
-<h3 id="production-checklist-especially-in-the-context-of-distributed-systems"><a class="anchor" href="#production-checklist-especially-in-the-context-of-distributed-systems"></a>3.7. Production checklist especially in the context of distributed systems</h3>
+<h3 id="distributed-checklist"><a class="anchor" href="#distributed-checklist"></a>3.7. Production checklist especially in the context of distributed systems</h3>
 <div class="paragraph">
 <p>Before using Bucket4j in clustered scenario you need to understand, agree and configure following points:</p>
 </div>
