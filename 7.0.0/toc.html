@@ -445,7 +445,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Bucket4j 7.0.0 Reference</h1>
 <div class="details">
 <span id="revnumber">version 7.0.0,</span>
-<span id="revdate">2021-12-13 18</span>
+<span id="revdate">2021-12-15 08</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -551,18 +551,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#dependencies">3.2.1. Dependencies</a></li>
 <li><a href="#general-compatibility-matrix-principles">3.2.2. General compatibility matrix principles:</a></li>
 <li><a href="#example-of-bucket-instantiation">3.2.3. Example of Bucket instantiation</a></li>
-<li><a href="#example-of-proxymanager-instantiation">3.2.4. Example of ProxyManager instantiation</a></li>
-<li><a href="#configuring-custom-serialization-for-bucket4j-library-classes">3.2.5. Configuring Custom Serialization for Bucket4j library classes</a></li>
-<li><a href="#known-issues-related-with-docker-andor-springboot">3.2.6. Known issues related with Docker and(or) SpringBoot</a></li>
+<li><a href="#configuring-custom-serialization-for-bucket4j-library-classes">3.2.4. Configuring Custom Serialization for Bucket4j library classes</a></li>
+<li><a href="#known-issues-related-with-docker-andor-springboot">3.2.5. Known issues related with Docker and(or) SpringBoot</a></li>
 </ul>
 </li>
 <li><a href="#bucket4j-ignite">3.3. Apache Ignite integration</a>
 <ul class="sectlevel3">
 <li><a href="#dependencies-2">3.3.1. Dependencies</a></li>
-<li><a href="#example-of-bucket-instantiation-2">3.3.2. Example of Bucket instantiation</a></li>
-<li><a href="#example-of-proxymanager-instantiation-2">3.3.3. Example of ProxyManager instantiation</a></li>
-<li><a href="#example-of-bucket-instantiation-via-thin-client">3.3.4. Example of Bucket instantiation via Thin Client</a></li>
-<li><a href="#example-of-proxymanager-instantiation-via-thin-client">3.3.5. Example of ProxyManager instantiation via Thin Client</a></li>
+<li><a href="#example-of-bucket-instantiation-via-igniteproxymanager">3.3.2. Example of Bucket instantiation via IgniteProxyManager</a></li>
+<li><a href="#example-of-bucket-instantiation-via-thin-client">3.3.3. Example of Bucket instantiation via Thin Client</a></li>
+<li><a href="#example-of-bucket-instantiation-of-via-thin-client-and-ignitethinclientcasbasedproxymanager">3.3.4. Example of Bucket instantiation of via Thin Client and IgniteThinClientCasBasedProxyManager</a></li>
 </ul>
 </li>
 <li><a href="#bucket4j-infinispan">3.4. Infinispan integration</a>
@@ -570,16 +568,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#dependencies-3">3.4.1. Dependencies</a></li>
 <li><a href="#general-compatibility-matrix-principles-2">3.4.2. General compatibility matrix principles::</a></li>
 <li><a href="#special-notes-for-infinispan-10-0">3.4.3. Special notes for Infinispan 10.0+</a></li>
-<li><a href="#example-of-bucket-instantiation-3">3.4.4. Example of Bucket instantiation</a></li>
-<li><a href="#example-of-proxymanager-instantiation-3">3.4.5. Example of ProxyManager instantiation</a></li>
+<li><a href="#example-of-bucket-instantiation-2">3.4.4. Example of Bucket instantiation</a></li>
 </ul>
 </li>
 <li><a href="#bucket4j-coherence">3.5. Oracle Coherence integration</a>
 <ul class="sectlevel3">
 <li><a href="#dependencies-4">3.5.1. Dependencies</a></li>
-<li><a href="#example-of-bucket-instantiation-4">3.5.2. Example of Bucket instantiation</a></li>
-<li><a href="#example-of-proxymanager-instantiation-4">3.5.3. Example of ProxyManager instantiation</a></li>
-<li><a href="#configuring-pof-serialization-for-bucket4j-library-classes">3.5.4. Configuring POF serialization for Bucket4j library classes</a></li>
+<li><a href="#example-of-bucket-instantiation-3">3.5.2. Example of Bucket instantiation</a></li>
+<li><a href="#configuring-pof-serialization-for-bucket4j-library-classes">3.5.3. Configuring POF serialization for Bucket4j library classes</a></li>
 </ul>
 </li>
 <li><a href="#asynchronous-api">3.6. Asynchronous API</a>
@@ -751,7 +747,7 @@ But acquiring stacktraces is very cost operation by itself, and you want to do i
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// define the limit 1 time per 10 minute
 Bandwidth limit = Bandwidth.simple(1, Duration.ofMinutes(10));
 // construct the bucket
-Bucket bucket = Bucket4j.builder().addLimit(limit).build();
+Bucket bucket = Bucket.builder().addLimit(limit).build();
 
 ...
 
@@ -780,7 +776,7 @@ and by contract with provider you should poll not often than 100 times per 1 min
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// define the limit 100 times per 1 minute
 Bandwidth limit = Bandwidth.simple(100, Duration.ofMinutes(1));
 // construct the bucket
-Bucket bucket = Bucket4j.builder().addLimit(limit).build();
+Bucket bucket = Bucket.builder().addLimit(limit).build();
 
 ...
 volatile double exchangeRate;
@@ -826,7 +822,7 @@ public class ThrottlingFilter implements javax.servlet.Filter {
          long overdraft = 50;
          Refill refill = Refill.greedy(10, Duration.ofSeconds(1));
          Bandwidth limit = Bandwidth.classic(overdraft, refill);
-         return Bucket4j.builder().addLimit(limit).build();
+         return Bucket.builder().addLimit(limit).build();
     }
 
     @Override
@@ -891,7 +887,7 @@ To solve problem you can construct following bucket:</p>
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">static final long MAX_WAIT_NANOS = TimeUnit.HOURS.toNanos(1);
 // ...
 
-Bucket bucket = Bucket4j.builder()
+Bucket bucket = Bucket.builder()
        // allows 1000 tokens per 1 minute
        .addLimit(Bandwidth.simple(1000, Duration.ofMinutes(1)))
        // but not often then 50 tokens per 1 second
@@ -920,7 +916,7 @@ But sometimes, you may want to have lesser initial size, for example for case of
 Bandwidth limit = Bandwidth
     .simple(1000, Duration.ofHours(1))
     .withInitialTokens(initialTokens);
-Bucket bucket = Bucket4j.builder()
+Bucket bucket = Bucket.builder()
     .addLimit(limit)
     .build();</code></pre>
 </div>
@@ -991,7 +987,7 @@ But rarely(for example benchmarking) you wish the nanosecond precision:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket4j.builder().withNanosecondPrecision()</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket.builder().withNanosecondPrecision()</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1018,7 +1014,7 @@ if you want to use time provided by this clock instead of time provided by JVM t
 }
 
 Bandwidth limit = Bandwidth.simple(100, Duration.ofMinutes(1));
-Bucket bucket = Bucket4j.builder()
+Bucket bucket = Bucket.builder()
     .withCustomTimePrecision(new ClusteredTimeMeter())
     .addLimit(limit)
     .build();</code></pre>
@@ -1513,12 +1509,12 @@ long getAvailableTokens();</code></pre>
      * For example how does replaceConfiguration implementation should bind bandwidths to each other in the following example?
      * &lt;pre&gt;
      * &lt;code&gt;
-     *     Bucket bucket = Bucket4j.builder()
+     *     Bucket bucket = Bucket.builder()
      *                       .addLimit(Bandwidth.simple(10, Duration.ofSeconds(1)))
      *                       .addLimit(Bandwidth.simple(10000, Duration.ofHours(1)))
      *                       .build();
      *     ...
-     *     BucketConfiguration newConfiguration = Bucket4j.configurationBuilder()
+     *     BucketConfiguration newConfiguration = BucketConfiguration.builder()
      *                                               .addLimit(Bandwidth.simple(5000, Duration.ofHours(1)))
      *                                               .addLimit(Bandwidth.simple(100, Duration.ofSeconds(10)))
      *                                               .build();
@@ -1530,12 +1526,12 @@ long getAvailableTokens();</code></pre>
      * so in case of multiple bandwidth configuratoin replacement code can copy available tokens by bandwidth ID. So it is better to rewrite code above as following:
      * &lt;pre&gt;
      * &lt;code&gt;
-     * Bucket bucket = Bucket4j.builder()
+     * Bucket bucket = Bucket.builder()
      *                            .addLimit(Bandwidth.simple(10, Duration.ofSeconds(1)).withId("technical-limit"))
      *                            .addLimit(Bandwidth.simple(10000, Duration.ofHours(1)).withId("business-limit"))
      *                            .build();
      * ...
-     * BucketConfiguration newConfiguration = Bucket4j.configurationBuilder()
+     * BucketConfiguration newConfiguration = BucketConfiguration.builder()
      *                            .addLimit(Bandwidth.simple(5000, Duration.ofHours(1)).withId("business-limit"))
      *                            .addLimit(Bandwidth.simple(100, Duration.ofSeconds(10)).withId("technical-limit"))
      *                            .build();
@@ -2028,10 +2024,10 @@ you need to pay close attention to the throttling time window.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = Bucket4j.jCacheBuilder(RecoveryStrategy.RECONSTRUCT)
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = Bucket.builder()
     .addLimit(Bandwidth.simple(10000, Duration.ofSeconds(3_600))
     .addLimit(Bandwidth.simple(20, Duration.ofSeconds(1)) // attacker is unable to achieve 1000RPS and crash service in short time
-    .build(cache, bucketId);</code></pre>
+    .build();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2137,9 +2133,9 @@ You want to use same limits for each IP - 30 requests per minute.</p>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class IpThrottlingFilter implements javax.servlet.Filter {
 
-    private static final BucketConfiguration configuration = Bucket4j.configurationBuilder()
-                                                              .addLimit(Bandwidth.simple(30, Duration.ofMinutes(1)))
-                                                              .build();
+    private static final BucketConfiguration configuration = BucketConfiguration.builder()
+          .addLimit(Bandwidth.simple(30, Duration.ofMinutes(1)))
+          .build();
 
     // cache for storing token buckets, where IP is key.
     @Inject
@@ -2150,7 +2146,7 @@ You want to use same limits for each IP - 30 requests per minute.</p>
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
          // init bucket registry
-         buckets = Bucket4j.extension(JCache.class).proxyManagerForCache(cache);
+         buckets = new JCacheProxyManager&lt;&gt;(cache);
     }
 
     @Override
@@ -2159,7 +2155,7 @@ You want to use same limits for each IP - 30 requests per minute.</p>
         String ip = IpHelper.getIpFromRequest(httpRequest);
 
         // acquire cheap proxy to bucket
-        Bucket bucket = buckets.getProxy(ip, configuration);
+        Bucket bucket = proxyManager.builder().build(key, configuration);
 
         // tryConsume returns false immediately if no tokens available with the bucket
         if (bucket.tryConsume(1)) {
@@ -2209,7 +2205,7 @@ thus it is possible to implement solution  that will read agreement from databas
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
          // init bucket registry
-         buckets = new JCacheProxyManager&lt;&gt;(getCache(), ClientSideConfig.getDefault());
+         buckets = new JCacheProxyManager&lt;&gt;(cache);
     }
 
     @Override
@@ -2239,7 +2235,7 @@ thus it is possible to implement solution  that will read agreement from databas
     private Supplier&lt;BucketConfiguration&gt; getConfigSupplierForUser(String userId) {
          return () -&gt; {
              long translationsPerDay = limitProvider.readPerDayLimitFromAgreementsDatabase(userId);
-             return Bucket4j.configurationBuilder()
+             return BucketConfiguratiion.builder()
                          .addLimit(Bandwidth.simple(translationsPerDay, Duration.ofDays(1)))
                          .build();
          };
@@ -2370,19 +2366,6 @@ If check passed then your JCache provider is compatible with Bucket4j, the throt
 </div>
 <div class="sect2">
 <h3 id="bucket4j-hazelcast"><a class="anchor" href="#bucket4j-hazelcast"></a>3.2. Hazelcast integration</h3>
-<div class="paragraph">
-<p>Before use <code>bucket4j-hazelcast</code> module please read [bucket4j-jcache documentation](jcache-usage.md),
-because <code>bucket4j-hazelcast</code> is just a follow-up of <code>bucket4j-jcache</code>.</p>
-</div>
-<div class="paragraph">
-<p><strong>Question:</strong> Bucket4j already supports JCache since version <code>1.2</code>. Why it was needed to introduce direct support for <code>Hazelcast</code>?
-<strong>Answer:</strong> Because <a href="https://www.jcp.org/en/jsr/detail?id=107">JCache API (JSR 107)</a> does not specify asynchronous API,
-developing the dedicated module <code>bucket4j-hazelcast</code> was the only way to provide asynchrony for users who use <code>Bucket4j</code> and <code>Hazelcast</code> together.</p>
-</div>
-<div class="paragraph">
-<p><strong>Question:</strong> Should I migrate from <code>bucket4j-jcache</code> to <code>bucket4j-hazelcast</code> If I do not need in asynchronous API?
-<strong>Answer:</strong> No, you should not migrate to <code>bucket4j-hazelcast</code> in this case.</p>
-</div>
 <div class="sect3">
 <h4 id="dependencies"><a class="anchor" href="#dependencies"></a>3.2.1. Dependencies</h4>
 <div class="paragraph">
@@ -2429,27 +2412,19 @@ just log issue to <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issu
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IMap&lt;K, byte[]&gt; map = ...;
-...
+private static final HazelcastProxyManager&lt;K&gt; proxyManager = new HazelcastProxyManager(map);
 
-Bucket bucket = Bucket4j.extension(Hazelcast.class).builder()
-                   .addLimit(Bandwidth.simple(1_000, Duration.ofMinutes(1)))
-                   .build(map, key, RecoveryStrategy.RECONSTRUCT);</code></pre>
+...
+BucketConfiguration configuration = BucketConfiguration.builder()
+    .addLimit(Bandwidth.simple(1_000, Duration.ofMinutes(1)))
+    .build(key, configuration);
+
+Bucket bucket = proxyManager.builder().build(configuration);</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="example-of-proxymanager-instantiation"><a class="anchor" href="#example-of-proxymanager-instantiation"></a>3.2.4. Example of ProxyManager instantiation</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IMap&lt;K, byte[]&gt; map = ...;
-...
-
-ProxyManager proxyManager = Bucket4j.extension(Hazelcast.class).proxyManagerForMap(map);</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="configuring-custom-serialization-for-bucket4j-library-classes"><a class="anchor" href="#configuring-custom-serialization-for-bucket4j-library-classes"></a>3.2.5. Configuring Custom Serialization for Bucket4j library classes</h4>
+<h4 id="configuring-custom-serialization-for-bucket4j-library-classes"><a class="anchor" href="#configuring-custom-serialization-for-bucket4j-library-classes"></a>3.2.4. Configuring Custom Serialization for Bucket4j library classes</h4>
 <div class="paragraph">
 <p>If you configure nothing, then by default Java serialization will be used for serialization Bucket4j library classes. Java serialization can be rather slow and should be avoided in general.
 <code>Bucket4j</code> provides <a href="https://docs.hazelcast.org/docs/3.0/manual/html/ch03s03.html">custom serializers</a> for all library classes that could be transferred over network.
@@ -2470,19 +2445,19 @@ import io.github.bucket4j.grid.hazelcast.serialization.HazelcastSerializer;
     // and may use more types in the future, so leave enough empty space after baseTypeIdNumber
     int baseTypeIdNumber = 10000;
 
-    HazelcastSerializer.addCustomSerializers(serializationConfig, baseTypeIdNumber);</code></pre>
+    HazelcastProxyManager.addCustomSerializers(serializationConfig, baseTypeIdNumber);</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="known-issues-related-with-docker-andor-springboot"><a class="anchor" href="#known-issues-related-with-docker-andor-springboot"></a>3.2.6. Known issues related with Docker and(or) SpringBoot</h4>
+<h4 id="known-issues-related-with-docker-andor-springboot"><a class="anchor" href="#known-issues-related-with-docker-andor-springboot"></a>3.2.5. Known issues related with Docker and(or) SpringBoot</h4>
 <div class="ulist">
 <ul>
 <li>
-<p>[#186 HazelcastEntryProcessorAdapter class not found](<a href="https://github.com/vladimir-bukhtoyarov/bucket4j/discussions/186" class="bare">https://github.com/vladimir-bukhtoyarov/bucket4j/discussions/186</a>) - check file permissins inside your image.</p>
+<p><a href="https://github.com/vladimir-bukhtoyarov/bucket4j/discussions/186:">#186 HazelcastEntryProcessor class not found</a> - check file permissions inside your image.</p>
 </li>
 <li>
-<p>[#182 HazelcastSerializationException with Hazelcast 4.2](<a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issues/162" class="bare">https://github.com/vladimir-bukhtoyarov/bucket4j/issues/162</a>) - properly setup classloader for Hazelcast client configuration.</p>
+<p><a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issues/162:">#182 HazelcastSerializationException with Hazelcast 4.2</a> - properly setup classloader for Hazelcast client configuration.</p>
 </li>
 </ul>
 </div>
@@ -2522,69 +2497,90 @@ developing the dedicated module <code>bucket4j-ignite</code> was the only way to
 </div>
 </div>
 <div class="sect3">
-<h4 id="example-of-bucket-instantiation-2"><a class="anchor" href="#example-of-bucket-instantiation-2"></a>3.3.2. Example of Bucket instantiation</h4>
+<h4 id="example-of-bucket-instantiation-via-igniteproxymanager"><a class="anchor" href="#example-of-bucket-instantiation-via-igniteproxymanager"></a>3.3.2. Example of Bucket instantiation via IgniteProxyManager</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.IgniteCache&lt;K, byte[]&gt; cache = ...;
+private static final IgniteProxyManager proxyManager = new IgniteProxyManager(cache);
 ...
 
-Bucket bucket = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).builder()
-                   .addLimit(Bandwidth.simple(1_000, Duration.ofMinutes(1)))
-                   .build(cache, key, RecoveryStrategy.RECONSTRUCT);</code></pre>
+BucketConfiguration configuration = BucketConfiguration.builder()
+    .addLimit(Bandwidth.simple(1_000, Duration.ofMinutes(1)))
+    .build();
+Bucket bucket = proxyManager.builder().build(key, configuration);</code></pre>
 </div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Pay attention that IgniteProxyManager requires from all nodes in the cluster to contain bucket4j Jars in classpath.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
-<h4 id="example-of-proxymanager-instantiation-2"><a class="anchor" href="#example-of-proxymanager-instantiation-2"></a>3.3.3. Example of ProxyManager instantiation</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.IgniteCache&lt;K, byte[]&gt; cache = ...;
-...
-
-ProxyManager proxyManager = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).proxyManagerForCache(cache);</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="example-of-bucket-instantiation-via-thin-client"><a class="anchor" href="#example-of-bucket-instantiation-via-thin-client"></a>3.3.4. Example of Bucket instantiation via Thin Client</h4>
+<h4 id="example-of-bucket-instantiation-via-thin-client"><a class="anchor" href="#example-of-bucket-instantiation-via-thin-client"></a>3.3.3. Example of Bucket instantiation via Thin Client</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.client.ClientCache&lt;K, byte[]&gt; cache = ...;
 org.apache.ignite.client.ClientCompute clientCompute = ...;
-
+private static final IgniteThinClientProxyManager&lt;K&gt; proxyManager = new IgniteThinClientProxyManager(cache, clientCompute)
 ...
 
-Bucket bucket = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).builder()
-                   .addLimit(Bandwidth.simple(1_000, Duration.ofMinutes(1)))
-                   .build(clientCompute, cache, key, RecoveryStrategy.RECONSTRUCT);</code></pre>
+BucketConfiguration configuration = BucketConfiguration.builder()
+    .addLimit(Bandwidth.simple(1_000, Duration.ofMinutes(1)))
+    .build();
+Bucket bucket = proxyManager.builder().build(key, configuration);</code></pre>
 </div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Pay attention that IgniteThinClientProxyManager requires from all nodes in the cluster to contain bucket4j Jars in classpath.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
-<h4 id="example-of-proxymanager-instantiation-via-thin-client"><a class="anchor" href="#example-of-proxymanager-instantiation-via-thin-client"></a>3.3.5. Example of ProxyManager instantiation via Thin Client</h4>
+<h4 id="example-of-bucket-instantiation-of-via-thin-client-and-ignitethinclientcasbasedproxymanager"><a class="anchor" href="#example-of-bucket-instantiation-of-via-thin-client-and-ignitethinclientcasbasedproxymanager"></a>3.3.4. Example of Bucket instantiation of via Thin Client and IgniteThinClientCasBasedProxyManager</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.client.ClientCache&lt;K, bute[]&gt; cache = ...;
-org.apache.ignite.client.ClientCompute clientCompute = ...;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.apache.ignite.client.ClientCache&lt;K, byte[]&gt; cache = ...;
+private static final IgniteThinClientCasBasedProxyManager&lt;K&gt; proxyManager = new IgniteThinClientCasBasedProxyManager(cache)
 ...
 
-ProxyManager proxyManager = Bucket4j.extension(io.github.bucket4j.grid.ignite.Ignite.class).proxyManagerForCache(clientCompute, cache);</code></pre>
+BucketConfiguration configuration = BucketConfiguration.builder()
+    .addLimit(Bandwidth.simple(1_000, Duration.ofMinutes(1)))
+    .build();
+Bucket bucket = proxyManager.builder().build(key, configuration);</code></pre>
 </div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+IgniteThinClientCasBasedProxyManager does not require from all nodes in the cluster to contain bucket4j Jars in classpath, but it operates with more latency, so choose it over IgniteThinClientProxyManager if and only if you have no control over cluster classpath.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="bucket4j-infinispan"><a class="anchor" href="#bucket4j-infinispan"></a>3.4. Infinispan integration</h3>
-<div class="paragraph">
-<p>Before use <code>bucket4j-infinispan</code> module please read [bucket4j-jcache documentation](jcache-usage.md),
-because <code>bucket4j-infinispan</code> is just a follow-up of <code>bucket4j-jcache</code>.</p>
-</div>
-<div class="paragraph">
-<p><strong>Question:</strong> Bucket4j already supports JCache since version <code>1.2</code>. Why it was needed to introduce direct support for <code>Infinispan</code>?
-<strong>Answer:</strong> When you want to use Bucket4j together with Infinispan, you must always use <code>bucket4j-infinispan</code> module instead of <code>bucket4j-jcache</code>,
-because Infinispan does not provide mutual exclusion for entry-processors. Any attempt to use Infinispan via <code>bucket4j-jcache</code> will be failed with UnsupportedOperationException exception
-at bucket construction time.</p>
-</div>
 <div class="sect3">
 <h4 id="dependencies-3"><a class="anchor" href="#dependencies-3"></a>3.4.1. Dependencies</h4>
 <div class="paragraph">
@@ -2617,11 +2613,10 @@ at bucket construction time.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Bucket4j authors do not perform continues monitoring of new Infinispan releases. So, there is can be case when there is no one version of Bucket4j which is compatible with newly released Infinispan,
-just log issue to <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issues">bug tracker</a> in this case, adding support to new version of Infinispan is usually easy exercise.</p>
+<p>Bucket4j authors do not perform continues monitoring of new Infinispan releases. So, there is can be case when there is no one version of Bucket4j which is compatible with newly released Infinispan, just log issue to <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issues">bug tracker</a> in this case, adding support to new version of Infinispan is usually easy exercise.</p>
 </li>
 <li>
-<p>Integrations with legacy versions of Infinispan are not removed without a clear reason. Hence You are in safety, even you are working in a big enterprise company that does not update its infrastructure frequently because You still get new Bucket4j&#8217;s features even for legacy Infinispan&#8217;s releases.</p>
+<p>Integrations with legacy versions of Infinispan are not removed without a clear reason. Hence, you are in safety, even you are working in a big enterprise company that does not update its infrastructure frequently because You still get new Bucket4j&#8217;s features even for legacy Infinispan&#8217;s releases.</p>
 </li>
 </ul>
 </div>
@@ -2629,13 +2624,12 @@ just log issue to <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issu
 <div class="sect3">
 <h4 id="special-notes-for-infinispan-10-0"><a class="anchor" href="#special-notes-for-infinispan-10-0"></a>3.4.3. Special notes for Infinispan 10.0+</h4>
 <div class="paragraph">
-<p>As mentioned in the <a href="https://infinispan.org/docs/dev/titles/developing/developing.html#marshalling">Infinispan Marshalling documentation</a>, since release <code>10.0.0</code> Infinispan does not allow deserialization of custom payloads into Java classes.
-If you do not configure serialization(as described bellow), you will get the error like this on any attempt to use Bucket4j with brand new Infinispan release:</p>
+<p>As mentioned in the <a href="https://infinispan.org/docs/dev/titles/developing/developing.html#marshalling">Infinispan Marshalling documentation</a>, since release <code>10.0.0</code> Infinispan does not allow deserialization of custom payloads into Java classes. If you do not configure serialization(as described bellow), you will get the error like this on any attempt to use Bucket4j with brand new Infinispan release:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Jan 02, 2020 4:57:56 PM org.infinispan.marshall.persistence.impl.PersistenceMarshallerImpl objectToBuffer
-WARN: ISPN000559: Cannot marshall 'class io.github.bucket4j.grid.infinispan.SerializableFunctionAdapter'
+WARN: ISPN000559: Cannot marshall 'class io.github.bucket4j.grid.infinispan.InfinispanProcessor'
 java.lang.IllegalArgumentException: No marshaller registered for Java type io.github.bucket4j.grid.infinispan.SerializableFunctionAdapter
 	at org.infinispan.protostream.impl.SerializationContextImpl.getMarshallerDelegate(SerializationContextImpl.java:279)
 	at org.infinispan.protostream.WrappedMessage.writeMessage(WrappedMessage.java:240)
@@ -2650,10 +2644,8 @@ Do not forget to add <code>io.github.bucket4j.*</code> regexp to the whitelist i
 * And last way(recommended) just register <code>Bucket4j serialization context initializer</code> in the serialization configuration.
 You can do it in both programmatically and declarative ways:</p>
 </div>
-<div class="paragraph">
-<p><strong>Programmatic registration of Bucket4jProtobufContextInitializer</strong></p>
-</div>
 <div class="listingblock">
+<div class="title">Programmatic registration of Bucket4jProtobufContextInitializer</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.github.bucket4j.grid.infinispan.serialization.Bucket4jProtobufContextInitializer;
 import org.infinispan.configuration.global.GlobalConfigurationBuilder;
@@ -2662,10 +2654,8 @@ GlobalConfigurationBuilder builder = new GlobalConfigurationBuilder();
 builder.serialization().addContextInitializer(new Bucket4jProtobufContextInitializer());</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p><strong>Declarative registration of Bucket4jProtobufContextInitializer</strong></p>
-</div>
 <div class="listingblock">
+<div class="title">Declarative registration of Bucket4jProtobufContextInitializer</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;serialization&gt;
     &lt;context-initializer class="io.github.bucket4j.grid.infinispan.serialization.Bucket4jProtobufContextInitializer"/&gt;
@@ -2673,49 +2663,28 @@ builder.serialization().addContextInitializer(new Bucket4jProtobufContextInitial
 </div>
 </div>
 <div class="paragraph">
-<p>And that is all. Just registering <code>Bucket4jProtobufContextInitializer</code> in any way is enough to make Bucket4j compatible with ProtoStream marshaller, you do not have to care about *.proto files, annotations, whitelist etc,
-all neccessary Protobuffers configs generated by <code>Bucket4jProtobufContextInitializer</code> and registerd on the fly.</p>
+<p>And that is all. Just registering <code>Bucket4jProtobufContextInitializer</code> in any way is enough to make Bucket4j compatible with ProtoStream marshaller, you do not have to care about <code>*.proto</code> files, annotations, whitelist etc, all neccessary Protobuffers configs generated by <code>Bucket4jProtobufContextInitializer</code> and registerd on the fly.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="example-of-bucket-instantiation-3"><a class="anchor" href="#example-of-bucket-instantiation-3"></a>3.4.4. Example of Bucket instantiation</h4>
+<h4 id="example-of-bucket-instantiation-2"><a class="anchor" href="#example-of-bucket-instantiation-2"></a>3.4.4. Example of Bucket instantiation</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.infinispan.functional.FunctionalMap.ReadWriteMap&lt;K, byte[]&gt; map = ...;
-...
-Bucket bucket = Bucket4j.extension(Infinispan.class).builder()
-                   .addLimit(Bandwidth.simple(1_000, Duration.ofMinutes(1)))
-                   .build(map, key, RecoveryStrategy.RECONSTRUCT);</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="example-of-proxymanager-instantiation-3"><a class="anchor" href="#example-of-proxymanager-instantiation-3"></a>3.4.5. Example of ProxyManager instantiation</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">org.infinispan.functional.FunctionalMap.ReadWriteMap&lt;K, byte[]&gt; map = ...;
-...
+private static final InfinispanProxyManager&lt;K&gt; proxyManager = new InfinispanProxyManager(map);
 
-ProxyManager proxyManager = Bucket4j.extension(Infinispan.class).proxyManagerForMap(map);</code></pre>
+...
+BucketConfiguration configuration = BucketConfiguration.builder()
+    .addLimit(Bandwidth.simple(1_000, Duration.ofMinutes(1)))
+    .build(key, configuration);
+
+Bucket bucket = proxyManager.builder().build(configuration);</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="bucket4j-coherence"><a class="anchor" href="#bucket4j-coherence"></a>3.5. Oracle Coherence integration</h3>
-<div class="paragraph">
-<p>Before use <code>bucket4j-coherence</code> module please read [bucket4j-jcache documentation](jcache-usage.md),
-because <code>bucket4j-coherence</code> is just a follow-up of <code>bucket4j-jcache</code>.</p>
-</div>
-<div class="paragraph">
-<p><strong>Question:</strong> Bucket4j already supports JCache since version <code>1.2</code>. Why it was needed to introduce direct support for <code>Oracle Coherence</code>?
-<strong>Answer:</strong> Because <a href="https://www.jcp.org/en/jsr/detail?id=107">JCache API (JSR 107)</a> does not specify asynchronous API,
-developing the dedicated module <code>bucket4j-coherence</code> was the only way to provide asynchrony for users who use <code>Bucket4j</code> and <code>Oracle Coherence</code> together.</p>
-</div>
-<div class="paragraph">
-<p><strong>Question:</strong> Should I migrate from <code>bucket4j-jcache</code> to <code>bucketj-coherence</code> If I do not need in asynchronous API?
-<strong>Answer:</strong> No, you should not migrate to <code>bucketj-coherence</code> in this case.</p>
-</div>
 <div class="sect3">
 <h4 id="dependencies-4"><a class="anchor" href="#dependencies-4"></a>3.5.1. Dependencies</h4>
 <div class="paragraph">
@@ -2732,42 +2701,37 @@ developing the dedicated module <code>bucket4j-coherence</code> was the only way
 </div>
 </div>
 <div class="sect3">
-<h4 id="example-of-bucket-instantiation-4"><a class="anchor" href="#example-of-bucket-instantiation-4"></a>3.5.2. Example of Bucket instantiation</h4>
+<h4 id="example-of-bucket-instantiation-3"><a class="anchor" href="#example-of-bucket-instantiation-3"></a>3.5.2. Example of Bucket instantiation</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">com.tangosol.net.NamedCache&lt;K, byte[]&gt; cache = ...;
+private static final CoherenceProxyManager&lt;K&gt; proxyManager = new CoherenceProxyManager(map);
+
 ...
+BucketConfiguration configuration = BucketConfiguration.builder()
+    .addLimit(Bandwidth.simple(1_000, Duration.ofMinutes(1)))
+    .build(key, configuration);
 
-Bucket bucket = Bucket4j.extension(Coherence.class).builder()
-                   .addLimit(Bandwidth.simple(1_000, Duration.ofMinutes(1)))
-                   .build(cache, key, RecoveryStrategy.RECONSTRUCT);</code></pre>
+Bucket bucket = proxyManager.builder().build(configuration);</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="example-of-proxymanager-instantiation-4"><a class="anchor" href="#example-of-proxymanager-instantiation-4"></a>3.5.3. Example of ProxyManager instantiation</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">com.tangosol.net.NamedCache&lt;K, byte[]&gt; cache = ...;
-
-ProxyManager proxyManager = Bucket4j.extension(Coherence.class).proxyManagerForCache(cache);</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="configuring-pof-serialization-for-bucket4j-library-classes"><a class="anchor" href="#configuring-pof-serialization-for-bucket4j-library-classes"></a>3.5.4. Configuring POF serialization for Bucket4j library classes</h4>
+<h4 id="configuring-pof-serialization-for-bucket4j-library-classes"><a class="anchor" href="#configuring-pof-serialization-for-bucket4j-library-classes"></a>3.5.3. Configuring POF serialization for Bucket4j library classes</h4>
 <div class="paragraph">
 <p>If you configure nothing, then by default Java serialization will be used for serialization Bucket4j library classes. Java serialization can be rather slow and should be avoided in general.
 <code>Bucket4j</code> provides <a href="https://docs.oracle.com/cd/E24290_01/coh.371/e22837/api_pof.htm#COHDG1363">custom POF serializers</a> for all library classes that could be transferred over network.
-To let Coherence know about POF serializers you should register three serializers in the POF configuration config file:
-* <code>CoherenceEntryProcessorAdapterPofSerializer</code> for class <code>CoherenceEntryProcessorAdapter</code>
-* <code>GridBucketStatePofSerializer</code> for class <code>GridBucketState</code>
-* <code>CommandResultPofSerializer</code> for class <code>CommandResult</code></p>
+To let Coherence know about POF serializers you should register three serializers in the POF configuration config file:</p>
 </div>
+<div class="exampleblock">
+<div class="content">
 <div class="paragraph">
-<p><strong>Example of POF serialization:</strong></p>
+<p><code>io.github.bucket4j.grid.coherence.pof.CoherenceEntryProcessorPofSerializer</code> for class <code>io.github.bucket4j.grid.coherence.CoherenceProcessor</code></p>
+</div>
+</div>
 </div>
 <div class="listingblock">
+<div class="title">Example of POF serialization config:</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;pof-config xmlns="http://xmlns.oracle.com/coherence/coherence-pof-config"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -2780,23 +2744,9 @@ To let Coherence know about POF serializers you should register three serializer
         &lt;!-- Define serializers for Bucket4j classes --&gt;
         &lt;user-type&gt;
             &lt;type-id&gt;1001&lt;/type-id&gt;
-            &lt;class-name&gt;io.github.bucket4j.grid.coherence.CoherenceEntryProcessorAdapter&lt;/class-name&gt;
+            &lt;class-name&gt;io.github.bucket4j.grid.coherence.CoherenceProcessor&lt;/class-name&gt;
             &lt;serializer&gt;
-                &lt;class-name&gt;io.github.bucket4j.grid.coherence.pof.CoherenceEntryProcessorAdapterPofSerializer&lt;/class-name&gt;
-            &lt;/serializer&gt;
-        &lt;/user-type&gt;
-        &lt;user-type&gt;
-            &lt;type-id&gt;1002&lt;/type-id&gt;
-            &lt;class-name&gt;io.github.bucket4j.grid.GridBucketState&lt;/class-name&gt;
-            &lt;serializer&gt;
-                &lt;class-name&gt;io.github.bucket4j.grid.coherence.pof.GridBucketStatePofSerializer&lt;/class-name&gt;
-            &lt;/serializer&gt;
-        &lt;/user-type&gt;
-        &lt;user-type&gt;
-            &lt;type-id&gt;1003&lt;/type-id&gt;
-            &lt;class-name&gt;io.github.bucket4j.grid.CommandResult&lt;/class-name&gt;
-            &lt;serializer&gt;
-                &lt;class-name&gt;io.github.bucket4j.grid.coherence.pof.CommandResultPofSerializer&lt;/class-name&gt;
+                &lt;class-name&gt;io.github.bucket4j.grid.coherence.pof.CoherenceEntryProcessorPofSerializer&lt;/class-name&gt;
             &lt;/serializer&gt;
         &lt;/user-type&gt;
     &lt;/user-type-list&gt;
@@ -2812,17 +2762,19 @@ To let Coherence know about POF serializers you should register three serializer
 <h3 id="asynchronous-api"><a class="anchor" href="#asynchronous-api"></a>3.6. Asynchronous API</h3>
 <div class="paragraph">
 <p>Since version <code>3.0</code> Bucket4j provides asynchronous analogs for majority of API methods.
-Async view of bucket is availble through <code>asAsync()</code> method:</p>
+Async view of proxyManager is available through <code>asAsync()</code> method:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = ...;
-AsyncBucket asyncBucket = bucket.asAsync();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">ProxyManager proxyManager = ...;
+AsyncProxyManager asyncProxyManager = proxyManager.asAsync();
+
+BucketConfiguration configuration = ...;
+AsyncBucketProxy asyncBucket = asyncProxyManager.builder().build(key, configuration);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Each method of class [AsyncBucket](<a href="https://github.com/vladimir-bukhtoyarov/bucket4j/blob/3.1/bucket4j-core/src/main/java/io/github/bucket4j/AsyncBucket.java" class="bare">https://github.com/vladimir-bukhtoyarov/bucket4j/blob/3.1/bucket4j-core/src/main/java/io/github/bucket4j/AsyncBucket.java</a>)
- has full equivalence with same semantic in synchronous version in the [Bucket](<a href="https://github.com/vladimir-bukhtoyarov/bucket4j/blob/3.0/bucket4j-core/src/main/java/io/github/bucket4j/Bucket.java" class="bare">https://github.com/vladimir-bukhtoyarov/bucket4j/blob/3.0/bucket4j-core/src/main/java/io/github/bucket4j/Bucket.java</a>) class.</p>
+<p>Each method of class <code><code>AsyncBucketProxy</code></code> has full equivalence with same semantic in synchronous version in the <code><code>Bucket</code></code> class.</p>
 </div>
 <div class="sect3">
 <h4 id="example-limiting-the-rate-of-access-to-asynchronous-servlet"><a class="anchor" href="#example-limiting-the-rate-of-access-to-asynchronous-servlet"></a>3.6.1. Example - limiting the rate of access to asynchronous servlet</h4>
@@ -2872,7 +2824,7 @@ non-blocking architecture means that both SMS sending and limit checking should 
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class SmsServlet extends javax.servlet.http.HttpServlet {
 
     private SmsSender smsSender;
-    private ProxyManager&lt;String&gt; buckets;
+    private AsyncProxyManager&lt;String&gt; buckets;
     private Supplier&lt;BucketConfiguration&gt; configuration;
 
     @Override
@@ -2883,13 +2835,13 @@ non-blocking architecture means that both SMS sending and limit checking should 
         smsSender = (SmsSender) ctx.getAttribute("sms-sender");
 
         FunctionalMapImpl&lt;String, byte[]&gt; bucketMap = (FunctionalMapImpl&lt;String, byte[]&gt;) ctx.getAttribute("bucket-map");
-        this.buckets = Bucket4j.extension(Infinispan.class).proxyManagerForMap(bucketMap);
+        this.buckets = new InfinispanProxyManager(bucketMap).asAsync();
 
         this.configuration = () -&gt; {
             long overdraft = 20;
             Refill refill = Refill.greedy(10, Duration.ofMinutes(1));
             Bandwidth limit = Bandwidth.classic(overdraft, refill);
-            return Bucket4j.configurationBuilder()
+            return BucketConfiguratiion.builder()
                 .addLimit(limit)
                 .build();
         };
@@ -2903,7 +2855,7 @@ non-blocking architecture means that both SMS sending and limit checking should 
         String toNumber = req.getParameter("to");
         String text = req.getParameter("text");
 
-        Bucket bucket = buckets.getProxy(fromNumber, configuration);
+        AsyncBucketProxy bucket = buckets.builder().build(fromNumber, configuration);
         CompletableFuture&lt;ConsumptionProbe&gt; limitCheckingFuture = bucket.asAsync().tryConsumeAndReturnRemaining(1);
         final AsyncContext asyncContext = req.startAsync();
         limitCheckingFuture.thenCompose(probe -&gt; {
@@ -3075,7 +3027,7 @@ You can do post-aggregation of monitoring statistics via features built-into you
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">BucketListener listener = new MyListener();
 
-Bucket bucket = Bucket4j.builder()
+Bucket bucket = Bucket.builder()
                     .addLimit(Bandwidth.simple(100, Duration.ofMinutes(1)))
                     .build()
                     .toListenable(listener);</code></pre>
@@ -3243,12 +3195,12 @@ It is not possible to add, remove or change the limits for already created confi
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>Bucket bucket = Bucket4j.builder()
+<pre>Bucket bucket = Bucket.builder()
     .addLimit(Bandwidth.simple(10, Duration.ofSeconds(1)))
     .addLimit(Bandwidth.simple(10000, Duration.ofHours(1)))
     .build();
     ...
-BucketConfiguration newConfiguration = Bucket4j.configurationBuilder()
+BucketConfiguration newConfiguration = BucketConfiguration.configurationBuilder()
     .addLimit(Bandwidth.simple(5000, Duration.ofHours(1)))
     .addLimit(Bandwidth.simple(100, Duration.ofSeconds(10)))
     .build();
@@ -3267,12 +3219,12 @@ so in case of multiple bandwidth configuratoin replacement code can copy availab
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = Bucket4j.builder()
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = Bucket.builder()
      .addLimit(Bandwidth.simple(10, Duration.ofSeconds(1)).withId("technical-limit"))
      .addLimit(Bandwidth.simple(10000, Duration.ofHours(1)).withId("business-limit"))
      .build();
      ...
-     BucketConfiguration newConfiguration = Bucket4j.configurationBuilder()
+     BucketConfiguration newConfiguration = BucketConfiguration.builder()
         .addLimit(Bandwidth.simple(5000, Duration.ofHours(1)).withId("business-limit"))
         .addLimit(Bandwidth.simple(100, Duration.ofSeconds(10)).withId("technical-limit"))
         .build();
