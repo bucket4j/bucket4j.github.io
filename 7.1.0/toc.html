@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<title>Bucket4j 7.0.0 Reference</title>
+<title>Bucket4j 7.1.0 Reference</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -442,10 +442,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>Bucket4j 7.0.0 Reference</h1>
+<h1>Bucket4j 7.1.0 Reference</h1>
 <div class="details">
-<span id="revnumber">version 7.0.0,</span>
-<span id="revdate">2022-01-19 14</span>
+<span id="revnumber">version 7.1.0,</span>
+<span id="revdate">2022-01-28 07</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -463,7 +463,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#how-to-dependency-to-bucket4j">2.1.1. How to dependency to Bucket4j</a></li>
 <li><a href="#create-your-first-bucket-limiting-the-rate-of-heavy-work">2.1.2. Create your first Bucket, limiting the rate of heavy work</a></li>
-<li><a href="#using-bucket-in-blocking-mode">2.1.3. Using bucket in blocking mode</a></li>
+<li><a href="#using-bucket-as-scheduler">2.1.3. Using bucket as scheduler</a></li>
 <li><a href="#limiting-the-rate-of-access-to-rest-api">2.1.4. Limiting the rate of access to REST API</a></li>
 <li><a href="#example-of-multiple-bandwidth">2.1.5. Example of multiple bandwidth</a></li>
 <li><a href="#specifying-initial-amount-of-tokens">2.1.6. Specifying initial amount of tokens</a></li>
@@ -552,7 +552,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#general-compatibility-matrix-principles">3.2.2. General compatibility matrix principles:</a></li>
 <li><a href="#example-of-bucket-instantiation">3.2.3. Example of Bucket instantiation</a></li>
 <li><a href="#configuring-custom-serialization-for-bucket4j-library-classes">3.2.4. Configuring Custom Serialization for Bucket4j library classes</a></li>
-<li><a href="#known-issues-related-with-docker-andor-springboot">3.2.5. Known issues related with Docker and(or) SpringBoot</a></li>
+<li><a href="#support-for-externally-managed-hazelcast-without-classpath-access">3.2.5. Support for externally managed Hazelcast without classpath access</a></li>
+<li><a href="#known-issues-related-with-docker-andor-springboot">3.2.6. Known issues related with Docker and(or) SpringBoot</a></li>
 </ul>
 </li>
 <li><a href="#bucket4j-ignite">3.3. Apache Ignite integration</a>
@@ -724,14 +725,14 @@ You need to add dependency to your project as described bellow in order to be ab
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
     &lt;artifactId&gt;bucket4j-core&lt;/artifactId&gt;
-    &lt;version&gt;7.0.0&lt;/version&gt;
+    &lt;version&gt;7.1.0&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">Gradle dependency</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.0.0'</code></pre>
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.1.0'</code></pre>
 </div>
 </div>
 </div>
@@ -765,7 +766,7 @@ try {
 </div>
 </div>
 <div class="sect3">
-<h4 id="using-bucket-in-blocking-mode"><a class="anchor" href="#using-bucket-in-blocking-mode"></a>2.1.3. Using bucket in blocking mode</h4>
+<h4 id="using-bucket-as-scheduler"><a class="anchor" href="#using-bucket-as-scheduler"></a>2.1.3. Using bucket as scheduler</h4>
 <div class="paragraph">
 <p>Suppose you need to have the fresh exchange rate between dollars and euros.
 To get the rate you continuously poll the third-party provider,
@@ -786,7 +787,7 @@ volatile double exchangeRate;
 while (true) {
   // Consume a token from the token bucket.
   // If a token is not available this method will block until the refill adds one to the bucket.
-  bucket.asBlocking().consume(1);
+  bucket.asScheduler().consume(1);
 
   exchangeRate = pollExchangeRate();
 }</code></pre>
@@ -2100,7 +2101,7 @@ Do not forget to read <a href="#distributed-checklist">Distributed usage checkli
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
     &lt;artifactId&gt;bucket4j-jcache&lt;/artifactId&gt;
-    &lt;version&gt;7.0.0&lt;/version&gt;
+    &lt;version&gt;7.1.0&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -2376,7 +2377,7 @@ If check passed then your JCache provider is compatible with Bucket4j, the throt
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
     &lt;artifactId&gt;bucket4j-hazelcast&lt;/artifactId&gt;
-    &lt;version&gt;7.0.0&lt;/version&gt;
+    &lt;version&gt;7.1.0&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -2388,7 +2389,7 @@ If check passed then your JCache provider is compatible with Bucket4j, the throt
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
     &lt;artifactId&gt;bucket4j-hazelcast-3&lt;/artifactId&gt;
-    &lt;version&gt;7.0.0&lt;/version&gt;
+    &lt;version&gt;7.1.0&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -2450,14 +2451,51 @@ import io.github.bucket4j.grid.hazelcast.serialization.HazelcastSerializer;
 </div>
 </div>
 <div class="sect3">
-<h4 id="known-issues-related-with-docker-andor-springboot"><a class="anchor" href="#known-issues-related-with-docker-andor-springboot"></a>3.2.5. Known issues related with Docker and(or) SpringBoot</h4>
+<h4 id="support-for-externally-managed-hazelcast-without-classpath-access"><a class="anchor" href="#support-for-externally-managed-hazelcast-without-classpath-access"></a>3.2.5. Support for externally managed Hazelcast without classpath access</h4>
+<div class="paragraph">
+<p><code>bucket4j-hazelcast</code> requires putting Bucket4j jars to classpath of each node of Hazelcast cluster.
+Sometimes you have no control over classpath because Hazelcast cluster is externally managed(Paas scenario).
+In such cases <code><code>HazelcastProxyManager</code></code> can not be used because it is implemented on top of <a href="https://docs.hazelcast.com/imdg/4.2/computing/entry-processor">EntryProcessor</a> functionality.</p>
+</div>
+<div class="dlist">
+<div class="title">Bucket4j provides two alternatives for PaaS topology:</div>
+<dl>
+<dt class="hdlist1">HazelcastLockBasedProxyManager</dt>
+<dd>
+<p>is implemented on top IMap methods <code>lock</code>, <code>get</code>, <code>put</code>, <code>unlock</code>.
+This implementation always requires 4 network hops for one rate-limit check.</p>
+</dd>
+<dt class="hdlist1">HazelcastCompareAndSwapBasedProxyManager</dt>
+<dd>
+<p>is implemented on top IMap methods <code>get</code>, <code>replace</code>, <code>putIfAbsent</code>.
+This implementation requires 2 network hops if no contention happens, but in case of high contention on the key amount of hops is unpredictable.</p>
+</dd>
+</dl>
+</div>
+<div class="ulist">
+<div class="title">Limitations of HazelcastLockBasedProxyManager and HazelcastCompareAndSwapBasedProxyManager</div>
+<ul>
+<li>
+<p><code>HazelcastLockBasedProxyManager</code> does not provide async API because lack of <code>lockAsync</code> and <code>unlockAsync</code>  methods inside IMap API.</p>
+</li>
+<li>
+<p><code>HazelcastCompareAndSwapBasedProxyManager</code> does not provide async API because lack of <code>replaceAsync</code> and <code>putIfAbsentAsync</code> methods inside IMap API.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If you wish to async API be supported by <code>HazelcastLockBasedProxyManager</code> and <code>HazelcastCompareAndSwapBasedProxyManager</code> ask Hazelcast maintainers to support the missed APIs mentioned above.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="known-issues-related-with-docker-andor-springboot"><a class="anchor" href="#known-issues-related-with-docker-andor-springboot"></a>3.2.6. Known issues related with Docker and(or) SpringBoot</h4>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://github.com/vladimir-bukhtoyarov/bucket4j/discussions/186:">#186 HazelcastEntryProcessor class not found</a> - check file permissions inside your image.</p>
+<p><a href="https://github.com/vladimir-bukhtoyarov/bucket4j/discussions/186">#186 HazelcastEntryProcessor class not found</a> - check file permissions inside your image.</p>
 </li>
 <li>
-<p><a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issues/162:">#182 HazelcastSerializationException with Hazelcast 4.2</a> - properly setup classloader for Hazelcast client configuration.</p>
+<p><a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issues/162">#182 HazelcastSerializationException with Hazelcast 4.2</a> - properly setup classloader for Hazelcast client configuration.</p>
 </li>
 </ul>
 </div>
@@ -2491,7 +2529,7 @@ developing the dedicated module <code>bucket4j-ignite</code> was the only way to
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
     &lt;artifactId&gt;bucket4j-ignite&lt;/artifactId&gt;
-    &lt;version&gt;7.0.0&lt;/version&gt;
+    &lt;version&gt;7.1.0&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -2591,7 +2629,7 @@ IgniteThinClientCasBasedProxyManager does not require from all nodes in the clus
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
     &lt;artifactId&gt;bucket4j-infinispan&lt;/artifactId&gt;
-    &lt;version&gt;7.0.0&lt;/version&gt;
+    &lt;version&gt;7.1.0&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -2603,7 +2641,7 @@ IgniteThinClientCasBasedProxyManager does not require from all nodes in the clus
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
     &lt;artifactId&gt;bucket4j-infinispan-8&lt;/artifactId&gt;
-    &lt;version&gt;7.0.0&lt;/version&gt;
+    &lt;version&gt;7.1.0&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -2695,7 +2733,7 @@ Bucket bucket = proxyManager.builder().build(configuration);</code></pre>
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
     &lt;artifactId&gt;bucket4j-coherence&lt;/artifactId&gt;
-    &lt;version&gt;7.0.0&lt;/version&gt;
+    &lt;version&gt;7.1.0&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -3357,7 +3395,7 @@ and after replacement we will have 20 available tokens.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 7.0.0<br>
+Version 7.1.0<br>
 Last updated 2022-01-11 13:02:57 +0300
 </div>
 </div>
