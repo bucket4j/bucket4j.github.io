@@ -445,7 +445,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Bucket4j 7.2.0 Reference</h1>
 <div class="details">
 <span id="revnumber">version 7.2.0,</span>
-<span id="revdate">2022-02-10 08</span>
+<span id="revdate">2022-02-10 20</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -543,7 +543,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#example-1-limiting-access-to-http-server-by-ip-address">3.1.1. Example 1 - limiting access to HTTP server by IP address</a></li>
 <li><a href="#example-2-limiting-access-to-service-by-contract-agreements">3.1.2. Example 2 - limiting access to service by contract agreements</a></li>
 <li><a href="#why-jcache-specification-is-not-enough-in-modern-stacks-and-since-3-0-were-introduced-the-dedicated-modules-for-infinispan-hazelcast-coherence-and-ignite">3.1.3. Why JCache specification is not enough in modern stacks and since 3.0 were introduced the dedicated modules for Infinispan, Hazelcast, Coherence and Ignite?</a></li>
-<li><a href="#verification-of-compatibility-with-particular-jcache-provider-is-your-responsibility">3.1.4. Verification of compatibility with particular JCache provider is your responsibility</a></li>
+<li><a href="#verification-of-compatibility-with-a-particular-jcache-provider-is-your-responsibility">3.1.4. Verification of compatibility with a particular JCache provider is your responsibility</a></li>
 </ul>
 </li>
 <li><a href="#bucket4j-hazelcast">3.2. Hazelcast integration</a>
@@ -581,7 +581,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#asynchronous-api">3.6. Asynchronous API</a>
 <ul class="sectlevel3">
-<li><a href="#example-limiting-the-rate-of-access-to-asynchronous-servlet">3.6.1. Example - limiting the rate of access to asynchronous servlet</a></li>
+<li><a href="#example-limiting-the-rate-of-access-to-the-asynchronous-servlet">3.6.1. Example - limiting the rate of access to the asynchronous servlet</a></li>
 </ul>
 </li>
 <li><a href="#distributed-checklist">3.7. Production checklist especially in the context of distributed systems</a></li>
@@ -618,7 +618,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#what-can-be-listened">4.1.1. What can be listened</a></li>
 <li><a href="#listener-api-corner-cases">4.1.2. Listener API - corner cases</a></li>
-<li><a href="#how-to-attach-listener-to-bucket">4.1.3. How to attach listener to bucket?</a></li>
+<li><a href="#how-to-attach-a-listener-to-a-bucket">4.1.3. How to attach a listener to a bucket?</a></li>
 <li><a href="#example-of-integration-with-dropwizard-metrics-core">4.1.4. Example of integration with Dropwizard metrics-core</a></li>
 </ul>
 </li>
@@ -648,7 +648,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="what-is-bucket4j"><a class="anchor" href="#what-is-bucket4j"></a>1.1. What is Bucket4j</h3>
 <div class="paragraph">
-<p>Bucket4j is Java rate-limiting library is mainly based on token-bucket algorithm, which are by de-facto standard for rate limiting in the IT industry.</p>
+<p>Bucket4j is a Java rate-limiting library that is mainly based on the token-bucket algorithm, which is by the de-facto standard for rate-limiting in the IT industry.</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -657,22 +657,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="title">Important</div>
 </td>
 <td class="content">
-<div class="title">Bucket4j is more than direct implementation of token-bucket</div>
+<div class="title">Bucket4j is more than a direct implementation of token-bucket</div>
 Its math model provides several useful extensions that are not mentioned in the classic token-bucket interpretations, such as multiple limits per bucket or overdraft. These math extensions will be detailed described later.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>You can read more about token bucket by following links:</p>
+<p>You can read more about the token bucket by following links:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://en.wikipedia.org/wiki/Token_bucket">Token bucket</a> - wikipedia page describes the token-bucket algorithm in classical form.</p>
+<p><a href="https://en.wikipedia.org/wiki/Token_bucket">Token bucket</a> - Wikipedia page describes the token-bucket algorithm in classical form.</p>
 </li>
 <li>
-<p><a href="https://vbukhtoyarov-java.blogspot.com/2021/11/non-formal-overview-of-token-bucket.html">Non-formal overview of token-bucket algorithm</a> - the brief overview of token-bucket algorithm.</p>
+<p><a href="https://vbukhtoyarov-java.blogspot.com/2021/11/non-formal-overview-of-token-bucket.html">Non-formal overview of token-bucket algorithm</a> - the brief overview of the token-bucket algorithm.</p>
 </li>
 </ul>
 </div>
@@ -682,17 +682,17 @@ Its math model provides several useful extensions that are not mentioned in the 
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Absolutely non-compromise precision</strong> - Bucket4j does not operate with floats or doubles, all calculation are performed in the integer arithmetic, this feature protects end users from calculation errors involved by rounding.</p>
+<p><strong>Absolutely non-compromise precision</strong> - Bucket4j does not operate with floats or doubles, all calculations are performed in integer arithmetic, this feature protects end-users from calculation errors involved by rounding.</p>
 </li>
 <li>
 <p><strong>Effective implementation in terms of concurrency</strong>:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Bucket4j is good scalable for multi-threading case it by defaults uses lock-free implementation.</p>
+<p>Bucket4j is good scalable for multi-threading cases it by default uses lock-free implementation.</p>
 </li>
 <li>
-<p>In same time, library provides different concurrency strategies that can be chosen when default lock-free strategy is not desired.</p>
+<p>At the same time, the library provides different concurrency strategies that can be chosen when a default lock-free strategy is not desired.</p>
 </li>
 </ul>
 </div>
@@ -701,13 +701,13 @@ Its math model provides several useful extensions that are not mentioned in the 
 <p><strong>Effective API in terms of garbage collector footprint</strong>: Bucket4j API tries to use primitive types as much as it is possible in order to avoid boxing and other types of floating garbage.</p>
 </li>
 <li>
-<p><strong>Pluggable listener API</strong> that allows to implement monitoring and logging.</p>
+<p><strong>Pluggable listener API</strong> that allows implementing monitoring and logging.</p>
 </li>
 <li>
-<p><strong>Rich diagnostic API</strong> that allows to investigate internal state.</p>
+<p><strong>Rich diagnostic API</strong> that allows investigating internal state.</p>
 </li>
 <li>
-<p><strong>Rich configuration management</strong> - configuration of the bucket can be changed on fly</p>
+<p><strong>Rich configuration management</strong> - configuration of the bucket can be changed on the fly</p>
 </li>
 </ul>
 </div>
@@ -715,7 +715,7 @@ Its math model provides several useful extensions that are not mentioned in the 
 <div class="sect2">
 <h3 id="bucket4j-distributed-features"><a class="anchor" href="#bucket4j-distributed-features"></a>1.3. Bucket4j distributed features</h3>
 <div class="paragraph">
-<p>In additional to basic features described above, <code>Bucket4j</code> provides ability to implement rate-limiting in cluster of JVMs:</p>
+<p>In addition to the basic features described above, <code>Bucket4j</code> provides the ability to implement rate-limiting in a cluster of JVMs:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -723,10 +723,10 @@ Its math model provides several useful extensions that are not mentioned in the 
 <p>Bucket4j out of the box supports any GRID solution which compatible with JCache API (JSR 107) specification.</p>
 </li>
 <li>
-<p>Bucket4j provides the framework that allows to quickly build integration with your own persistent technology like RDMS or a key-value storage.</p>
+<p>Bucket4j provides the framework that allows you to quickly build integration with your own persistent technology like RDMS or key-value storage.</p>
 </li>
 <li>
-<p>For clustered usage scenarios Bucket4j supports asynchronous API that extremely matters when going to distribute world, because asynchronous API allows avoiding blocking your application threads each time when you need to execute Network request.</p>
+<p>For clustered usage scenarios Bucket4j supports asynchronous API that extremely matters when going to distribute world because asynchronous API allows avoiding blocking your application threads each time when you need to execute Network request.</p>
 </li>
 </ul>
 </div>
@@ -742,7 +742,7 @@ Its math model provides several useful extensions that are not mentioned in the 
 <h4 id="how-to-dependency-to-bucket4j"><a class="anchor" href="#how-to-dependency-to-bucket4j"></a>2.1.1. How to dependency to Bucket4j</h4>
 <div class="paragraph">
 <p>The Bucket4j is distributed through <a href="https://mvnrepository.com/artifact/com.github.vladimir-bukhtoyarov/bucket4j-core">Maven Central</a>.
-You need to add dependency to your project as described bellow in order to be able to compile and run examples</p>
+You need to add the dependency to your project as described below in order to be able to compile and run examples</p>
 </div>
 <div class="listingblock">
 <div class="title">Maven dependency</div>
@@ -764,9 +764,9 @@ You need to add dependency to your project as described bellow in order to be ab
 <div class="sect3">
 <h4 id="create-your-first-bucket-limiting-the-rate-of-heavy-work"><a class="anchor" href="#create-your-first-bucket-limiting-the-rate-of-heavy-work"></a>2.1.2. Create your first Bucket, limiting the rate of heavy work</h4>
 <div class="paragraph">
-<p>Imagine that you have a thread-pool executor and you want to know what your threads are doing in the moment when thread-pool throws RejectedExecutionException.
-Printing stacktraces of all threads in the JVM will be the best way to know where are all threads have stuck and why thread-pool is overflown.
-But acquiring stacktraces is very cost operation by itself, and you want to do it not often than 1 time per 10 minutes:</p>
+<p>Imagine that you have a thread-pool executor and you want to know what your threads are doing at the moment when thread-pool throws RejectedExecutionException.
+Printing stack traces of all threads in the JVM will be the best way to know where are all threads have stuck and why the thread pool is overflown.
+But acquiring stack traces is a very cost operation by itself, and you want to do it not often than 1 time per 10 minutes:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -793,9 +793,9 @@ try {
 <div class="sect3">
 <h4 id="using-bucket-as-scheduler"><a class="anchor" href="#using-bucket-as-scheduler"></a>2.1.3. Using bucket as scheduler</h4>
 <div class="paragraph">
-<p>Suppose you need to have the fresh exchange rate between dollars and euros.
+<p>Suppose you need to have a fresh exchange rate between dollars and euros.
 To get the rate you continuously poll the third-party provider,
-and by contract with provider you should poll not often than 100 times per 1 minute, else provider will block your ip:</p>
+and by contract with the provider you should poll not often than 100 times per 1 minute, else provider will block your IP:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -823,20 +823,20 @@ while (true) {
 <h4 id="limiting-the-rate-of-access-to-rest-api"><a class="anchor" href="#limiting-the-rate-of-access-to-rest-api"></a>2.1.4. Limiting the rate of access to REST API</h4>
 <div class="paragraph">
 <p>Imagine that you develop yet another social network and you want to provide REST API for third-party developers.
-To protect your system from overloading you want to introduce following limitation:</p>
+To protect your system from overloading you want to introduce the following limitation:</p>
 </div>
 <div class="quoteblock">
 <blockquote>
 <div class="paragraph">
 <p>The bucket size is 50 calls (which cannot be exceeded at any given time), with a "refill rate" of 10 calls per second that continually increases tokens in the bucket.
-In other words. if client app averages 10 calls per second, it will never be throttled,
-and moreover client have overdraft equals to 50 calls which can be used if average is little bit higher that 10 call/sec on short time period.</p>
+In other words. if the client app averages 10 calls per second, it will never be throttled,
+and moreover, the client has overdraft equals to 50 calls which can be used if the average is a little bit higher than 10 calls/sec in a short time period.</p>
 </div>
 </blockquote>
 </div>
 <div class="paragraph">
-<p>Constructing the bucket to satisfy the requirements above is little bit more complicated that for previous examples,
-because we have deal with overdraft, but it is not rocket science:</p>
+<p>Constructing the bucket to satisfy the requirements above is a little bit more complicated than for previous examples,
+because we have to deal with overdraft, but it is not rocket science:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -880,7 +880,7 @@ public class ThrottlingFilter implements javax.servlet.Filter {
 </div>
 </div>
 <div class="paragraph">
-<p>If you want provide more information to end user about the state of bucket, then last fragment of code above can be rewritten in following way:</p>
+<p>If you want to provide more information to the end-user about the state of the bucket, then the last fragment of code above can be rewritten in the following way:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -904,9 +904,9 @@ public class ThrottlingFilter implements javax.servlet.Filter {
 <div class="sect3">
 <h4 id="example-of-multiple-bandwidth"><a class="anchor" href="#example-of-multiple-bandwidth"></a>2.1.5. Example of multiple bandwidth</h4>
 <div class="paragraph">
-<p>Imagine that you are developing load testing tool, in order to be ensure that testable system is able to dispatch 1000 requests per 1 minute.
-But you do not want to randomly kill the testable system by generation all 1000 events in one second instead of 1 minute.
-To solve problem you can construct following bucket:</p>
+<p>Imagine that you are developing a load testing tool, in order to ensure that a testable system is able to dispatch 1000 requests per 1 minute.
+But you do not want to randomly kill the testable system by generating all 1000 events in one second instead of 1 minute.
+To solve the problem you can construct the following bucket:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -933,8 +933,8 @@ while (true) {
 <div class="sect3">
 <h4 id="specifying-initial-amount-of-tokens"><a class="anchor" href="#specifying-initial-amount-of-tokens"></a>2.1.6. Specifying initial amount of tokens</h4>
 <div class="paragraph">
-<p>By default initial size of bucket equals to capacity.
-But sometimes, you may want to have lesser initial size, for example for case of cold start in order to prevent denial of service:</p>
+<p>By default initial size of the bucket equals capacity.
+But sometimes, you may want to have a lesser initial size, for example for the case of cold start in order to prevent denial of service:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -951,13 +951,13 @@ Bucket bucket = Bucket.builder()
 <div class="sect3">
 <h4 id="turning-off-the-refill-greediness"><a class="anchor" href="#turning-off-the-refill-greediness"></a>2.1.7. Turning-off the refill greediness</h4>
 <div class="paragraph">
-<p>When bandwidth created via <code>Bandwidth#simple</code> method  it does refill in greedy manner, because bandwidth tries to add the tokens to bucket as soon as possible.
-For example bandwidth with refill "10 tokens per 1 second" will add 1 token per each 100 millisecond,
-in other words refill will not wait 1 second to regenerate whole bunch of 10 tokens.</p>
+<p>When bandwidth is created via <code>Bandwidth#simple</code> method it does refill in a greedy manner, because bandwidth tries to add the tokens to the bucket as soon as possible.
+For example bandwidth with refill "10 tokens per 1 second" will add 1 token per every 100 milliseconds,
+in other words, the refill will not wait 1 second to regenerate a whole bunch of 10 tokens.</p>
 </div>
 <div class="paragraph">
-<p>If greediness is undesired then you should explicitly choose non-greedy refill.
-For example the bandwidth bellow will refill 10 tokens per 1 second instead of 1 token per 100 milliseconds:</p>
+<p>If greediness is undesired then you should explicitly choose a non-greedy refill.
+For example, the bandwidth bellow will refill 10 tokens per 1 second instead of 1 token per 100 milliseconds:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -967,8 +967,8 @@ Bandwidth bandwidth = Bandwidth.classic(600, refill);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Also it is possible to specify the time when first refill should happen.
-This option can be used to configure clear interval boundary i.e. start of second, minute, hour, day.</p>
+<p>Also, it is possible to specify the time when the first refill should happen.
+This option can be used to configure clear interval boundary i.e. start of the second, minute, hour, day.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -988,7 +988,7 @@ This option can be used to configure clear interval boundary i.e. start of secon
 <div class="sect3">
 <h4 id="returning-tokens-back-to-bucket"><a class="anchor" href="#returning-tokens-back-to-bucket"></a>2.1.8. Returning tokens back to bucket</h4>
 <div class="paragraph">
-<p>The <a href="https://en.wikipedia.org/wiki/Compensating_transaction">compensating transaction</a> is one of obvious use case when you want to return tokens back to bucket:</p>
+<p>The <a href="https://en.wikipedia.org/wiki/Compensating_transaction">compensating transaction</a> is one of the obvious use cases when you want to return tokens back to the bucket:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1008,8 +1008,8 @@ if (wallet.tryConsume(50)) { // get 50 cents from wallet
 <div class="sect3">
 <h4 id="customizing-time-measurement-choosing-nanotime-time-resolution"><a class="anchor" href="#customizing-time-measurement-choosing-nanotime-time-resolution"></a>2.1.9. Customizing time measurement - choosing nanotime time resolution</h4>
 <div class="paragraph">
-<p>By default Bucket4j uses millisecond time resolution, it is preferred time measurement strategy.
-But rarely(for example benchmarking) you wish the nanosecond precision:</p>
+<p>By default Bucket4j uses millisecond time resolution, it is the preferred time measurement strategy.
+But rarely(for example benchmarking) do you wish the nanosecond precision:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1018,15 +1018,15 @@ But rarely(for example benchmarking) you wish the nanosecond precision:</p>
 </div>
 <div class="paragraph">
 <p>Be very careful to choose this time measurement strategy, because <code>System.nanoTime()</code> produces inaccurate results,
-use this strategy only if period of bandwidth is too small that millisecond resolution will be undesired.</p>
+use this strategy only if the period of bandwidth is too small that millisecond resolution will be undesired.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="customizing-time-measurement-specify-custom-time-measurement-strategy"><a class="anchor" href="#customizing-time-measurement-specify-custom-time-measurement-strategy"></a>2.1.10. Customizing time measurement -  Specify custom time measurement strategy</h4>
 <div class="paragraph">
-<p>You can specify your custom time meter, if existing miliseconds or nanotime time meters is not enough for your purposes.
-Imagine that you have a clock, which synchronizes its time with other machines in current cluster,
-if you want to use time provided by this clock instead of time provided by JVM then you can write something like this:</p>
+<p>You can specify your custom time meter if existing milliseconds or nanotime time meters are not enough for your purposes.
+Imagine that you have a clock, which synchronizes its time with other machines in the current cluster,
+if you want to use the time provided by this clock instead of time provided by JVM then you can write something like this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1053,22 +1053,22 @@ Bucket bucket = Bucket.builder()
 <div class="sect3">
 <h4 id="bucket"><a class="anchor" href="#bucket"></a>2.2.1. Bucket</h4>
 <div class="paragraph">
-<p><code>Bucket</code> is rate-limiter that is implemented on the top of ideas of well-known <a href="https://en.wikipedia.org/wiki/Token_bucket">Token Bucket algorithm</a>.
+<p><code>Bucket</code> is a rate-limiter that is implemented on the top of ideas of well-known <a href="https://en.wikipedia.org/wiki/Token_bucket">Token Bucket algorithm</a>.
 In the Bucket4j library code the <code>Bucket</code> is represented by interface <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/blob/7.0/bucket4j-core/src/main/java/io/github/bucket4j/Bucket.java">io.github.bucket4j.Bucket</a>.</p>
 </div>
 <div class="ulist">
-<div class="title">Bucket aggregates following parts:</div>
+<div class="title">Bucket aggregates the following parts:</div>
 <ul>
 <li>
-<p><a href="#bucket-bonfiguration">BucketConfiguration</a> specifies an immutable collection of limitation rules that is used by bucket during its work.</p>
+<p><a href="#bucket-bonfiguration">BucketConfiguration</a> specifies an immutable collection of limitation rules that are used by the bucket during its work.</p>
 </li>
 <li>
-<p><a href="#bucket-state">BucketState</a> the place where bucket stores mutable state like amount of current available tokens.</p>
+<p><a href="#bucket-state">BucketState</a> the place where bucket stores mutable state like the amount of currently available tokens.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Bucket can be constructed via special builder API <a href="#local-bucket-builder">BucketBuilder</a> that is available by factory method:</p>
+<p>A bucket can be constructed via a special builder API <a href="#local-bucket-builder">BucketBuilder</a> that is available by factory method:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1082,10 +1082,10 @@ In the Bucket4j library code the <code>Bucket</code> is represented by interface
 <h4 id="bucket-bonfiguration"><a class="anchor" href="#bucket-bonfiguration"></a>2.2.2. BucketConfiguration</h4>
 <div class="paragraph">
 <p><code>BucketConfiguration</code> can be described as collection of <a href="#bandwidth">limits</a> that are used by <a href="#bucket">Bucket</a> during its job. Configuration
-In the Bucket4j library code the <code>BucketConfiguration</code> is represented by class <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/blob/7.0/bucket4j-core/src/main/java/io/github/bucket4j/BucketConfiguration.java">io.github.bucket4j.BucketConfiguration</a>. Configuration is immutable, there is no way to add or remove a limit to already created configuration. However, you can replace configuration of bucket via creating new configuration instance and calling <code>bucket.replaceConfiguration(newConfiguration)</code>.</p>
+In the Bucket4j library code the <code>BucketConfiguration</code> is represented by class <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/blob/7.0/bucket4j-core/src/main/java/io/github/bucket4j/BucketConfiguration.java">io.github.bucket4j.BucketConfiguration</a>. Configuration is immutable, there is no way to add or remove a limit to already created configuration. However, you can replace the configuration of the bucket via creating a new configuration instance and calling <code>bucket.replaceConfiguration(newConfiguration)</code>.</p>
 </div>
 <div class="paragraph">
-<p>Usually you should not create BucketConfiguration directly(excepting the case with configuration replacement) because <a href="#local-bucket-builder">BucketBuilder</a> does for you behind the scene, for rare cases when you need to create configuration directly you have to use <code>ConfigurationBuilder</code> that is available by factory method:</p>
+<p>Usually, you should not create BucketConfiguration directly(excepting the case with configuration replacement) because <a href="#local-bucket-builder">BucketBuilder</a> does for you behind the scene, for rare cases when you need to create configuration directly you have to use <code>ConfigurationBuilder</code> that is available by factory method:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1101,8 +1101,8 @@ In the Bucket4j library code the <code>BucketConfiguration</code> is represented
 <div class="title">Important</div>
 </td>
 <td class="content">
-Mostly users configure single limit per configuration, but it is strongly recommended analyzing whether <a href="#short-timed-bursts">short-timed bursts problem</a>
- can affect your application and if so then thinking about to adding more limits.
+Most users configure a single limit per configuration, but it is strongly recommended to analyze whether <a href="#short-timed-bursts">short-timed bursts problem</a>
+can affect your application and if so then think about adding more limits.
 </td>
 </tr>
 </table>
@@ -1111,21 +1111,21 @@ Mostly users configure single limit per configuration, but it is strongly recomm
 <div class="sect3">
 <h4 id="bandwidth"><a class="anchor" href="#bandwidth"></a>2.2.3. Limitation/Bandwidth</h4>
 <div class="paragraph">
-<p>Limitations that are used by bucket can be denoted in terms of bandwidths. Bandwidth is denoted by following terms:</p>
+<p>Limitations that are used by bucket can be denoted in terms of bandwidths. Bandwidth is denoted by the following terms:</p>
 </div>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Capacity</dt>
 <dd>
-<p>Capacity is the term that directly inherited from classic interpretation of token-bucket algorithm, this specifies how many tokens your bucket has.</p>
+<p>Capacity is the term that is directly inherited from the classic interpretation of the token-bucket algorithm, this specifies how many tokens your bucket has.</p>
 </dd>
 <dt class="hdlist1">Refill</dt>
 <dd>
-<p><a href="#refill">Refill</a> specifies how fast tokens can be refilled after it were consumed from bucket.</p>
+<p><a href="#refill">Refill</a> specifies how fast tokens can be refilled after it was consumed from a bucket.</p>
 </dd>
 <dt class="hdlist1">Initial tokens</dt>
 <dd>
-<p>Bucket4j extend token-bucket algorithm by allowing to specify initial amount of tokens for each bandwidth. By default, initial amount of tokens equals to capacity, and can be changed by <code>withInitialTokens</code> method:<br></p>
+<p>Bucket4j extends the token-bucket algorithm by allowing to specify the initial amount of tokens for each bandwidth. By default, an initial amount of tokens equal to capacity and can be changed by <code>withInitialTokens</code> method:<br></p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bandwidth bandwidth = Bandwidth.simple(42, Duration.ofMinutes(1))
@@ -1135,8 +1135,8 @@ Mostly users configure single limit per configuration, but it is strongly recomm
 </dd>
 <dt class="hdlist1">ID</dt>
 <dd>
-<p>Identifier is the optional attribute that is null by default. You may prefer to assign identifiers for bandwidths if you use on the fly configuration replacement and your buckets have more than one bandwidth per bucket, otherwise it is better to avoid using identifiers in order to preserve memory.
-Identifier for a bandwidth can be specified by <code>withId</code> method:<br></p>
+<p>The identifier is the optional attribute that is null by default. You may prefer to assign identifiers for bandwidths if you use on-the-fly configuration replacement and your buckets have more than one bandwidth per bucket, otherwise, it is better to avoid using identifiers to preserve memory.
+The Identifier for bandwidth can be specified by <code>withId</code> method:<br></p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">BucketConfiguration configuration = BucketConfiguration.builder()
@@ -1152,7 +1152,7 @@ Identifier for a bandwidth can be specified by <code>withId</code> method:<br></
 <div class="title">Note</div>
 </td>
 <td class="content">
-Identifiers are critical for on the fly configuration replacement functionality because during replacement it needs to make decision about how correctly propagate information about already consumed tokens from state before config replacement to state after replacement. This is not trivial task especially when amount of limits is changing.
+Identifiers are critical for on-the-fly configuration replacement functionality because during replacement it needs to decide how correctly propagate information about already consumed tokens from the state before config replacement to the state after replacement. This is not a trivial task especially when the number of limits is changing.
 </td>
 </tr>
 </table>
@@ -1167,11 +1167,11 @@ Identifiers are critical for on the fly configuration replacement functionality 
 <p>Specifies the speed of tokens regeneration.</p>
 </div>
 <div class="dlist">
-<div class="title">There are tree types of refill:</div>
+<div class="title">There are three types of refill:</div>
 <dl>
 <dt class="hdlist1">Greedy</dt>
 <dd>
-<p>This type of refill regenerates tokens in greedy manner, it tries to add the tokens to bucket as soon as possible. For example refill "10 tokens per 1 second" adds 1 token per each 100 millisecond, in other words refill will not wait 1 second to regenerate whole bunch of 10 tokens. The three refills bellow do refill of tokens with same speed:<br></p>
+<p>This type of refill greedily regenerates tokens manner, it tries to add the tokens to the bucket as soon as possible. For example refill "10 tokens per 1 second" adds 1 token per every 100 milliseconds, in other words, the refill will not wait 1 second to regenerate a whole bunch of 10 tokens. The three refills below do refill of tokens with the same speed:<br></p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Refill.greedy(600, Duration.ofMinutes(1));
@@ -1180,7 +1180,7 @@ Refill.greedy(1, Duration.ofMillis(100));</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>Greedy</code> is default type of refill that is used when you create <code>simple</code> bandwidth<br></p>
+<p><code>Greedy</code> is the default type of refill that is used when you create <code>simple</code> bandwidth<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1190,9 +1190,9 @@ Bandwidth.classic(100, Refill.greedy(100, Duration.ofMinutes(1)))</code></pre>
 </div>
 </div>
 </dd>
-<dt class="hdlist1">Intervally</dt>
+<dt class="hdlist1">Interval</dt>
 <dd>
-<p>This type of refill regenerates tokens in intervally manner. "Intervally" in opposite to "greedy"  will wait until whole period will be elapsed before regenerate the whole amount of tokens.<br></p>
+<p>This type of refill regenerates tokens in an interval manner. "Interval" in opposite to "greedy"  will wait until the whole period will be elapsed before regenerating the whole amount of tokens.<br></p>
 <div class="listingblock">
 <div class="title">Example:<br></div>
 <div class="content">
@@ -1203,7 +1203,7 @@ Refill.greedy(100, Duration.ofMinutes(1));</code></pre>
 </dd>
 <dt class="hdlist1">IntervallyAligned</dt>
 <dd>
-<p>This type of refill regenerates that does refill of tokens in intervally manner. Intervally" in opposite to "greedy"  will wait until whole period will be elapsed before regenerate the whole amount of tokens. In additional to <strong>Intervally</strong> it is possible to specify the time when first refill should happen.  This type can be used to configure clear interval boundary i.e. start of second, minute, hour, day. To get more details reed javadocs for <code>Refill#intervallyAligned</code> method.<br></p>
+<p>This type of refill regenerates that does refill of tokens in an interval manner. Interval" in opposite to "greedy"  will wait until the whole period will be elapsed before regenerating the whole amount of tokens. In addition to <strong>Interval</strong> it is possible to specify the time when the first refill should happen.  This type can be used to configure clear interval boundary i.e. start of the second, minute, hour, day. To get more details to read javadocs for <code>Refill#intervallyAligned</code> method.<br></p>
 <div class="listingblock">
 <div class="title">Example:</div>
 <div class="content">
@@ -1229,7 +1229,7 @@ Bandwidth.classic(400, Refill.intervallyAligned(400, Duration.ofHours(1), firstR
 <div class="ulist">
 <ul>
 <li>
-<p>Amount of current available tokens.</p>
+<p>Amount of currently available tokens.</p>
 </li>
 <li>
 <p>Timestamp when the last refill was happen.</p>
@@ -1243,21 +1243,21 @@ Bandwidth.classic(400, Refill.intervallyAligned(400, Duration.ofHours(1), firstR
 <div class="sect3">
 <h4 id="local-bucket-builder"><a class="anchor" href="#local-bucket-builder"></a>2.2.6. BucketBuilder</h4>
 <div class="paragraph">
-<p>It was explicitly decided by library authors to not provide for end users to construct a library entity via direct constructors.</p>
+<p>It was explicitly decided by library authors to not provide for end-users to construct a library entity via direct constructors.</p>
 </div>
 <div class="ulist">
-<div class="title">It were to reason to split built-time and usage-time APIs:</div>
+<div class="title">It was to reason to split built-time and usage-time APIs:</div>
 <ul>
 <li>
 <p>To be able in the future to change internal implementations without breaking backward compatibility.</p>
 </li>
 <li>
-<p>In order to provide <code>Fluent Builder API</code> that in our minds is good modern library design pattern.</p>
+<p>To to provide <code>Fluent Builder API</code> that in our minds is a good modern library design pattern.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><code>LocalBucketBuilder</code> is a fluent builder that is specialized to construct the local buckets, where local bucket is the bucket that holds  internal state just in memory and does not provide clustering functionality. Bellow an example of LocalBucketBuilder usage:</p>
+<p><code>LocalBucketBuilder</code> is a fluent builder that is specialized to construct the local buckets, where a local bucket is a bucket that holds an internal state just in memory and does not provide clustering functionality. Bellow an example of LocalBucketBuilder usage:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1273,12 +1273,12 @@ Bandwidth.classic(400, Refill.intervallyAligned(400, Duration.ofHours(1), firstR
 <div class="sect2">
 <h3 id="technical-limitations"><a class="anchor" href="#technical-limitations"></a>2.3. Technical limitations</h3>
 <div class="paragraph">
-<p>In order to provide the best precision, Bucket4j uses integer arithmetic as much as possible, so any internal calculation is limited by bound <code>Long.MAX_VALUE</code>. Library introduces several limits that described further, in order to be sure that calculations will never exceed the bound.</p>
+<p>To provide the best precision, Bucket4j uses integer arithmetic as much as possible, so any internal calculation is limited by bound <code>Long.MAX_VALUE</code>. The library introduces several limits that are described further, to be sure that calculations will never exceed the bound.</p>
 </div>
 <div class="sect3">
 <h4 id="maximum-refill-rate"><a class="anchor" href="#maximum-refill-rate"></a>2.3.1. Maximum refill rate</h4>
 <div class="paragraph">
-<p>Maximum refill rate is limited by <code>1 token/ 1 nanosecond</code>. Following examples of API usage will raise exceptions</p>
+<p>The maximum refill rate is limited by <code>1 token/ 1 nanosecond</code>. Following examples of API usage will raise exceptions</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1307,18 +1307,18 @@ Bandwidth.classic(400, Refill.intervallyAligned(400, Duration.ofHours(1), firstR
 </div>
 </div>
 <div class="paragraph">
-<p>Any attempt to specify period longer that limit above will fail with exception. For example the code bellow will failed</p>
+<p>Any attempt to specify a period longer than the limit above will fail with an exception. For example, the code below will failed</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bandwidth.simple(42, Duration.ofMinutes(153722867280912930));
 
 Exception in thread "main" java.lang.ArithmeticException: long overflow
-	at java.lang.Math.multiplyExact(Math.java:892)
-	at java.time.Duration.toNanos(Duration.java:1186)
-	at io.github.bucket4j.Refill.&lt;init&gt;(Refill.java:48)
-	at io.github.bucket4j.Refill.greedy(Refill.java:100)
-	at io.github.bucket4j.Bandwidth.simple(Bandwidth.java:102)</code></pre>
+   at java.lang.Math.multiplyExact(Math.java:892)
+   at java.time.Duration.toNanos(Duration.java:1186)
+   at io.github.bucket4j.Refill.&lt;init&gt;(Refill.java:48)
+   at io.github.bucket4j.Refill.greedy(Refill.java:100)
+   at io.github.bucket4j.Bandwidth.simple(Bandwidth.java:102)</code></pre>
 </div>
 </div>
 </div>
@@ -1348,7 +1348,7 @@ boolean tryConsume(long numTokens);</code></pre>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
      * Consumes {@code tokens} from bucket ignoring all limits.
-     * In result of this operation amount of tokens in the bucket could became negative.
+     * As a result of this operation amount of tokens in the bucket could become negative.
      *
      * There are two possible reasons to use this method:
      * &lt;ul&gt;
@@ -1356,15 +1356,15 @@ boolean tryConsume(long numTokens);</code></pre>
      * &lt;li&gt;You want to apply custom blocking strategy instead of default which applied on {@code asScheduler().consume(tokens)} &lt;/li&gt;
      * &lt;/ul&gt;
      *
-     * @param tokens amount of tokens that should be consumed from bucket.
+     * @param tokens amount of tokens that should be consumed from a bucket.
      *
      * @return
-     * the amount of rate limit violation in nanoseconds calculated in following way:
+     * the amount of rate limit violation in nanoseconds is calculated in the following way:
      * &lt;ul&gt;
      *     &lt;li&gt;&lt;tt&gt;zero&lt;/tt&gt; if rate limit was not violated. For example bucket had 5 tokens before invocation of {@code consumeIgnoringRateLimits(2)},
      *     after invocation there are 3 tokens remain in the bucket, since limits were not violated &lt;tt&gt;zero&lt;/tt&gt; returned as result.&lt;/li&gt;
      *     &lt;li&gt;Positive value which describes the amount of rate limit violation in nanoseconds.
-     *     For example bucket with limit 10 tokens per 1 second, currently has the 2 tokens available, last refill happen 100 milliseconds ago, and {@code consumeIgnoringRateLimits(6)} called.
+     *     For example, a bucket with a limit of 10 tokens per 1 second, currently has the 2 tokens available, last refill happen 100 milliseconds ago, and {@code consumeIgnoringRateLimits(6)} called.
      *     &lt;tt&gt;300_000_000&lt;/tt&gt; will be returned as result and available tokens in the bucket will became &lt;tt&gt;-3&lt;/tt&gt;, and any variation of {@code tryConsume...} will not be successful for 400 milliseconds(time required to refill amount of available tokens until 1).
      *     &lt;/li&gt;
      * &lt;/ul&gt;
@@ -1382,7 +1382,7 @@ boolean tryConsume(long numTokens);</code></pre>
      *
      * @param numTokens The number of tokens to consume from the bucket, must be a positive number.
      *
-     * @return {@link ConsumptionProbe} which describes both result of consumption and tokens remaining in the bucket after consumption.
+     * @return {@link ConsumptionProbe} which describes both the result of consumption and tokens remaining in the bucket after consumption.
      */
     ConsumptionProbe tryConsumeAndReturnRemaining(long numTokens);</code></pre>
 </div>
@@ -1408,9 +1408,9 @@ boolean tryConsume(long numTokens);</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
-     * Tries to consume as much tokens from this bucket as available at the moment of invocation.
+     * Tries to consume as many tokens from this bucket as available at the moment of invocation.
      *
-     * @return number of tokens which has been consumed, or zero if was consumed nothing.
+     * @return number of tokens which have been consumed, or zero if nothing was consumed.
      */
     long tryConsumeAsMuchAsPossible();</code></pre>
 </div>
@@ -1418,12 +1418,12 @@ boolean tryConsume(long numTokens);</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
-     * Tries to consume as much tokens from bucket as available in the bucket at the moment of invocation,
-     * but tokens which should be consumed is limited by {@code limit}.
+     * Tries to consume as much tokens from the bucket as available in the bucket at the moment of invocation,
+     * but tokens which should be consumed are limited by {@code limit}.
      *
-     * @param limit maximum number of tokens to consume, should be positive.
+     * @param limit a maximum number of tokens to consume, should be positive.
      *
-     * @return number of tokens which has been consumed, or zero if was consumed nothing.
+     * @return number of tokens which has been consumed, or zero if nothing was consumed.
      */
     long tryConsumeAsMuchAsPossible(long limit);</code></pre>
 </div>
@@ -1437,10 +1437,10 @@ boolean tryConsume(long numTokens);</code></pre>
      * Add &lt;tt&gt;tokensToAdd&lt;/tt&gt; to bucket.
      * Resulted count of tokens are calculated by following formula:
      * &lt;pre&gt;newTokens = Math.min(capacity, currentTokens + tokensToAdd)&lt;/pre&gt;
-     * in other words resulted number of tokens never exceeds capacity independent of &lt;tt&gt;tokensToAdd&lt;/tt&gt;.
+     * In other words resulted number of tokens never exceeds capacity independent of &lt;tt&gt;tokensToAdd&lt;/tt&gt;.
      *
      * &lt;h3&gt;Example of usage&lt;/h3&gt;
-     * The "compensating transaction" is one of obvious use case, when any piece of code consumed tokens from bucket, tried to do something and failed, the "addTokens" will be helpful to return tokens back to bucket:
+     * The "compensating transaction" is one of the obvious use case, when any piece of code consumed tokens from a bucket, tried to do something, and failed, the "addTokens" will be helpful to return tokens back to the bucket:
      * &lt;pre&gt;{@code
      *      Bucket wallet;
      *      ...
@@ -1468,7 +1468,7 @@ boolean tryConsume(long numTokens);</code></pre>
      * Add &lt;tt&gt;tokensToAdd&lt;/tt&gt; to bucket. In opposite to {@link #addTokens(long)} usage of this method can lead to overflow bucket capacity.
      *
      * &lt;h3&gt;Example of usage&lt;/h3&gt;
-     * The "compensating transaction" is one of obvious use case, when any piece of code consumed tokens from bucket, tried to do something and failed, the "addTokens" will be helpful to return tokens back to bucket:
+     * The "compensating transaction" is one of the obvious use case, when any piece of code consumed tokens from a bucket, tried to do something, and failed, the "addTokens" will be helpful to return tokens back to the bucket:
      * &lt;pre&gt;{@code
      *      Bucket wallet;
      *      ...
@@ -1493,9 +1493,9 @@ boolean tryConsume(long numTokens);</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
-     * Returns amount of available tokens in this bucket.
+     * Returns the amount of available tokens in this bucket.
 * &lt;p&gt;
-*     Typically you should avoid using of this method for, because available tokens can be changed by concurrent transactions for case of multithreaded/multi-process environment.
+*     Typically you should avoid using this method for, because available tokens can be changed by concurrent transactions in the case of a multithreaded/multi-process environment.
 *
 * @return amount of available tokens
 */
@@ -1526,13 +1526,13 @@ long getAvailableTokens();</code></pre>
      * Replaces configuration of this bucket.
      *
      * &lt;p&gt;
-     * The first hard problem of configuration replacement is making decision how to propagate available tokens from bucket with previous configuration to bucket with new configuration.
-     * If you don't care about previous bucket state then use {@link TokensInheritanceStrategy#RESET}.
-     * But it becomes to a tricky problem when we expect that previous consumption(that has not been compensated by refill yet) should take effect to the bucket with new configuration.
-     * In this case you need to make a choice between {@link TokensInheritanceStrategy#PROPORTIONALLY} and {@link TokensInheritanceStrategy#AS_IS}, read documentation about both with strong attention.
+     * The first hard problem of configuration replacement is making decisions on how to propagate available tokens from the bucket with the previous configuration to the bucket with a new configuration.
+     * If you don't care about the previous bucket state then use {@link TokensInheritanceStrategy#RESET}.
+     * But it becomes a tricky problem when we expect that previous consumption(that has not been compensated by refill yet) should take effect to the bucket with a new configuration.
+     * In this case you need to make a choice between {@link TokensInheritanceStrategy#PROPORTIONALLY} and {@link TokensInheritanceStrategy#AS_IS}, read the documentation about both with strong attention.
      *
-     * &lt;p&gt; There is another problem when you are choosing {@link TokensInheritanceStrategy#PROPORTIONALLY} and {@link TokensInheritanceStrategy#AS_IS} and bucket has more then one bandwidth.
-     * For example how does replaceConfiguration implementation should bind bandwidths to each other in the following example?
+     * &lt;p&gt; There is another problem when you are choosing {@link TokensInheritanceStrategy#PROPORTIONALLY} and {@link TokensInheritanceStrategy#AS_IS} and the bucket has more than one bandwidth.
+     * For example how does replaceConfiguration implementation bind bandwidths to each other in the following example?
      * &lt;pre&gt;
      * &lt;code&gt;
      *     Bucket bucket = Bucket.builder()
@@ -1547,9 +1547,9 @@ long getAvailableTokens();</code></pre>
      *     bucket.replaceConfiguration(newConfiguration, TokensInheritanceStrategy.AS_IS);
      * &lt;/code&gt;
      * &lt;/pre&gt;
-     * It is obviously that simple strategy - copying tokens by bandwidth index will not work well in this case, because of it highly depends from order.
-     * Instead of inventing the backward maggic Bucket4j provides to you ability to deap controll of this process by specifying identifiers for bandwidth,
-     * so in case of multiple bandwidth configuratoin replacement code can copy available tokens by bandwidth ID. So it is better to rewrite code above as following:
+     * It is obvious that a simple strategy - copying tokens by bandwidth index will not work well in this case, because it highly depends from order.
+     * Instead of inventing the backward magic Bucket4j provides to you the ability to deap controll of this process by specifying identifiers for bandwidth,
+     * so in case of multiple bandwidth configuratoin replacement code can copy available tokens by bandwidth ID. So it is better to rewrite the code above as following:
      * &lt;pre&gt;
      * &lt;code&gt;
      * Bucket bucket = Bucket.builder()
@@ -1567,7 +1567,7 @@ long getAvailableTokens();</code></pre>
      *
      *
      * &lt;p&gt;
- *     There are following rules for bandwidth identifiers:
+ *     There are the following rules for bandwidth identifiers:
      * &lt;ul&gt;
      *     &lt;li&gt;
      *          By default bandwidth has &lt;b&gt;null&lt;/b&gt; identifier.
@@ -1576,11 +1576,11 @@ long getAvailableTokens();</code></pre>
      *         null value of identifier equals to another null value if and only if there is only one bandwidth with null identifier.
      *     &lt;/li&gt;
      *     &lt;li&gt;
-     *         If identifier for bandwidth is specified then it must has unique in the bucket. Bucket does not allow to create several bandwidth with same ID.
+     *         If an identifier for bandwidth is specified then it must be unique in the bucket. Bucket does not allow to create of several bandwidths with the same ID.
      *     &lt;/li&gt;
      *     &lt;li&gt;
-     *         {@link TokensInheritanceStrategy#RESET} strategy will be applied for tokens migration during config replacement for bandwidth which has no bound bandwidth with same ID in previous configuration,
-     *         idependently of strategy that was requested.
+     *         {@link TokensInheritanceStrategy#RESET} strategy will be applied for tokens migration during config replacement for bandwidth which has no bound bandwidth with the same ID in the previous configuration,
+     *         independently of the strategy that was requested.
      *     &lt;/li&gt;
      * &lt;/ul&gt;
      *
@@ -1651,10 +1651,10 @@ long getAvailableTokens();</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    /**
-     * Returns new copy of this bucket instance decorated by {@code listener}.
-     * The created bucket will share same tokens with source bucket and vice versa.
+     * Returns a new copy of this bucket instance decorated by {@code listener}.
+     * The created bucket will share the same tokens with the source bucket and vice versa.
      *
-     * See javadocs for {@link BucketListener} in order to understand semantic of listener.
+     * See javadocs for {@link BucketListener} in order to understand the semantics of listener.
      *
      * @param listener the listener of bucket events.
      *
@@ -1688,20 +1688,20 @@ long getAvailableTokens();</code></pre>
      *     &lt;/li&gt;
      *     &lt;li&gt;
      *         If bucket has no enough tokens,
-     *         but deficit can be closed in period of time less then &lt;code&gt;maxWaitTimeNanos&lt;/code&gt; nanoseconds,
+     *         but deficit can be closed in period of time less than &lt;code&gt;maxWaitTimeNanos&lt;/code&gt; nanoseconds,
      *         then tokens consumed(reserved in fair manner) from bucket and current thread blocked for a time required to close deficit,
      *         after unblocking method returns &lt;tt&gt;true&lt;/tt&gt;.
      *
      *         &lt;p&gt;
      *         &lt;strong&gt;Note:&lt;/strong&gt; If InterruptedException happen when thread was blocked
      *         then tokens will be not returned back to bucket,
-     *         but you can use {@link Bucket#addTokens(long)} to returned tokens back.
+     *         but you can use {@link Bucket#addTokens(long)} to return tokens back.
      *     &lt;/li&gt;
      * &lt;/ul&gt;
      *
      * @param numTokens The number of tokens to consume from the bucket.
      * @param maxWaitTimeNanos limit of time(in nanoseconds) which thread can wait.
-     * @param blockingStrategy specifies the way to block current thread to amount of time required to refill missed number of tokens in the bucket
+     * @param blockingStrategy specifies the way to block the current thread to the amount of time required to refill a missed number of tokens in the bucket
      *
      * @return true if {@code numTokens} has been consumed or false when {@code numTokens} has not been consumed
      *
@@ -1719,7 +1719,7 @@ long getAvailableTokens();</code></pre>
      *
      * @param numTokens The number of tokens to consume from the bucket.
      * @param maxWait limit of time which thread can wait.
-     * @param blockingStrategy specifies the way to block current thread to amount of time required to refill missed number of tokens in the bucket
+     * @param blockingStrategy specifies the way to block the current thread to the amount of time required to refill a missed number of tokens in the bucket
      *
      * @return true if {@code numTokens} has been consumed or false when {@code numTokens} has not been consumed
      *
@@ -1778,7 +1778,7 @@ long getAvailableTokens();</code></pre>
      *
      * @param numTokens The number of tokens to consume from the bucket.
      * @param maxWaitTimeNanos limit of time(in nanoseconds) which thread can wait.
-     * @param blockingStrategy specifies the way to block current thread to amount of time required to refill missed number of tokens in the bucket
+     * @param blockingStrategy specifies the way to block the current thread to the amount of time required to refill missed number of tokens in the bucket
      *
      * @return true if {@code numTokens} has been consumed or false when {@code numTokens} has not been consumed
      *
@@ -1794,7 +1794,7 @@ long getAvailableTokens();</code></pre>
      *
      * @param numTokens The number of tokens to consume from the bucket.
      * @param maxWait limit of time which thread can wait.
-     * @param blockingStrategy specifies the way to block current thread to amount of time required to refill missed number of tokens in the bucket
+     * @param blockingStrategy specifies the way to block the current thread to the amount of time required to refill a missed number of tokens in the bucket
      *
      * @return true if {@code numTokens} has been consumed or false when {@code numTokens} has not been consumed
      *
@@ -1863,7 +1863,7 @@ long getAvailableTokens();</code></pre>
      * &lt;/ul&gt;
      *
      * @param numTokens The number of tokens to consume from the bucket.
-     * @param blockingStrategy specifies the way to block current thread to amount of time required to refill missed number of tokens in the bucket
+     * @param blockingStrategy specifies the way to block the current thread to the amount of time required to refill a missed number of tokens in the bucket
      *
      *
      * @throws InterruptedException in case of current thread has been interrupted during the waiting
@@ -1896,7 +1896,7 @@ long getAvailableTokens();</code></pre>
      * Has same semantic with {@link #consume(long, BlockingStrategy)} but ignores interrupts(just restores interruption flag on exit).
      *
      * @param numTokens The number of tokens to consume from the bucket.
-     * @param blockingStrategy specifies the way to block current thread to amount of time required to refill missed number of tokens in the bucket
+     * @param blockingStrategy specifies the way to block the current thread to the amount of time required to refill a missed number of tokens in the bucket
      *
      * @see #consume(long, BlockingStrategy)
      */
@@ -1931,26 +1931,26 @@ long getAvailableTokens();</code></pre>
 * &lt;p&gt;
 * &lt;strong&gt;The algorithm for all type of buckets is following:&lt;/strong&gt;
 * &lt;ul&gt;
-*     &lt;li&gt;Implementation issues asynchronous request to back-end behind the bucket(for local bucket it is just a synchronous call) in way which specific for each particular back-end.&lt;/li&gt;
+*     &lt;li&gt;Implementation issues asynchronous request to back-end behind the bucket(for local bucket it is just a synchronous call) in a way which specific for each particular back-end.&lt;/li&gt;
 *     &lt;li&gt;Then uncompleted future returned to the caller.&lt;/li&gt;
 *     &lt;li&gt;If back-end provides signal(through callback) that asynchronous request failed, then future completed exceptionally.&lt;/li&gt;
 *     &lt;li&gt;When back-end provides signal(through callback) that request is done(for local bucket response got immediately), then following post-processing rules will be applied:
 *          &lt;ul&gt;
 *              &lt;li&gt;
-*                  If tokens were consumed then future immediately completed by &lt;tt&gt;true&lt;/tt&gt;.
+*                  If tokens were consumed then the future immediately completed by &lt;tt&gt;true&lt;/tt&gt;.
 *              &lt;/li&gt;
 *              &lt;li&gt;
-*                  If tokens were not consumed because were not enough tokens in the bucket and &lt;tt&gt;maxWaitNanos&lt;/tt&gt; nanoseconds is not enough time to refill deficit,
-*                  then future immediately completed by &lt;tt&gt;false&lt;/tt&gt;.
+*                  If tokens were not consumed because were not enough tokens in the bucket and &lt;tt&gt;maxWaitNanos&lt;/tt&gt; nanoseconds is not enough time to refill the deficit,
+*                  then the future is immediately completed by &lt;tt&gt;false&lt;/tt&gt;.
 *              &lt;/li&gt;
 *              &lt;li&gt;
 *                  If tokens were reserved(effectively consumed) then &lt;tt&gt;task&lt;/tt&gt; to delayed completion will be scheduled to the &lt;tt&gt;scheduler&lt;/tt&gt; via {@link ScheduledExecutorService#schedule(Runnable, long, TimeUnit)},
-*                  when delay equals to time required to refill the deficit of tokens. After scheduler executes task the future completed by &lt;tt&gt;true&lt;/tt&gt;.
+*                  when delay equals to the time required to refill the deficit of tokens. After the scheduler executes the task the future completed by &lt;tt&gt;true&lt;/tt&gt;.
 *              &lt;/li&gt;
 *          &lt;/ul&gt;
 *     &lt;/li&gt;
 * &lt;/ul&gt;
-* It is strongly not recommended to do any heavy work in thread which completes the future,
+* It is strongly not recommended to do any heavy work in a thread which completes the future,
 * because typically this will be a back-end thread which handles NIO selectors,
 * blocking this thread will take negative performance effect to back-end throughput,
 * so you always should resume control flow in another executor via methods like {@link CompletableFuture#thenApplyAsync(Function, Executor)}.
@@ -1989,22 +1989,22 @@ CompletableFuture&lt;Boolean&gt; tryConsume(long numTokens, long maxWaitNanos, S
      * &lt;p&gt;
      * &lt;strong&gt;The algorithm for all type of buckets is following:&lt;/strong&gt;
      * &lt;ul&gt;
-     *     &lt;li&gt;Implementation issues asynchronous request to back-end behind the bucket(for local bucket it is just a synchronous call) in way which specific for each particular back-end.&lt;/li&gt;
+     *     &lt;li&gt;Implementation issues asynchronous request to back-end behind the bucket(for local bucket it is just a synchronous call) in a way which specific for each particular back-end.&lt;/li&gt;
      *     &lt;li&gt;Then uncompleted future returned to the caller.&lt;/li&gt;
      *     &lt;li&gt;If back-end provides signal(through callback) that asynchronous request failed, then future completed exceptionally.&lt;/li&gt;
      *     &lt;li&gt;When back-end provides signal(through callback) that request is done(for local bucket response got immediately), then following post-processing rules will be applied:
      *          &lt;ul&gt;
      *              &lt;li&gt;
-     *                  If tokens were consumed then future immediately completed.
+     *                  If tokens were consumed then the future was immediately completed.
      *              &lt;/li&gt;
      *              &lt;li&gt;
      *                  Else tokens reserved(effectively consumed) and &lt;tt&gt;task&lt;/tt&gt; to delayed completion will be scheduled to the &lt;tt&gt;scheduler&lt;/tt&gt; via {@link ScheduledExecutorService#schedule(Runnable, long, TimeUnit)},
-     *                  when delay equals to time required to refill the deficit of tokens. After scheduler executes task the future completed.
+     *                  when delay equals the time required to refill the deficit of tokens. After the scheduler executes the task the future is completed.
      *              &lt;/li&gt;
      *          &lt;/ul&gt;
      *     &lt;/li&gt;
      * &lt;/ul&gt;
-     * It is strongly not recommended to do any heavy work in thread which completes the future,
+     * It is strongly not recommended to do any heavy work in a thread that completes the future,
      * because typically this will be a back-end thread which handles NIO selectors,
      * blocking this thread will take negative performance effect to back-end throughput,
      * so you always should resume control flow in another executor via methods like {@link CompletableFuture#thenApplyAsync(Function, Executor)}.
@@ -2022,8 +2022,8 @@ CompletableFuture&lt;Boolean&gt; tryConsume(long numTokens, long maxWaitNanos, S
 <div class="sect2">
 <h3 id="generic-production-checklist"><a class="anchor" href="#generic-production-checklist"></a>2.5. Generic production checklist</h3>
 <div class="paragraph">
-<p>The considerations described bellow are applicable to each solution based on the token-bucket or leaky-bucket algorithm.
-You need to understand, agree and configure following points:</p>
+<p>The considerations described below apply to each solution based on the token-bucket or leaky-bucket algorithm.
+You need to understand, agree, and configure the following points:</p>
 </div>
 <div class="sect3">
 <h4 id="be-wary-of-long-periods"><a class="anchor" href="#be-wary-of-long-periods"></a>2.5.1. Be wary of long periods</h4>
@@ -2038,15 +2038,15 @@ you need to pay close attention to the throttling time window.</p>
 <p>Given a bucket with a limit of 10000 tokens/ per 1 hour per user.</p>
 </li>
 <li>
-<p>A malicious attacker may send 9999 request in very short period, for example within 10 seconds. This would correspond to 100 request per second which could seriously impact your system.</p>
+<p>A malicious attacker may send 9999 requests in a very short period, for example within 10 seconds. This would correspond to 100 requests per second which could seriously impact your system.</p>
 </li>
 <li>
-<p>A skilled attacker could stop at 9999 request per hour, and repeat every hour, which would make this attack impossible to detect (because the limit would not be reached).</p>
+<p>A skilled attacker could stop at 9999 requests per hour, and repeat every hour, which would make this attack impossible to detect (because the limit would not be reached).</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>To protect from this kind attacks, you should specify multiple limits like bellow</p>
+<p>To protect from this kind of attack, you should specify multiple limits like bellow</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2063,11 +2063,11 @@ you need to pay close attention to the throttling time window.</p>
 <div class="sect3">
 <h4 id="short-timed-bursts"><a class="anchor" href="#short-timed-bursts"></a>2.5.2. Be wary of short-timed bursts</h4>
 <div class="paragraph">
-<p>Token bucket is an efficient algorithm with low and fixed memory footprint, independently of the incoming request-rate(it can be millions per second) the bucket consumes no more then 40 bytes(five longs).
-But an efficient memory footprint has its own cost - bandwidth limitation is only satisfied over a long period of time. In other words you cannot avoid short-timed bursts.</p>
+<p>The token bucket is an efficient algorithm with a low and fixed memory footprint, independently of the incoming request rate (it can be millions per second) the bucket consumes no more than 40 bytes(five longs).
+But an efficient memory footprint has its own cost - bandwidth limitation is only satisfied over a long period. In other words, you cannot avoid short-timed bursts.</p>
 </div>
 <div class="ulist">
-<div class="title">Let us describe an example of local burst:</div>
+<div class="title">Let us describe an example of a local burst:</div>
 <ul>
 <li>
 <p>Given a bucket with a limit of 100 tokens/min. We start with a full bucket, i.e. with 100 tokens.</p>
@@ -2076,10 +2076,10 @@ But an efficient memory footprint has its own cost - bandwidth limitation is onl
 <p>At <code>T1</code> 100 requests are made and thus the bucket becomes empty.</p>
 </li>
 <li>
-<p>At <code>T1+1min</code> the bucket is full again because tokens fully regenerated and we can immediately consume 100 tokens.</p>
+<p>At <code>T1+1min</code> the bucket is full again because tokens are fully regenerated and we can immediately consume 100 tokens.</p>
 </li>
 <li>
-<p>This means that between  <code>T1</code> and <code>T1+1min</code> we have consumed 200 tokens. Over a long period of time there will be no more than 100 requests per min, but as shown above it is possible to burst at <strong>twice the limit</strong> here at 100 tokens per min.</p>
+<p>This means that between  <code>T1</code> and <code>T1+1min</code> we have consumed 200 tokens. Over a long time, there will be no more than 100 requests per min, but as shown above, it is possible to burst at <strong>twice the limit</strong> here at 100 tokens per min.</p>
 </li>
 </ul>
 </div>
@@ -2090,7 +2090,7 @@ But an efficient memory footprint has its own cost - bandwidth limitation is onl
 <p>Do not use Bucket4j or any other solution implemented on top of token-bucket algorithms, because token-bucket is specially designed for network traffic management devices for which short-living traffic spike is a regular case, trying to avoid spike at all contradicts with the nature of token-bucket.</p>
 </li>
 <li>
-<p>Since the value of burst always equals to capacity, try to reduce the capacity and speed of refill. For example if you have <strong><strong>strong</strong></strong> requirements <code>100tokens/60seconds</code> then configure bucket as <code>capacity=50tokens  refill=50tokens/60seconds</code>. It worth to mention that this way leads to following drawbacks:&#8201;&#8212;&#8201;In one time you are not allowed to consume amount of tokens greater than capacity, according to example above - before capacity reducing you was able to consume 100 tokens in single request, after reducing you are able to consume 50 tokens in one request at max.&#8201;&#8212;&#8201;Reducing the speed of refill leads to underconsumptions on long term periods, it is obvious that with refill <code>50tokens/60seconds</code> you will be able to consume 3050 tokens for 1 hour, instead of 6100(as was prior refill reducing).&#8201;&#8212;&#8201;As a summary of two drawbacks above, we can say that you will pay via <strong>underconsumption</strong> for eliminating the risk of <strong>overconsumption</strong>.</p>
+<p>Since the value of burst always equals capacity, try to reduce the capacity and speed of refill. For example, if you have <strong><strong>strong</strong></strong> requirements <code>100tokens/60seconds</code> then configure bucket as <code>capacity=50tokens  refill=50tokens/60seconds</code>. It is worth mentioning that this way leads to the following drawbacks:&#8201;&#8212;&#8201;In one time you are not allowed to consume several tokens greater than capacity, according to the example above - before capacity reducing you were able to consume 100 tokens in a single request, after reducing you can consume 50 tokens in one request at max.&#8201;&#8212;&#8201;Reducing the speed of refill leads to underconsumption on long term periods, it is obvious that with refill <code>50tokens/60seconds</code> you will be able to consume 3050 tokens for 1 hour, instead of 6100(as was prior refill reducing).&#8201;&#8212;&#8201;As a summary of the two drawbacks above, we can say that you will pay via <strong>underconsumption</strong> for eliminating the risk of <strong>overconsumption</strong>.</p>
 </li>
 </ul>
 </div>
@@ -2113,13 +2113,13 @@ But an efficient memory footprint has its own cost - bandwidth limitation is onl
 <div class="title">Note</div>
 </td>
 <td class="content">
-Do not forget to read <a href="#distributed-checklist">Distributed usage checklist</a>  before using the Bucket4j over JCache cluster.
+Do not forget to read <a href="#distributed-checklist">Distributed usage checklist</a>  before using the Bucket4j over the JCache cluster.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>To use JCache extension you also need to add following dependency:</p>
+<p>To use the JCache extension you also need to add the following dependency:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2131,7 +2131,7 @@ Do not forget to read <a href="#distributed-checklist">Distributed usage checkli
 </div>
 </div>
 <div class="paragraph">
-<p>JCache expects javax.cache.cache-api to be a provided dependency. Do not forget to add following dependency:</p>
+<p>JCache expects javax.cache.cache-api to be a provided dependency. Do not forget to add the following dependency:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2147,13 +2147,13 @@ Do not forget to read <a href="#distributed-checklist">Distributed usage checkli
 <div class="quoteblock">
 <blockquote>
 <div class="paragraph">
-<p>Imagine that you develop any Servlet based WEB application and want to limit access per IP basis.
-You want to use same limits for each IP - 30 requests per minute.</p>
+<p>Imagine that you develop any Servlet-based WEB application and want to limit access per IP basis.
+You want to use the same limits for each IP - 30 requests per minute.</p>
 </div>
 </blockquote>
 </div>
 <div class="paragraph">
-<p>ServletFilter would be obvious place to check limits:</p>
+<p>ServletFilter would be the obvious place to check limits:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2180,7 +2180,7 @@ You want to use same limits for each IP - 30 requests per minute.</p>
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         String ip = IpHelper.getIpFromRequest(httpRequest);
 
-        // acquire cheap proxy to bucket
+        // acquire cheap proxy to the bucket
         Bucket bucket = proxyManager.builder().build(key, configuration);
 
         // tryConsume returns false immediately if no tokens available with the bucket
@@ -2205,12 +2205,12 @@ You want to use same limits for each IP - 30 requests per minute.</p>
 <div class="quoteblock">
 <blockquote>
 <div class="paragraph">
-<p>Imagine that you provide paid language translation service via HTTP. Each user has unique agreement which differs from each other.
-Details of each agreement is stored in relational database, and takes significant time to fetch(for example 100ms).
-The example above will not work fine in this case, because time to create/fetch configuration of bucket from database
+<p>Imagine that you provide paid language translation service via HTTP. Each user has a unique agreement that differs from the other.
+Details of each agreement are stored in a relational database and take significant time to fetch(for example 100ms).
+The example above will not work fine in this case, because time to create/fetch the configuration of the bucket from the database
 will be 100 times slower than limit-checking itself.
-Bucket4j solves this problem via lazy configuration suppliers which are called if and only if bucket was not yet stored in grid,
-thus it is possible to implement solution  that will read agreement from database once per each user.</p>
+Bucket4j solves this problem via lazy configuration suppliers which are called if and only if the bucket was not yet stored in the grid,
+thus it is possible to implement a solution that will read the agreement from the database once per user.</p>
 </div>
 </blockquote>
 </div>
@@ -2239,10 +2239,10 @@ thus it is possible to implement solution  that will read agreement from databas
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         String userId = AutentificationHelper.getUserIdFromRequest(httpRequest);
 
-        // prepare configuration supplier which will be called(on first interaction with proxy) if bucket was not saved yet previously.
+        // prepare configuration supplier which will be called(on the first interaction with proxy) if the bucket was not saved yet previously.
         Supplier&lt;BucketConfiguration&gt; configurationLazySupplier = getConfigSupplierForUser(userId);
 
-        // acquire cheap proxy to bucket
+        // acquire cheap proxy to the bucket
         Bucket bucket = proxyManager.builder().build(key, configurationLazySupplier);
 
         // tryConsume returns false immediately if no tokens available with the bucket
@@ -2274,7 +2274,7 @@ thus it is possible to implement solution  that will read agreement from databas
 <div class="sect3">
 <h4 id="why-jcache-specification-is-not-enough-in-modern-stacks-and-since-3-0-were-introduced-the-dedicated-modules-for-infinispan-hazelcast-coherence-and-ignite"><a class="anchor" href="#why-jcache-specification-is-not-enough-in-modern-stacks-and-since-3-0-were-introduced-the-dedicated-modules-for-infinispan-hazelcast-coherence-and-ignite"></a>3.1.3. Why JCache specification is not enough in modern stacks and since 3.0 were introduced the dedicated modules for Infinispan, Hazelcast, Coherence and Ignite?</h4>
 <div class="paragraph">
-<p>Asynchronous processing is very important for high-throughput applications, but JCache specification does not specify asynchronous API, because two early attempts to bring this kind functionality at spec level <a href="https://github.com/jsr107/jsr107spec/issues/307">307</a>, <a href="https://github.com/jsr107/jsr107spec/issues/312">312</a> were failed in absence of consensus.</p>
+<p>Asynchronous processing is very important for high-throughput applications, but JCache specification does not specify asynchronous API, because two early attempts to bring this kind of functionality at spec level <a href="https://github.com/jsr107/jsr107spec/issues/307">307</a>, <a href="https://github.com/jsr107/jsr107spec/issues/312">312</a> were failed in absence of consensus.</p>
 </div>
 <div class="ulist">
 <div class="title">Sad, but true, if you need for asynchronous API, then JCache extension is useless, and you need to choose from following extensions:</div>
@@ -2294,11 +2294,11 @@ thus it is possible to implement solution  that will read agreement from databas
 </ul>
 </div>
 <div class="paragraph">
-<p>Also, implementation the asynchronous support for any other JCache provider outside from the list above should be easy exercise, so feel free to return back the pull request addressed to cover your favorite JCache provider.</p>
+<p>Also, implementing the asynchronous support for any other JCache provider outside of the list above should be an easy exercise, so feel free to return back the pull request addressed to cover your favorite JCache provider.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="verification-of-compatibility-with-particular-jcache-provider-is-your-responsibility"><a class="anchor" href="#verification-of-compatibility-with-particular-jcache-provider-is-your-responsibility"></a>3.1.4. Verification of compatibility with particular JCache provider is your responsibility</h4>
+<h4 id="verification-of-compatibility-with-a-particular-jcache-provider-is-your-responsibility"><a class="anchor" href="#verification-of-compatibility-with-a-particular-jcache-provider-is-your-responsibility"></a>3.1.4. Verification of compatibility with a particular JCache provider is your responsibility</h4>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -2306,16 +2306,16 @@ thus it is possible to implement solution  that will read agreement from databas
 <div class="title">Important</div>
 </td>
 <td class="content">
-Keep in mind that there are many non-certified implementations of JCache specification on the market.
+Keep in mind that there are many non-certified implementations of JCache specifications on the market.
 Many of them want to increase their popularity by declaring support for the JCache API,
 but often only the API is supported and the semantic of JCache is totally ignored.
-Usage Bucket4j with this kind of libraries should be completely avoided.
+Usage Bucket4j with this kind of library should be completely avoided.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Bucket4j is only compatible with implementations which obey the JCache specification rules(especially related to EntryProcessor execution). Oracle Coherence, Apache Ignite, Hazelcast are good examples of safe implementations of JCache.</p>
+<p>Bucket4j is only compatible with implementations that obey the JCache specification rules(especially related to EntryProcessor execution). Oracle Coherence, Apache Ignite, Hazelcast are good examples of safe implementations of JCache.</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -2386,7 +2386,7 @@ public class CompatibilityTest {
 </div>
 <div class="paragraph">
 <p>The check does 4000 increments of integer in parallel and verifies that no one update has been missed.
-If check passed then your JCache provider is compatible with Bucket4j, the throttling will work fine in distributed and concurrent environment. If check is not passed, then reach to the particular JCache provider team and consult why its implementation misses the writes.</p>
+If the check passed then your JCache provider is compatible with Bucket4j, the throttling will work fine in a distributed and concurrent environment. If the check is not passed, then reach out to the particular JCache provider team and consult why its implementation misses the writes.</p>
 </div>
 </div>
 </div>
@@ -2395,7 +2395,7 @@ If check passed then your JCache provider is compatible with Bucket4j, the throt
 <div class="sect3">
 <h4 id="dependencies"><a class="anchor" href="#dependencies"></a>3.2.1. Dependencies</h4>
 <div class="paragraph">
-<p>To use Bucket4j extension for Hazelcast with <code>Hazelcast 4.x</code> you need to add following dependency:</p>
+<p>To use Bucket4j extension for Hazelcast with <code>Hazelcast 4.x</code> you need to add the following dependency:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2407,7 +2407,7 @@ If check passed then your JCache provider is compatible with Bucket4j, the throt
 </div>
 </div>
 <div class="paragraph">
-<p>If you are using legacy version of Hazelcast <code>3.x</code> then you need to add following dependency:</p>
+<p>If you are using a legacy version of Hazelcast <code>3.x</code> then you need to add the following dependency:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2424,8 +2424,8 @@ If check passed then your JCache provider is compatible with Bucket4j, the throt
 <div class="ulist">
 <ul>
 <li>
-<p>Bucket4j authors do not perform continues monitoring of new Hazelcast releases. So, there is can be case when there is no one version of Bucket4j which is compatible with newly released Hazelcast,
-just log issue to <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issues">bug tracker</a> in this case, adding support to new version of Hazelcast is usually easy exercise.</p>
+<p>Bucket4j authors do not perform continuous monitoring of new Hazelcast releases. So, there is can be a case when there is no one version of Bucket4j which is compatible with the newly released Hazelcast,
+just log an issue to <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issues">bug tracker</a> in this case, adding support to new version of Hazelcast is usually an easy exercise.</p>
 </li>
 <li>
 <p>Integrations with legacy versions of Hazelcast are not removed without a clear reason. Hence You are in safety, even you are working in a big enterprise company that does not update its infrastructure frequently because You still get new Bucket4j&#8217;s features even for legacy Hazelcast&#8217;s releases.</p>
@@ -2453,7 +2453,7 @@ Bucket bucket = proxyManager.builder().build(configuration);</code></pre>
 <h4 id="configuring-custom-serialization-for-bucket4j-library-classes"><a class="anchor" href="#configuring-custom-serialization-for-bucket4j-library-classes"></a>3.2.4. Configuring Custom Serialization for Bucket4j library classes</h4>
 <div class="paragraph">
 <p>If you configure nothing, then by default Java serialization will be used for serialization Bucket4j library classes. Java serialization can be rather slow and should be avoided in general.
-<code>Bucket4j</code> provides <a href="https://docs.hazelcast.org/docs/3.0/manual/html/ch03s03.html">custom serializers</a> for all library classes that could be transferred over network.
+<code>Bucket4j</code> provides <a href="https://docs.hazelcast.org/docs/3.0/manual/html/ch03s03.html">custom serializers</a> for all library classes that could be transferred over the network.
 To let Hazelcast know about fast serializers you should register them programmatically in the serialization config:</p>
 </div>
 <div class="listingblock">
@@ -2479,7 +2479,7 @@ import io.github.bucket4j.grid.hazelcast.serialization.HazelcastSerializer;
 <h4 id="support-for-externally-managed-hazelcast-without-classpath-access"><a class="anchor" href="#support-for-externally-managed-hazelcast-without-classpath-access"></a>3.2.5. Support for externally managed Hazelcast without classpath access</h4>
 <div class="paragraph">
 <p><code>bucket4j-hazelcast</code> requires putting Bucket4j jars to classpath of each node of Hazelcast cluster.
-Sometimes you have no control over classpath because Hazelcast cluster is externally managed(Paas scenario).
+Sometimes you have no control over classpath because the Hazelcast cluster is externally managed(Paas scenario).
 In such cases <code><code>HazelcastProxyManager</code></code> can not be used because it is implemented on top of <a href="https://docs.hazelcast.com/imdg/4.2/computing/entry-processor">EntryProcessor</a> functionality.</p>
 </div>
 <div class="dlist">
@@ -2501,7 +2501,7 @@ This implementation requires 2 network hops if no contention happens, but in cas
 <div class="title">Limitations of HazelcastLockBasedProxyManager and HazelcastCompareAndSwapBasedProxyManager</div>
 <ul>
 <li>
-<p><code>HazelcastLockBasedProxyManager</code> does not provide async API because lack of <code>lockAsync</code> and <code>unlockAsync</code>  methods inside IMap API.</p>
+<p><code>HazelcastLockBasedProxyManager</code> does not provide async API because of lack of <code>lockAsync</code> and <code>unlockAsync</code>  methods inside IMap API.</p>
 </li>
 <li>
 <p><code>HazelcastCompareAndSwapBasedProxyManager</code> does not provide async API because lack of <code>replaceAsync</code> and <code>putIfAbsentAsync</code> methods inside IMap API.</p>
@@ -2533,7 +2533,7 @@ This implementation requires 2 network hops if no contention happens, but in cas
 because <code>bucket4j-ignite</code> is just a follow-up of <code>bucket4j-jcache</code>.</p>
 </div>
 <div class="paragraph">
-<p>Bucket4j supports Ignite Thin-Client as well as regular deployment scenario.</p>
+<p>Bucket4j supports Ignite Thin-Client as well as regular deployment scenarios.</p>
 </div>
 <div class="paragraph">
 <p><strong>Question:</strong> Bucket4j already supports JCache since version <code>1.2</code>. Why it was needed to introduce direct support for <code>Apache Ignite</code>?
@@ -2541,7 +2541,7 @@ because <code>bucket4j-ignite</code> is just a follow-up of <code>bucket4j-jcach
 developing the dedicated module <code>bucket4j-ignite</code> was the only way to provide asynchrony for users who use <code>Bucket4j</code> and <code>Apache Ignite</code> together.</p>
 </div>
 <div class="paragraph">
-<p><strong>Question:</strong> Should I migrate from <code>bucket4j-jcache</code> to <code>bucketj-ignite</code> If I do not need in asynchronous API?
+<p><strong>Question:</strong> Should I migrate from <code>bucket4j-jcache</code> to <code>bucketj-ignite</code> If I do not need an asynchronous API?
 <strong>Answer:</strong> No, you should not migrate to <code>bucketj-ignite</code> in this case.</p>
 </div>
 <div class="sect3">
@@ -2580,7 +2580,7 @@ Bucket bucket = proxyManager.builder().build(key, configuration);</code></pre>
 <div class="title">Important</div>
 </td>
 <td class="content">
-Pay attention that IgniteProxyManager requires from all nodes in the cluster to contain bucket4j Jars in classpath.
+Pay attention that IgniteProxyManager requires all nodes in the cluster to contain bucket4j Jars in classpath.
 </td>
 </tr>
 </table>
@@ -2608,7 +2608,7 @@ Bucket bucket = proxyManager.builder().build(key, configuration);</code></pre>
 <div class="title">Important</div>
 </td>
 <td class="content">
-Pay attention that IgniteThinClientProxyManager requires from all nodes in the cluster to contain bucket4j Jars in classpath.
+Pay attention that IgniteThinClientProxyManager requires all nodes in the cluster to contain bucket4j Jars in classpath.
 </td>
 </tr>
 </table>
@@ -2635,7 +2635,7 @@ Bucket bucket = proxyManager.builder().build(key, configuration);</code></pre>
 <div class="title">Important</div>
 </td>
 <td class="content">
-IgniteThinClientCasBasedProxyManager does not require from all nodes in the cluster to contain bucket4j Jars in classpath, but it operates with more latency, so choose it over IgniteThinClientProxyManager if and only if you have no control over cluster classpath.
+IgniteThinClientCasBasedProxyManager does not require all nodes in the cluster to contain bucket4j Jars in classpath, but it operates with more latency, so choose it over IgniteThinClientProxyManager if and only if you have no control over cluster classpath.
 </td>
 </tr>
 </table>
@@ -2659,7 +2659,7 @@ IgniteThinClientCasBasedProxyManager does not require from all nodes in the clus
 </div>
 </div>
 <div class="paragraph">
-<p>If you are using legacy version of Infinispan <code>8.x</code> then you need to add following dependency:</p>
+<p>If you are using a legacy version of Infinispan <code>8.x</code> then you need to add the following dependency:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2676,7 +2676,7 @@ IgniteThinClientCasBasedProxyManager does not require from all nodes in the clus
 <div class="ulist">
 <ul>
 <li>
-<p>Bucket4j authors do not perform continues monitoring of new Infinispan releases. So, there is can be case when there is no one version of Bucket4j which is compatible with newly released Infinispan, just log issue to <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issues">bug tracker</a> in this case, adding support to new version of Infinispan is usually easy exercise.</p>
+<p>Bucket4j authors do not perform continuous monitoring of new Infinispan releases. So, there is can be a case when there is no one version of Bucket4j which is compatible with the newly released Infinispan, just log an issue to <a href="https://github.com/vladimir-bukhtoyarov/bucket4j/issues">bug tracker</a> in this case, adding support to new version of Infinispan is usually an easy exercise.</p>
 </li>
 <li>
 <p>Integrations with legacy versions of Infinispan are not removed without a clear reason. Hence, you are in safety, even you are working in a big enterprise company that does not update its infrastructure frequently because You still get new Bucket4j&#8217;s features even for legacy Infinispan&#8217;s releases.</p>
@@ -2687,21 +2687,21 @@ IgniteThinClientCasBasedProxyManager does not require from all nodes in the clus
 <div class="sect3">
 <h4 id="special-notes-for-infinispan-10-0"><a class="anchor" href="#special-notes-for-infinispan-10-0"></a>3.4.3. Special notes for Infinispan 10.0+</h4>
 <div class="paragraph">
-<p>As mentioned in the <a href="https://infinispan.org/docs/dev/titles/developing/developing.html#marshalling">Infinispan Marshalling documentation</a>, since release <code>10.0.0</code> Infinispan does not allow deserialization of custom payloads into Java classes. If you do not configure serialization(as described bellow), you will get the error like this on any attempt to use Bucket4j with brand new Infinispan release:</p>
+<p>As mentioned in the <a href="https://infinispan.org/docs/dev/titles/developing/developing.html#marshalling">Infinispan Marshalling documentation</a>, since release <code>10.0.0</code> Infinispan does not allow deserialization of custom payloads into Java classes. If you do not configure serialization(as described below), you will get an error like this on any attempt to use Bucket4j with a brand new Infinispan release:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Jan 02, 2020 4:57:56 PM org.infinispan.marshall.persistence.impl.PersistenceMarshallerImpl objectToBuffer
 WARN: ISPN000559: Cannot marshall 'class io.github.bucket4j.grid.infinispan.InfinispanProcessor'
 java.lang.IllegalArgumentException: No marshaller registered for Java type io.github.bucket4j.grid.infinispan.SerializableFunctionAdapter
-	at org.infinispan.protostream.impl.SerializationContextImpl.getMarshallerDelegate(SerializationContextImpl.java:279)
-	at org.infinispan.protostream.WrappedMessage.writeMessage(WrappedMessage.java:240)
-	at org.infinispan.protostream.ProtobufUtil.toWrappedStream(ProtobufUtil.java:196)</code></pre>
+   at org.infinispan.protostream.impl.SerializationContextImpl.getMarshallerDelegate(SerializationContextImpl.java:279)
+   at org.infinispan.protostream.WrappedMessage.writeMessage(WrappedMessage.java:240)
+   at org.infinispan.protostream.ProtobufUtil.toWrappedStream(ProtobufUtil.java:196)</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>There are three options to solve this problem:
-* Configure Jboss marshalling instead of default ProtoStream marshaller as described <a href="https://infinispan.org/docs/dev/titles/developing/developing.html#jboss_marshalling">there</a>.
+* Configure Jboss marshaling instead of defaulting ProtoStream marshaller as described <a href="https://infinispan.org/docs/dev/titles/developing/developing.html#jboss_marshalling">there</a>.
 * Configure Java Serialization Marshaller instead of default ProtoStream marshaller, as described <a href="https://infinispan.org/docs/dev/titles/developing/developing.html#java_serialization_marshaller">there</a>.
 Do not forget to add <code>io.github.bucket4j.*</code> regexp to the whitelist if choosing this way.
 * And last way(recommended) just register <code>Bucket4j serialization context initializer</code> in the serialization configuration.
@@ -2726,7 +2726,7 @@ builder.serialization().addContextInitializer(new Bucket4jProtobufContextInitial
 </div>
 </div>
 <div class="paragraph">
-<p>And that is all. Just registering <code>Bucket4jProtobufContextInitializer</code> in any way is enough to make Bucket4j compatible with ProtoStream marshaller, you do not have to care about <code>*.proto</code> files, annotations, whitelist etc, all neccessary Protobuffers configs generated by <code>Bucket4jProtobufContextInitializer</code> and registerd on the fly.</p>
+<p>And that is all. Just registering <code>Bucket4jProtobufContextInitializer</code> in any way is enough to make Bucket4j compatible with ProtoStream marshaller, you do not have to care about <code>*.proto</code> files, annotations, whitelist, etc, all necessary Protobuffers configs generated by <code>Bucket4jProtobufContextInitializer</code> and register on the fly.</p>
 </div>
 </div>
 <div class="sect3">
@@ -2751,7 +2751,7 @@ Bucket bucket = proxyManager.builder().build(configuration);</code></pre>
 <div class="sect3">
 <h4 id="dependencies-4"><a class="anchor" href="#dependencies-4"></a>3.5.1. Dependencies</h4>
 <div class="paragraph">
-<p>To use <code>bucket4j-coherence</code> extension you need to add following dependency:</p>
+<p>To use <code>bucket4j-coherence</code> extension you need to add the following dependency:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2783,7 +2783,7 @@ Bucket bucket = proxyManager.builder().build(configuration);</code></pre>
 <h4 id="configuring-pof-serialization-for-bucket4j-library-classes"><a class="anchor" href="#configuring-pof-serialization-for-bucket4j-library-classes"></a>3.5.3. Configuring POF serialization for Bucket4j library classes</h4>
 <div class="paragraph">
 <p>If you configure nothing, then by default Java serialization will be used for serialization Bucket4j library classes. Java serialization can be rather slow and should be avoided in general.
-<code>Bucket4j</code> provides <a href="https://docs.oracle.com/cd/E24290_01/coh.371/e22837/api_pof.htm#COHDG1363">custom POF serializers</a> for all library classes that could be transferred over network.
+<code>Bucket4j</code> provides <a href="https://docs.oracle.com/cd/E24290_01/coh.371/e22837/api_pof.htm#COHDG1363">custom POF serializers</a> for all library classes that could be transferred over the network.
 To let Coherence know about POF serializers you should register three serializers in the POF configuration config file:</p>
 </div>
 <div class="exampleblock">
@@ -2817,14 +2817,14 @@ To let Coherence know about POF serializers you should register three serializer
 </div>
 </div>
 <div class="paragraph">
-<p>Double check with <a href="https://docs.oracle.com/cd/E24290_01/coh.371/e22837/api_pof.htm#COHDG5182">official Oracle Coherence documentation</a> in case of any questions related to <code>Portable Object Format</code>.</p>
+<p>Double-check with <a href="https://docs.oracle.com/cd/E24290_01/coh.371/e22837/api_pof.htm#COHDG5182">official Oracle Coherence documentation</a> in case of any questions related to <code>Portable Object Format</code>.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="asynchronous-api"><a class="anchor" href="#asynchronous-api"></a>3.6. Asynchronous API</h3>
 <div class="paragraph">
-<p>Since version <code>3.0</code> Bucket4j provides asynchronous analogs for majority of API methods.
+<p>Since version <code>3.0</code> Bucket4j provides asynchronous analogs for the majority of API methods.
 Async view of proxyManager is available through <code>asAsync()</code> method:</p>
 </div>
 <div class="listingblock">
@@ -2837,13 +2837,13 @@ AsyncBucketProxy asyncBucket = asyncProxyManager.builder().build(key, configurat
 </div>
 </div>
 <div class="paragraph">
-<p>Each method of class <code><code>AsyncBucketProxy</code></code> has full equivalence with same semantic in synchronous version in the <code><code>Bucket</code></code> class.</p>
+<p>Each method of class <code><code>AsyncBucketProxy</code></code> has full equivalence with the same semantic in asynchronous version in the <code><code>Bucket</code></code> class.</p>
 </div>
 <div class="sect3">
-<h4 id="example-limiting-the-rate-of-access-to-asynchronous-servlet"><a class="anchor" href="#example-limiting-the-rate-of-access-to-asynchronous-servlet"></a>3.6.1. Example - limiting the rate of access to asynchronous servlet</h4>
+<h4 id="example-limiting-the-rate-of-access-to-the-asynchronous-servlet"><a class="anchor" href="#example-limiting-the-rate-of-access-to-the-asynchronous-servlet"></a>3.6.1. Example - limiting the rate of access to the asynchronous servlet</h4>
 <div class="paragraph">
-<p>Imagine that you develop SMS service, which allows send SMS via HTTP interface.
-You want from your architecture to be protected from overloading, clustered and fully asynchronous.</p>
+<p>Imagine that you develop an SMS service, which allows sending SMS via an HTTP interface.
+You want your architecture to be protected from overloading, clustered, and fully asynchronous.</p>
 </div>
 <div class="paragraph">
 <p><strong>Overloading protection requirement:</strong></p>
@@ -2851,10 +2851,10 @@ You want from your architecture to be protected from overloading, clustered and 
 <div class="quoteblock">
 <blockquote>
 <div class="paragraph">
-<p>To prevent fraud and service overloading you want to introduce following limit for any outbound phone number: The bucket size is 20 SMS (which cannot be exceeded at any given time), with a "refill rate" of 10 SMS per minute that continually increases tokens in the bucket.
-In other words, if client sends 10 SMS per minute, it will never be throttled,
-and moreover client have overdraft equals to 20 SMS which can be used if average is little bit higher that 10 SMS/minute on short time period.
-<strong>Solution:</strong> lets use bucket4j for this.</p>
+<p>To prevent fraud and service overloading you want to introduce the following limit for any outbound phone number: The bucket size is 20 SMS (which cannot be exceeded at any given time), with a "refill rate" of 10 SMS per minute that continually increases tokens in the bucket.
+In other words, if a client sends 10 SMS per minute, it will never be throttled,
+and moreover, the client has overdraft equals to 20 SMS which can be used if the average is a little bit higher than 10 SMS/minute on short time period.
+<strong>Solution:</strong> let&#8217;s use bucket4j for this.</p>
 </div>
 </blockquote>
 </div>
@@ -2870,14 +2870,14 @@ thus it would be better to use any distributed computation platform for storing 
 </blockquote>
 </div>
 <div class="paragraph">
-<p><strong>Solution:</strong> lets use JBoss Infinispan for this and <code>bucket4j-infinispan</code> extension.
-Hazelcast and Apache Ignite will be also well choice, Infinispan just selected as example.</p>
+<p><strong>Solution:</strong> let&#8217;s use JBoss Infinispan for this and <code>bucket4j-infinispan</code> extension.
+Hazelcast and Apache Ignite will be also well-chosen, Infinispan just selected as an example.</p>
 </div>
 <div class="paragraph">
 <p><strong>Asynchronous processing requirement:</strong>
-Also for maximum scalability you want from architecture to be fully non-blocking,
-non-blocking architecture means that both SMS sending and limit checking should be asynchronous.
-<strong>Solution:</strong> lets use asynchronous features provided by bucket4j and Servlet-API.</p>
+Also for maximum scalability, you want from architecture to be fully non-blocking,
+non-blocking architecture means that both sms sending and limit checking should be asynchronous.
+<strong>Solution:</strong> let&#8217;s use asynchronous features provided by bucket4j and Servlet-API.</p>
 </div>
 <div class="paragraph">
 <p><strong>Mockup of service based on top of Servlet API and bucket4j-infinispan</strong>:</p>
@@ -2958,12 +2958,12 @@ non-blocking architecture means that both SMS sending and limit checking should 
 <div class="sect2">
 <h3 id="distributed-checklist"><a class="anchor" href="#distributed-checklist"></a>3.7. Production checklist especially in the context of distributed systems</h3>
 <div class="paragraph">
-<p>Before using Bucket4j in clustered scenario you need to understand, agree and configure following points:</p>
+<p>Before using Bucket4j in clustered scenario you need to understand, agree, and configure the following points:</p>
 </div>
 <div class="paragraph">
 <div class="title">Do not forget about exception handling</div>
-<p>When working within a distributed system, it is innevitable that requests may cross the border of the current JVM, leading to a communication on the network.
-Network being unreliable, it is impossible to avoid failures. Thus you should embrace this reality and be ready to get unchecked exceptions when interacting with a distributed bucket.
+<p>When working within a distributed system, it is inevitable that requests may cross the border of the current JVM, leading to communication on the network.
+The network being unreliable, it is impossible to avoid failures. Thus you should embrace this reality and be ready to get unchecked exceptions when interacting with a distributed bucket.
 <strong>It is your responsibility to handle(or ignore) such exceptions:</strong></p>
 </div>
 <div class="ulist">
@@ -2978,13 +2978,13 @@ Network being unreliable, it is impossible to avoid failures. Thus you should em
 </div>
 <div class="paragraph">
 <div class="title">Do not forget to configure backups</div>
-<p>If the state of any bucket should survive the restart/crash of grid node that holds its state, you need to configure backups yourself, in way specific to the particular grid vendor. For example, see how to <a href="https://apacheignite.readme.io/v2.3/docs/primary-and-backup-copies">configure backups for Apache Ignite</a>.</p>
+<p>If the state of any bucket should survive the restart/crash of the grid node that holds its state, you need to configure backups yourself, in a way specific to the particular grid vendor. For example, see how to <a href="https://apacheignite.readme.io/v2.3/docs/primary-and-backup-copies">configure backups for Apache Ignite</a>.</p>
 </div>
 <div class="paragraph">
 <div class="title">Retention tuning is your responsibility</div>
 <p>When dealing with multi-tenant scenarios like a bucket per user or a bucket per IP address,
-the amount of buckets in the cache will continuously increase. This is because a new bucket will be created each time a new key is detected.
-To prevent exhausting the available memory of your cluster you need to configure following aspects:</p>
+the number of buckets in the cache will continuously increase. This is because a new bucket will be created each time a new key is detected.
+To prevent exhausting the available memory of your cluster you need to configure the following aspects:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2992,23 +2992,23 @@ To prevent exhausting the available memory of your cluster you need to configure
 <p><strong>Expiration since last access</strong> - in order to allow the grid to remove the keys which haven&#8217;t been used in a long time. For example, see how to <a href="https://apacheignite.readme.io/docs/expiry-policies">configure expiration policy for Apache Ignite</a>.</p>
 </li>
 <li>
-<p><strong>Maximum cache size(in units or bytes)</strong> - Obviously it is preferable to lose bucket data than lose the whole cluster due to out of memory exception.</p>
+<p><strong>Maximum cache size(in units of bytes)</strong> - Obviously it is preferable to lose bucket data than lose the whole cluster due to memory exception.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
 <div class="title">High availability(HA) tuning and testing is your responsibility</div>
-<p>There are no special settings for HA supported by Bucket4j, because Bucket4j does nothing more that just invoking EntryProcessors on the cache.
-Instead Bucket4j relies on <strong>you</strong> to configure the cache with proper parameters that control redundancy and high availability.</p>
+<p>There are no special settings for HA supported by Bucket4j because Bucket4j does nothing more than just invoking EntryProcessors on the cache.
+Instead, Bucket4j relies on <strong>you</strong> to configure the cache with proper parameters that control redundancy and high availability.</p>
 </div>
 <div class="paragraph">
-<p>Years of experience working with distributed system has tought the author that High Availability does not come for free. You need to test and verify that your system remains available. This cannot be provided by this or any other library. Your system will most certainly go down if you do not plan for that.</p>
+<p>Years of experience working with the distributed system has taught the author that High Availability does not come for free. You need to test and verify that your system remains available. This cannot be provided by this or any other library. Your system will most certainly go down if you do not plan for that.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="framework-to-implement-custom-work-with-your-database"><a class="anchor" href="#framework-to-implement-custom-work-with-your-database"></a>3.8. Framework to implement custom work with your database</h3>
 <div class="paragraph">
-<p>The Bucket4j library gives an opportunity to implement work with any database.
+<p>The Bucket4j library allows implementing work with any database.
 If you didn&#8217;t find in distributed realization your database (currently Bucket4j supports the next databases: Redis, Hazelcast, Apache Ignite, Infinispan, Oracle coherence, Dynamodb, PostgreSQL, MySQL)
 you can implement your database as a distributed storage.
 All what you need to do, extends from io.github.bucket4j.distributed.proxy.generic.select_for_update.AbstractLockBasedProxyManager or
@@ -3030,7 +3030,7 @@ To define in which class you should extend, need to understand the main idea of 
 <p><code>AbstractSelectForUpdateBasedProxyManager&lt;T&gt;</code> - Uses to realize Select For Update concept</p>
 </div>
 <div class="paragraph">
-<p>After need to override works of allocation transaction, in order to do that, we should override method allocateTransaction.
+<p>After need to override works of allocation transaction, to do that, we should override method allocateTransaction.
 The main idea of allocateTransaction to just return class which implements <code>LockBasedTransaction</code> (for <code>AbstractLockBasedProxyManager&lt;T&gt;</code>)
 or <code>SelectForUpdateBasedTransaction</code> (for <code>AbstractSelectForUpdateBasedProxyManager&lt;T&gt;</code>) - we will implement it later
 And override removeProxy() for remove bucket from the table which store buckets.</p>
@@ -3042,7 +3042,7 @@ And override removeProxy() for remove bucket from the table which store buckets.
 <p>Need to implement <code>LockBasedTransaction</code> or <code>SelectForUpdateBasedTransaction</code> to realize custom work of database for transaction.</p>
 </div>
 <div class="paragraph">
-<p>In order to do that, we need to create a custom class to implement from one of these classes</p>
+<p>To do that, we need to create a custom class to implement from one of these classes</p>
 </div>
 <div class="paragraph">
 <p><strong>LockBasedTransaction</strong></p>
@@ -3189,7 +3189,7 @@ And override removeProxy() for remove bucket from the table which store buckets.
 <p>Each proxy manager takes <code>SQLProxyConfiguration</code> to customize work with database</p>
 </li>
 <li>
-<p>In order to do that, you should use <code>SQLProxyConfigurationBuilder</code>, which includes the next parameters:</p>
+<p>To do that, you should use <code>SQLProxyConfigurationBuilder</code>, which includes the next parameters:</p>
 </li>
 </ul>
 </div>
@@ -3220,7 +3220,7 @@ And override removeProxy() for remove bucket from the table which store buckets.
 <div class="sect4">
 <h5 id="listener"><a class="anchor" href="#listener"></a>Overriding table configuration</h5>
 <div class="paragraph">
-<p>You can override the names of the columns to set your custom name of columns, in order to do that, you should use <code>BucketTableSettings</code> to set into <code>SQLProxyConfigurationBuilder</code> of your JDBC implementation.</p>
+<p>You can override the names of the columns to set your custom name of columns, to do that, you should use <code>BucketTableSettings</code> to set into <code>SQLProxyConfigurationBuilder</code> of your JDBC implementation.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -3370,22 +3370,22 @@ Within a SERIALIZABLE transaction, however, an error will be thrown if a row to 
 <div class="sect3">
 <h4 id="what-can-be-listened"><a class="anchor" href="#what-can-be-listened"></a>4.1.1. What can be listened</h4>
 <div class="ulist">
-<div class="title">You can decorate the bucket by listener in order to track following events:</div>
+<div class="title">You can decorate the bucket by listener to track following events:</div>
 <ul>
 <li>
-<p>When tokens consumed from bucket.</p>
+<p>When tokens are consumed from a bucket.</p>
 </li>
 <li>
-<p>When consumption requests was rejected by bucket.</p>
+<p>When consumption requests were rejected by the bucket.</p>
 </li>
 <li>
-<p>When thread was parked for wait of tokens refill in result of interaction with <code>BlockingBucket</code>.</p>
+<p>When the thread was parked to wait for tokens refill as a result of interaction with <code>BlockingBucket</code>.</p>
 </li>
 <li>
-<p>When thread was interrupted during the wait of tokens refill  in result of interaction with <code>BlockingBucket</code>.</p>
+<p>When the thread was interrupted during the wait for tokens to be refilled as a result of interaction with <code>BlockingBucket</code>.</p>
 </li>
 <li>
-<p>When delayed task was submit to <code>ScheduledExecutorService</code> in result of interaction with <code>AsyncScheduledBucket</code>.</p>
+<p>When a delayed task was submitted to <code>ScheduledExecutorService</code> as a result of interaction with <code>AsyncScheduledBucket</code>.</p>
 </li>
 </ul>
 </div>
@@ -3395,7 +3395,7 @@ Within a SERIALIZABLE transaction, however, an error will be thrown if a row to 
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p><strong>Question:</strong> How many listeners is need to create in case of application uses many buckets?</p>
+<p><strong>Question:</strong> How many listeners are needed to create an application that uses many buckets?</p>
 </div>
 <div class="paragraph">
 <p><strong>Answer:</strong>  it depends:</p>
@@ -3403,10 +3403,10 @@ Within a SERIALIZABLE transaction, however, an error will be thrown if a row to 
 <div class="ulist">
 <ul>
 <li>
-<p>If you want to have aggregated statistics for all buckets then create single listener per application and reuse this listener for all buckets.</p>
+<p>If you want to have aggregated statistics for all buckets then create a single listener per application and reuse this listener for all buckets.</p>
 </li>
 <li>
-<p>If you want to measure statistics independently per each bucket then use listener per bucket model.</p>
+<p>If you want to measure statistics independently per bucket then use a listener per bucket model.</p>
 </li>
 </ul>
 </div>
@@ -3415,31 +3415,31 @@ Within a SERIALIZABLE transaction, however, an error will be thrown if a row to 
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p><strong>Question:</strong> where is methods of listener are invoking in case of distributed usage?</p>
+<p><strong>Question:</strong> where are methods the listener is invoking in case of distributed usage?</p>
 </div>
 <div class="paragraph">
-<p><strong>Answer:</strong> listener always invoked on client side, it is means that each client JVM will have own totally independent stat for same bucket.</p>
+<p><strong>Answer:</strong> listener always invoked on the client-side, which means that each client JVM will have its independent stat for the same bucket.</p>
 </div>
 </div>
 </div>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p><strong>Question:</strong> Why does bucket invoke the listener on client side instead of server side in case of distributed scenario? What I need to do if I need in aggregated stat across the whole cluster?</p>
+<p><strong>Question:</strong> Why does bucket invoke the listener on the client-side instead of the server-side in case of distributed scenario? What do I need to do if I need an aggregated stat across the whole cluster?</p>
 </div>
 <div class="paragraph">
-<p><strong>Answer:</strong> Because of planned expansion to non-JVM back-ends such as Redis, MySQL, PostgreSQL.
-It is not possible to serialize and invoke listener on this non-java back-ends, so it was decided to invoke listener on client side,
-in order to avoid inconsistency between different back-ends in the future.
-You can do post-aggregation of monitoring statistics via features built-into your monitoring database or via mediator(like StatsD) between your application and monitoring database.</p>
+<p><strong>Answer:</strong> Because of a planned expansion to non-JVM back-ends such as Redis, MySQL, PostgreSQL.
+It is not possible to serialize and invoke listener on this non-java back-ends, so it was decided to invoke listener on the client-side,
+to avoid inconsistency between different back-ends in the future.
+You can do post-aggregation of monitoring statistics via features built into your monitoring database or via mediator(like StatsD) between your application and the monitoring database.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="how-to-attach-listener-to-bucket"><a class="anchor" href="#how-to-attach-listener-to-bucket"></a>4.1.3. How to attach listener to bucket?</h4>
+<h4 id="how-to-attach-a-listener-to-a-bucket"><a class="anchor" href="#how-to-attach-a-listener-to-a-bucket"></a>4.1.3. How to attach a listener to a bucket?</h4>
 <div class="paragraph">
-<p>The bucket can be decorated by listener via <code>toListenable</code> method.</p>
+<p>The bucket can be decorated by the listener via the <code>toListenable</code> method.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3455,7 +3455,7 @@ Bucket bucket = Bucket.builder()
 <div class="sect3">
 <h4 id="example-of-integration-with-dropwizard-metrics-core"><a class="anchor" href="#example-of-integration-with-dropwizard-metrics-core"></a>4.1.4. Example of integration with Dropwizard metrics-core</h4>
 <div class="paragraph">
-<p><code>io.github.bucket4j.SimpleBucketListener</code> is simple implementation of <code>io.github.bucket4j.BucketListener</code> interface that available out of the box. Bellow the example of exposing statistics via Dropwizard Metrics(for Micrometer it should be quite similar):</p>
+<p><code>io.github.bucket4j.SimpleBucketListener</code> is a simple implementation of <code>io.github.bucket4j.BucketListener</code> interface that is available out of the box. Below is the example of exposing statistics via Dropwizard Metrics(for Micrometer it should be quite similar):</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3479,18 +3479,18 @@ Bucket bucket = Bucket.builder()
 <dl>
 <dt class="hdlist1">Verbose API</dt>
 <dd>
-<p>is the API which intent is in injecting low-level diagnostic information into results of any interaction with bucket. Verbose API providing the same functionality as Regular API, with one exception - result of any method always decorated by <code>VerboseResult</code> wrapper.</p>
+<p>is the API whose intent is in injecting low-level diagnostic information into the results of any interaction with a bucket. Verbose API provides the same functionality as Regular API, with one exception - a result of any method always decorated by <code>VerboseResult</code> wrapper.</p>
 </dd>
 <dt class="hdlist1">VerboseResult</dt>
 <dd>
-<p>is the wrapper for interaction result that provides the snapshot of bucket and its configuration that was actual at the moment of interaction with bucket.</p>
+<p>is the wrapper for interaction result that provides the snapshot of a bucket and its configuration that was actual at the moment of interaction with a bucket.</p>
 </dd>
 </dl>
 </div>
 <div class="sect3">
 <h4 id="verbose-api-entry-points"><a class="anchor" href="#verbose-api-entry-points"></a>4.2.1. Verbose API entry-points</h4>
 <div class="paragraph">
-<p>The way to get access for <code>Verbose API</code> is the same for all type of buckets, just call <code>asVerbose()</code> method:</p>
+<p>The way to get access for <code>Verbose API</code> is the same for all types of buckets, just call <code>asVerbose()</code> method:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3527,7 +3527,7 @@ AsyncVerboseBucket verboseBucket = bucket.asVerbose();</code></pre>
 <div class="title">Note</div>
 </td>
 <td class="content">
-BlockingBucket and ScheduledBucket do not provide the verbose analogs. VerboseResult has no sense for this kind of buckets because interactions with them can be followed by thread sleep or delayed execution, so VerboseResult can be absolutely stale and irrelevant to the moment of time when control over execution is being returned to your code.
+BlockingBucket and ScheduledBucket do not provide the verbose analogs. VerboseResult has no sense for this kind of buckets because interactions with them can be followed by thread sleep or delayed execution, so VerboseResult can be stale and irrelevant to the moment when control over execution is being returned to your code.
 </td>
 </tr>
 </table>
@@ -3544,7 +3544,7 @@ BlockingBucket and ScheduledBucket do not provide the verbose analogs. VerboseRe
 <p>A primitive result type like long, boolean always decorated by correspondent boxed type for example <code>VerboseResult&lt;Boolean&gt;</code></p>
 </li>
 <li>
-<p>None primitive reult type always decorated as is, for example <code>VerboseResult&lt;EstimationProbe&gt;</code></p>
+<p>Non-primitive result type always decorated as is, for example, <code>VerboseResult&lt;EstimationProbe&gt;</code></p>
 </li>
 </ul>
 </div>
@@ -3583,15 +3583,15 @@ if (probe.isConsumed()) {
 <div class="sect2">
 <h3 id="configuration-replacement"><a class="anchor" href="#configuration-replacement"></a>4.3. On-the-fly configuration replacement</h3>
 <div class="paragraph">
-<p>As previously mentioned in the definition for <a href="#bucket-bonfiguration">BucketConfiguration</a> it is immutable object.
-It is not possible to add, remove or change the limits for already created configuration, however, you can replace configuration of bucket via creating new configuration instance and calling <code>bucket.replaceConfiguration(newConfiguration, tokensInheritanceStrategy)</code>.</p>
+<p>As previously mentioned in the definition for <a href="#bucket-bonfiguration">BucketConfiguration</a> it is an immutable object.
+It is not possible to add, remove or change the limits for already created configuration, however, you can replace the configuration of the bucket via creating a new configuration instance and calling <code>bucket.replaceConfiguration(newConfiguration, tokensInheritanceStrategy)</code>.</p>
 </div>
 <div class="sect3">
 <h4 id="why-configuration-replacement-is-not-trivial"><a class="anchor" href="#why-configuration-replacement-is-not-trivial"></a>4.3.1. Why configuration replacement is not trivial?</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>The first problem of configuration replacement is making decision how to propagate available tokens from bucket with previous configuration to bucket with new configuration. If you don&#8217;t care about previous bucket state then use <code>TokensInheritanceStrategy.RESET</code>. But it becomes to a tricky problem when we expect that previous consumption(that has not been compensated by refill yet) should take effect to the bucket with new configuration. In this case you need to make a choice between:</p>
+<p>The first problem of configuration replacement is deciding on how to propagate available tokens from a bucket with a previous configuration to the bucket with a new configuration. If you don&#8217;t care about previous the bucket state then use <code>TokensInheritanceStrategy.RESET</code>. But it becomes a tricky problem when we expect that previous consumption(that has not been compensated by refill yet) should take effect on the bucket with a new configuration. In this case, you need to choose between:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -3607,7 +3607,7 @@ It is not possible to add, remove or change the limits for already created confi
 </div>
 </li>
 <li>
-<p>There is another problem when you are choosing <a href="#tokens-inheritance-strategy-proportionally">PROPORTIONALLY</a>, <a href="#tokens-inheritance-strategy-as-is">AS_IS</a> or <a href="#tokens-inheritance-strategy-additive">ADDITIVE</a> or <a href="#tokens-inheritance-strategy-as-is">AS_IS</a>  and bucket has more then one bandwidth. For example how does replaceConfiguration implementation should bind bandwidths to each other in the following example?</p>
+<p>There is another problem when you are choosing <a href="#tokens-inheritance-strategy-proportionally">PROPORTIONALLY</a>, <a href="#tokens-inheritance-strategy-as-is">AS_IS</a> or <a href="#tokens-inheritance-strategy-additive">ADDITIVE</a> or <a href="#tokens-inheritance-strategy-as-is">AS_IS</a>  and a bucket has more than one bandwidth. For example, how does replaceConfiguration implementation bind bandwidths to each other in the following example?</p>
 </li>
 </ol>
 </div>
@@ -3626,14 +3626,14 @@ bucket.replaceConfiguration(newConfiguration, TokensInheritanceStrategy.AS_IS);<
 </div>
 </div>
 <div class="paragraph">
-<p>It is obviously that simple strategy - copying tokens by bandwidth index will not work well in this case, because of it highly depends on order in which bandwidths were mentioneed in new and previous configuration.</p>
+<p>It is obvious that a simple strategy - copying tokens by bandwidth index will not work well in this case, because it highly depends on the order in which bandwidths were mentioned in the new and previous configuration.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="taking-control-over-replacement-process-via-bandwidth-identifiers"><a class="anchor" href="#taking-control-over-replacement-process-via-bandwidth-identifiers"></a>4.3.2. Taking control over replacement process via bandwidth identifiers</h4>
 <div class="paragraph">
-<p>Instead of inventing the backward maggic Bucket4j provides to you ability to deap controll of this process by specifying identifiers for bandwidth,
-so in case of multiple bandwidth configuratoin replacement code can copy available tokens by bandwidth ID. So it is better to rewrite code above as following:</p>
+<p>Instead of inventing the backward magic Bucket4j provides you the ability to keep control this process by specifying identifiers for bandwidth,
+so in case of multiple bandwidth configuration replacement codes can copy available tokens by bandwidth ID. So it is better to rewrite the code above as follows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3650,16 +3650,16 @@ so in case of multiple bandwidth configuratoin replacement code can copy availab
 </div>
 </div>
 <div class="ulist">
-<div class="title">There are following rules for bandwidth identifiers:</div>
+<div class="title">There are the following rules for bandwidth identifiers:</div>
 <ul>
 <li>
 <p>By default bandwidth has &lt;b&gt;null&lt;/b&gt; identifier.</p>
 </li>
 <li>
-<p>null value of identifier equals to another null value if and only if there is only one bandwidth with null identifier.</p>
+<p>null value of identifier equals to another null value if and only if there is only one bandwidth with a null identifier.</p>
 </li>
 <li>
-<p>If identifier for bandwidth is specified then it must has unique in the bucket. Bucket does not allow to create several bandwidth with same ID.</p>
+<p>If an identifier for bandwidth is specified then it must be unique in the bucket. Bucket does not allow to create of several bandwidths with the same ID.</p>
 </li>
 </ul>
 </div>
@@ -3681,41 +3681,41 @@ so in case of multiple bandwidth configuratoin replacement code can copy availab
 <li>
 <p><strong>Example 1:</strong> imagine bandwidth that was created by <code>Bandwidth.classic(100, Refill.gready(10, Duration.ofMinutes(1)))</code>.<br></p>
 <div class="paragraph">
-<p>At the moment of config replacement it was 40 available tokens.<br></p>
+<p>At the moment of config replacement, there were 40 available tokens.<br></p>
 </div>
 <div class="paragraph">
-<p>After replacing this bandwidth by following <code>Bandwidth.classic(200, Refill.gready(10, Duration.ofMinutes(1)))</code> 40 available tokens will be multiplied by 2(200/100), and after replacement we will have 80 available tokens.</p>
+<p>After replacing this bandwidth by following <code>Bandwidth.classic(200, Refill.gready(10, Duration.ofMinutes(1)))</code> 40 available tokens will be multiplied by 2(200/100), and after replacement, we will have 80 available tokens.</p>
 </div>
 </li>
 <li>
 <p><strong>Example 2:</strong> imagine bandwidth that was created by <code>Bandwidth.classic(100, Refill.gready(10, Duration.ofMinutes(1)))</code>.
-At the moment of config replacement it was 40 available tokens. After replacing this bandwidth by following <code>Bandwidth.classic(20, Refill.gready(10, Duration.ofMinutes(1)))</code> 40 available tokens will be multiplied by 0.2(20/100), and after replacement we will have 8 available tokens.</p>
+At the moment of config replacement, there were 40 available tokens. After replacing this bandwidth by following <code>Bandwidth.classic(20, Refill.gready(10, Duration.ofMinutes(1)))</code> 40 available tokens will be multiplied by 0.2(20/100), and after replacement, we will have 8 available tokens.</p>
 </li>
 </ul>
 </div>
 </dd>
 <dt class="hdlist1">AS_IS</dt>
 <dd>
-<p>Instructs to copy available tokens as is, but with one exclusion: if available tokens is greater than new capacity, available tokens will be decreased to new capacity.</p>
+<p>Instructs to copy available tokens as is, but with one exclusion: if available tokens are greater than new capacity, available tokens will be decreased to new capacity.</p>
 <div class="ulist">
 <div class="title">AS_IS strategy examples:</div>
 <ul>
 <li>
 <p><strong>Example 1:</strong> imagine bandwidth that was created by <code>Bandwidth.classic(100, Refill.gready(10, Duration.ofMinutes(1)))</code>.<br></p>
 <div class="paragraph">
-<p>At the moment of config replacement it was 40 available tokens.<br></p>
+<p>At the moment of config replacement, it was 40 available tokens.<br></p>
 </div>
 <div class="paragraph">
-<p>After replacing this bandwidth by following <code>Bandwidth.classic(200, Refill.gready(10, Duration.ofMinutes(1)))}</code> 40 available tokens will be just copied, and after replacement we will have 40 available tokens.</p>
+<p>After replacing this bandwidth by following <code>Bandwidth.classic(200, Refill.gready(10, Duration.ofMinutes(1)))}</code> 40 available tokens will be just copied, and after replacement, we will have 40 available tokens.</p>
 </div>
 </li>
 <li>
 <p><strong>Example 2:</strong> imagine bandwidth that was created by <code>Bandwidth.classic(100, Refill.gready(10, Duration.ofMinutes(1)))</code>.<br></p>
 <div class="paragraph">
-<p>At the moment of config replacement it was 40 available tokens.<br></p>
+<p>At the moment of config replacement, it was 40 available tokens.<br></p>
 </div>
 <div class="paragraph">
-<p>After replacing this bandwidth by following <code>Bandwidth.classic(20, Refill.gready(10, Duration.ofMinutes(1)))</code> 40 available tokens can not be copied as is, because it is greater than new capacity, so available tokens will be reduced to 20.</p>
+<p>After replacing this bandwidth by following <code>Bandwidth.classic(20, Refill.gready(10, Duration.ofMinutes(1)))</code> 40 available tokens can not be copied as is because it is greater than new capacity, so available tokens will be reduced to 20.</p>
 </div>
 </li>
 </ul>
@@ -3723,7 +3723,7 @@ At the moment of config replacement it was 40 available tokens. After replacing 
 </dd>
 <dt class="hdlist1">RESET</dt>
 <dd>
-<p>Use this mode when you want just to forget about previous bucket state. RESET just instructs to erases all previous state. Using this strategy equals to removing bucket and creating again with new configuration.</p>
+<p>Use this mode when you want just to forget about the previous bucket state. RESET just instructs to erase all previous states. Using this strategy equals removing a bucket and creating again with a new configuration.</p>
 </dd>
 <dt class="hdlist1">ADDITIVE</dt>
 <dd>
@@ -3741,13 +3741,13 @@ At the moment of config replacement it was 40 available tokens. After replacing 
 <p>At the moment of configuration replacement, it was 40 available tokens.<br></p>
 </div>
 <div class="paragraph">
-<p>After replacing this bandwidth by following <code>Bandwidth.classic(200, Refill.gready(10, Duration.ofMinutes(1)))</code> 40 available tokens will be copied and added to the difference between old and new configuration, and after replacement, we will have 140 available tokens.</p>
+<p>After replacing this bandwidth by following <code>Bandwidth.classic(200, Refill.gready(10, Duration.ofMinutes(1)))</code> 40 available tokens will be copied and added to the difference between old and new configurations, and after replacement, we will have 140 available tokens.</p>
 </div>
 </li>
 <li>
 <p><strong>Example 2:</strong> imagine bandwidth that was created by <code>Bandwidth.classic(100, Refill.gready(10, Duration.ofMinutes(1)))</code>.<br></p>
 <div class="paragraph">
-<p>At the moment of config replacement it was 40 available tokens.<br></p>
+<p>At the moment of config replacement, it was 40 available tokens.<br></p>
 </div>
 <div class="paragraph">
 <p>After replacing this bandwidth by following <code>Bandwidth.classic(20, Refill.gready(10, Duration.ofMinutes(1))))</code>,
@@ -3757,10 +3757,10 @@ and after replacement we will have 20 available tokens.</p>
 <li>
 <p><strong>Example 3:</strong> imagine bandwidth that was created by <code>Bandwidth.classic(100, Refill.gready(10, Duration.ofMinutes(1)))</code>.<br></p>
 <div class="paragraph">
-<p>At the moment of config replacement it was 10 available tokens.</p>
+<p>At the moment of config replacement, it was 10 available tokens.</p>
 </div>
 <div class="paragraph">
-<p>After replacing this bandwidth by following <code>Bandwidth.classic(20, Refill.gready(10, Duration.ofMinutes(1))))</code>, and after replacement we will have 10 available tokens.</p>
+<p>After replacing this bandwidth by following <code>Bandwidth.classic(20, Refill.gready(10, Duration.ofMinutes(1))))</code>, and after replacement, we will have 10 available tokens.</p>
 </div>
 </li>
 </ul>
