@@ -445,7 +445,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Bucket4j 7.2.0 Reference</h1>
 <div class="details">
 <span id="revnumber">version 7.2.0,</span>
-<span id="revdate">2022-02-08 14</span>
+<span id="revdate">2022-02-10 08</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -586,17 +586,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#distributed-checklist">3.7. Production checklist especially in the context of distributed systems</a></li>
 <li><a href="#framework-to-implement-custom-work-with-your-database">3.8. Framework to implement custom work with your database</a></li>
-<li><a href="#postgresql-integration">3.9. PostgreSQL integration</a>
-<ul class="sectlevel3">
-<li><a href="#dependencies-5">3.9.1. Dependencies</a></li>
-<li><a href="#general-compatibility-matrix-principles-3">3.9.2. General compatibility matrix principles:</a></li>
-<li><a href="#example-of-bucket-instantiation-4">3.9.3. Example of Bucket instantiation</a></li>
-<li><a href="#configuring-custom-settings-of-postgresqlproxymanager">3.9.4. Configuring custom settings of PostgreSQLProxyManager</a></li>
-<li><a href="#parameters-to-customize-table-buckets-storage-settings-via-postgresqlproxyconfigurationbuilder">3.9.5. Parameters to customize table buckets storage settings via PostgreSQLProxyConfigurationBuilder</a>
+<li><a href="#jdbc-integrations">3.9. JDBC integrations</a>
 <ul class="sectlevel4">
-<li><a href="#addlockbasedtransactiontype">addLockBasedTransactionType</a></li>
+<li><a href="#listener">Configuring custom settings of SQLProxyManager</a></li>
+<li><a href="#listener">Overriding table configuration</a>
+<ul class="sectlevel5">
 <li><a href="#addtablesettings">addTableSettings</a></li>
 <li><a href="#addclientsideconfig">addClientSideConfig</a></li>
+</ul>
+</li>
+<li><a href="#postgresql-integration">3.9.3. PostgreSQL integration</a>
+<ul class="sectlevel4">
+<li><a href="#dependencies-5">Dependencies</a></li>
+<li><a href="#example-of-bucket-instantiation-4">Example of Bucket instantiation</a></li>
+<li><a href="#strategies-of-transaction">Strategies of transaction</a></li>
+</ul>
+</li>
+<li><a href="#mysql-integration">3.9.4. MySQL integration</a>
+<ul class="sectlevel4">
+<li><a href="#dependencies-6">Dependencies</a></li>
+<li><a href="#example-of-bucket-instantiation-5">Example of Bucket instantiation</a></li>
 </ul>
 </li>
 </ul>
@@ -3000,9 +3009,10 @@ Instead Bucket4j relies on <strong>you</strong> to configure the cache with prop
 <h3 id="framework-to-implement-custom-work-with-your-database"><a class="anchor" href="#framework-to-implement-custom-work-with-your-database"></a>3.8. Framework to implement custom work with your database</h3>
 <div class="paragraph">
 <p>The Bucket4j library gives an opportunity to implement work with any database.
-If you didn&#8217;t find in distributed realization your database (currently Bucket4j supports the next databases: Redis, Hazelcast, Apache Ignite, Infinispan, Oracle coherence, Dynamodb, PostgreSQL)
+If you didn&#8217;t find in distributed realization your database (currently Bucket4j supports the next databases: Redis, Hazelcast, Apache Ignite, Infinispan, Oracle coherence, Dynamodb, PostgreSQL, MySQL)
 you can implement your database as a distributed storage.
-All what you need to do, extends from io.github.bucket4j.distributed.proxy.generic.select_for_update.AbstractLockBasedProxyManager
+All what you need to do, extends from io.github.bucket4j.distributed.proxy.generic.select_for_update.AbstractLockBasedProxyManager or
+AbstractSelectForUpdateBasedProxyManager&lt;T&gt;
 and override 3 methods and create your implementation which implements from io.github.bucket4j.distributed.proxy.generic.select_for_update.LockBasedTransaction.</p>
 </div>
 <div class="paragraph">
@@ -3010,19 +3020,32 @@ and override 3 methods and create your implementation which implements from io.g
 </div>
 <div class="paragraph">
 <p><strong>First of all</strong>
-we need to create our custom proxy manages which extends from AbstractLockBasedProxyManager&lt;T&gt; (As a genetic the class takes type of key table).</p>
+we need to create our custom proxy manages which extends from AbstractLockBasedProxyManager&lt;T&gt; or AbstractSelectForUpdateBasedProxyManager&lt;T&gt; (as genetic classes takes a type of key table).
+To define in which class you should extend, need to understand the main idea of these classes:</p>
+</div>
+<div class="paragraph">
+<p><code>AbstractLockBasedProxyManager&lt;T&gt;</code> - Uses to realize based on exclusive locks</p>
+</div>
+<div class="paragraph">
+<p><code>AbstractSelectForUpdateBasedProxyManager&lt;T&gt;</code> - Uses to realize Select For Update concept</p>
 </div>
 <div class="paragraph">
 <p>After need to override works of allocation transaction, in order to do that, we should override method allocateTransaction.
-The main idea of allocateTransaction to just return class which implements LockBasedTransaction (we will implement it later)
-The next method that we should override is a releaseTransaction().
-The method releaseTransaction() - is a method, in which closing transaction (close connection)
+The main idea of allocateTransaction to just return class which implements <code>LockBasedTransaction</code> (for <code>AbstractLockBasedProxyManager&lt;T&gt;</code>)
+or <code>SelectForUpdateBasedTransaction</code> (for <code>AbstractSelectForUpdateBasedProxyManager&lt;T&gt;</code>) - we will implement it later
 And override removeProxy() for remove bucket from the table which store buckets.</p>
 </div>
 <div class="paragraph">
-<p><strong>Second of all</strong>
-Need to implement LockBasedTransaction to realize custom work of database for transaction.
-In order to do that, we need to create a custom class to implement from LockBasedTransaction.</p>
+<p><strong>Second of all</strong></p>
+</div>
+<div class="paragraph">
+<p>Need to implement <code>LockBasedTransaction</code> or <code>SelectForUpdateBasedTransaction</code> to realize custom work of database for transaction.</p>
+</div>
+<div class="paragraph">
+<p>In order to do that, we need to create a custom class to implement from one of these classes</p>
+</div>
+<div class="paragraph">
+<p><strong>LockBasedTransaction</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3067,39 +3090,79 @@ In order to do that, we need to create a custom class to implement from LockBase
      *
      * @param data bucket state to persists
      */
-    void update(byte[] data);</pre>
+    void update(byte[] data);
+
+    /**
+     * Frees resources associated with this transaction
+     */
+    void release();</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>As an example, you can see to the PostgreSQL realization.</p>
+<p>As an example, you can see to the PostgreSQL or MySQL realization which based on select for update concept.</p>
 </div>
-</div>
-<div class="sect2">
-<h3 id="postgresql-integration"><a class="anchor" href="#postgresql-integration"></a>3.9. PostgreSQL integration</h3>
-<div class="sect3">
-<h4 id="dependencies-5"><a class="anchor" href="#dependencies-5"></a>3.9.1. Dependencies</h4>
 <div class="paragraph">
-<p>To use Bucket4j extension for PostgreSQL you need to add following dependency:</p>
+<p><strong>SelectForUpdateBasedTransaction</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
-    &lt;artifactId&gt;bucket4j-postgresql&lt;/artifactId&gt;
-    &lt;version&gt;7.2.0&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
+<pre>    /**
+     * Begins transaction if underlying storage requires transactions.
+     * There is strong guarantee that {@link #commit()} or {@link #rollback()} will be called if {@link #begin()} returns successfully.
+     */
+    void begin();
+
+    /**
+     * Rollbacks transaction if underlying storage requires transactions
+     */
+    void rollback();
+
+    /**
+     * Commits transaction if underlying storage requires transactions
+     */
+    void commit();
+
+    /**
+     * Locks data by the key associated with this transaction and returns data that is associated with the key.
+     *
+     * @return the data by the key associated with this transaction, or null data associated with key does not exist
+     */
+    LockAndGetResult tryLockAndGet();
+
+    /**
+     * Creates empty data by for the key associated with this transaction.
+     * This operation is required to be able to lock data in the scope of next transaction.
+     *
+     * @return true if data has been inserted
+     */
+    boolean tryInsertEmptyData();
+
+    /**
+     * Updates the data by the key associated with this transaction.
+     *
+     * @param data bucket state to persists
+     */
+    void update(byte[] data);
+
+    /**
+     * Frees resources associated with this transaction
+     */
+    void release();</pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="general-compatibility-matrix-principles-3"><a class="anchor" href="#general-compatibility-matrix-principles-3"></a>3.9.2. General compatibility matrix principles:</h4>
+<div class="sect2">
+<h3 id="jdbc-integrations"><a class="anchor" href="#jdbc-integrations"></a>3.9. JDBC integrations</h3>
+<div class="paragraph">
+<p>General principles to use each JDBC integration:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
 <p>Bucket4j authors do not provide create a table for store buckets, you must make the table personally</p>
 </li>
 <li>
-<p>You should create a trigger or a scheduler that will clear your bucket storage table since PostgreSQL is not IMDB, and DBMS don&#8217;t give TTL the opportunity</p>
+<p>You should create a trigger or a scheduler that will clear your bucket storage table since DBMS is not IMDB, and DBMS don&#8217;t give TTL the opportunity</p>
 </li>
 <li>
 <p>You should create a table, which includes the next required columns: BIGINT as a PRIMARY KEY, BYTEA as a state. By default, Bucket4j works with the next structure:</p>
@@ -3107,36 +3170,26 @@ In order to do that, we need to create a custom class to implement from LockBase
 </ul>
 </div>
 <div class="listingblock">
+<div class="title">PostgreSQL</div>
 <div class="content">
 <pre>CREATE TABLE IF NOT EXISTS buckets(id BIGINT PRIMARY KEY, state BYTEA);</pre>
 </div>
 </div>
-<div class="paragraph">
-<p>But you can override the names of the columns to set your custom name of columns</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="example-of-bucket-instantiation-4"><a class="anchor" href="#example-of-bucket-instantiation-4"></a>3.9.3. Example of Bucket instantiation</h4>
 <div class="listingblock">
+<div class="title">MySQL</div>
 <div class="content">
-<pre>        Long key = 1L;
-        PostgreSQLProxyManager proxyManager = new PostgreSQLProxyManager(new PostgreSQLProxyConfiguration(dataSource));
-        BucketConfiguration bucketConfiguration = BucketConfiguration.builder()
-                .addLimit(Bandwidth.simple(10, Duration.ofSeconds(1)))
-                .build();
-        BucketProxy bucket = proxyManager.builder().build(key, bucketConfiguration);</pre>
+<pre>CREATE TABLE IF NOT EXISTS buckets(id BIGINT PRIMARY KEY, state BLOB);</pre>
 </div>
 </div>
-</div>
-<div class="sect3">
-<h4 id="configuring-custom-settings-of-postgresqlproxymanager"><a class="anchor" href="#configuring-custom-settings-of-postgresqlproxymanager"></a>3.9.4. Configuring custom settings of PostgreSQLProxyManager</h4>
+<div class="sect4">
+<h5 id="listener"><a class="anchor" href="#listener"></a>Configuring custom settings of SQLProxyManager</h5>
 <div class="ulist">
 <ul>
 <li>
-<p><code>PostgreSQLProxyManager</code> takes a few configurations that you can set to make it customizable</p>
+<p>Each proxy manager takes <code>SQLProxyConfiguration</code> to customize work with database</p>
 </li>
 <li>
-<p>In order to do that, you should use <code>PostgreSQLProxyConfigurationBuilder</code>, which includes the next parameters:</p>
+<p>In order to do that, you should use <code>SQLProxyConfigurationBuilder</code>, which includes the next parameters:</p>
 </li>
 </ul>
 </div>
@@ -3145,9 +3198,9 @@ In order to do that, we need to create a custom class to implement from LockBase
 <pre>    /**
      * @param clientSideConfig {@link ClientSideConfig} client-side configuration for proxy-manager.
      *                                                 By default, under the hood uses {@link ClientSideConfig#getDefault}
-     * @return {@link PostgreSQLProxyConfigurationBuilder}
+     * @return {@link SQLProxyConfigurationBuilder}
      */
-    public PostgreSQLProxyConfigurationBuilder addClientSideConfig(ClientSideConfig clientSideConfig) {
+    public SQLProxyConfigurationBuilder addClientSideConfig(ClientSideConfig clientSideConfig) {
         this.clientSideConfig = clientSideConfig;
         return this;
     }
@@ -3155,71 +3208,26 @@ In order to do that, we need to create a custom class to implement from LockBase
     /**
      * @param tableSettings {@link BucketTableSettings} define a configuration of the table to use as a Buckets store.
      *                                                 By default, under the hood uses {@link BucketTableSettings#getDefault}
-     * @return {@link PostgreSQLProxyConfigurationBuilder}
+     * @return {@link SQLProxyConfigurationBuilder}
      */
-    public PostgreSQLProxyConfigurationBuilder addTableSettings(BucketTableSettings tableSettings) {
+    public SQLProxyConfigurationBuilder addTableSettings(BucketTableSettings tableSettings) {
         this.tableSettings = tableSettings;
-        return this;
-    }
-
-    /**
-     * @param lockBasedTransactionType a strategy of transaction for the table.
-     *                                 By default, under the hood uses {@link LockBasedTransactionType#ADVISORY}
-     * @return {@link PostgreSQLProxyConfigurationBuilder}
-     */
-    public PostgreSQLProxyConfigurationBuilder addLockBasedTransactionType(LockBasedTransactionType lockBasedTransactionType) {
-        this.lockBasedTransactionType = lockBasedTransactionType;
         return this;
     }</pre>
 </div>
 </div>
+</div>
+<div class="sect4">
+<h5 id="listener"><a class="anchor" href="#listener"></a>Overriding table configuration</h5>
+<div class="paragraph">
+<p>You can override the names of the columns to set your custom name of columns, in order to do that, you should use <code>BucketTableSettings</code> to set into <code>SQLProxyConfigurationBuilder</code> of your JDBC implementation.</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p>The example of usage <code>PostgreSQLProxyConfigurationBuilder</code> to customize your setting for the <code>PostgreSQLProxyManager</code>:</p>
+<p><code>SQLProxyConfigurationBuilder</code> Takes <code>BucketTableSettings</code> - is the class to define a configuration of the table to use as a buckets store. By default, under the hood uses <code>BucketTableSettings.getDefault()</code></p>
 </li>
 </ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>        PostgreSQLProxyConfiguration configuration = PostgreSQLProxyConfigurationBuilder.builder()
-                .addLockBasedTransactionType(LockBasedTransactionType.SELECT_FOR_UPDATE)
-                .addClientSideConfig(ClientSideConfig.getDefault().withClientClock(TimeMeter.SYSTEM_MILLISECONDS))
-                .addTableSettings(BucketTableSettings.customSettings("tableName", "idName", "stateName"))
-                .build(dataSource);
-        PostgreSQLProxyManager proxyManager = new PostgreSQLProxyManager(configuration);</pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="parameters-to-customize-table-buckets-storage-settings-via-postgresqlproxyconfigurationbuilder"><a class="anchor" href="#parameters-to-customize-table-buckets-storage-settings-via-postgresqlproxyconfigurationbuilder"></a>3.9.5. Parameters to customize table buckets storage settings via PostgreSQLProxyConfigurationBuilder</h4>
-<div class="sect4">
-<h5 id="addlockbasedtransactiontype"><a class="anchor" href="#addlockbasedtransactiontype"></a>addLockBasedTransactionType</h5>
-<div class="paragraph">
-<p>Takes <code>LockBasedTransactionType</code> - is a strategy of transaction for the table. By default, under the hood uses <code>ADVISORY</code></p>
-</div>
-<div class="paragraph">
-<p>Lock based transaction types:</p>
-</div>
-<div class="paragraph">
-<p><code>ADVISORY</code> - Based on pg_advisory_xact_lock locks an application-defined resource, which can be identified either by a single 64-bit key value or two 32-bit key values (note that these two key spaces do not overlap).
-If another session already holds a lock on the same resource identifier, this function will wait until the resource becomes available.
-The lock is exclusive.
-Multiple lock requests stack so that if the same resource is locked three times it must then be unlocked three times to be released for other sessions use.
-The lock is automatically released at the end of the current transaction and cannot be released explicitly.</p>
-</div>
-<div class="paragraph">
-<p><code>SELECT_FOR_UPDATE</code> - Based on Select For Update
-This prevents them from being modified or deleted by other transactions until the current transaction ends.
-That is, other transactions that attempt UPDATE, DELETE, or SELECT FOR UPDATE of these rows will be blocked until the current transaction ends.
-Also, if an UPDATE, DELETE, or SELECT FOR UPDATE from another transaction has already locked a selected row or rows, SELECT FOR UPDATE will wait for the other transaction to complete, and will then lock and return the updated row (or no row, if the row was deleted).
-Within a SERIALIZABLE transaction, however, an error will be thrown if a row to be locked has changed since the transaction started.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="addtablesettings"><a class="anchor" href="#addtablesettings"></a>addTableSettings</h5>
-<div class="paragraph">
-<p>Takes <code>BucketTableSettings</code> - is the class to define a configuration of the table to use as a buckets store. By default, under the hood uses <code>BucketTableSettings.getDefault()</code></p>
 </div>
 <div class="paragraph">
 <p>Parameters:</p>
@@ -3236,11 +3244,118 @@ Within a SERIALIZABLE transaction, however, an error will be thrown if a row to 
 <div class="paragraph">
 <p>By default, uses: "buckets" as a <code>tableName</code>; "id" as a <code>idName</code>; "state" as a <code>stateName</code></p>
 </div>
+<div class="sect5">
+<h6 id="addtablesettings"><a class="anchor" href="#addtablesettings"></a>addTableSettings</h6>
+<div class="paragraph">
+<p>Takes <code>BucketTableSettings</code> - See <a href="#listener">Overriding table configuration</a>.</p>
 </div>
-<div class="sect4">
-<h5 id="addclientsideconfig"><a class="anchor" href="#addclientsideconfig"></a>addClientSideConfig</h5>
+</div>
+<div class="sect5">
+<h6 id="addclientsideconfig"><a class="anchor" href="#addclientsideconfig"></a>addClientSideConfig</h6>
 <div class="paragraph">
 <p>Takes <code>ClientSideConfig</code> - is a client-side configuration for proxy-manager. By default, under the hood uses <code>ClientSideConfig.getDefault()</code></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="postgresql-integration"><a class="anchor" href="#postgresql-integration"></a>3.9.3. PostgreSQL integration</h4>
+<div class="sect4">
+<h5 id="dependencies-5"><a class="anchor" href="#dependencies-5"></a>Dependencies</h5>
+<div class="paragraph">
+<p>To use Bucket4j extension for PostgreSQL you need to add following dependency:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
+    &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
+    &lt;artifactId&gt;bucket4j-postgresql&lt;/artifactId&gt;
+    &lt;version&gt;7.2.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="example-of-bucket-instantiation-4"><a class="anchor" href="#example-of-bucket-instantiation-4"></a>Example of Bucket instantiation</h5>
+<div class="listingblock">
+<div class="content">
+<pre>        Long key = 1L;
+        PostgreSQLadvisoryLockBasedProxyManager proxyManager = new PostgreSQLadvisoryLockBasedProxyManager(new SQLProxyConfiguration(dataSource));
+        BucketConfiguration bucketConfiguration = BucketConfiguration.builder()
+                .addLimit(Bandwidth.simple(10, Duration.ofSeconds(1)))
+                .build();
+        BucketProxy bucket = proxyManager.builder().build(key, bucketConfiguration);</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The example of usage <code>SQLProxyConfigurationBuilder</code> to customize your setting for the <code>PostgreSQLadvisoryLockBasedProxyManager</code>:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>        SQLProxyConfiguration configuration = SQLProxyConfigurationBuilder.builder()
+                .withClientSideConfig(ClientSideConfig.getDefault().withClientClock(TimeMeter.SYSTEM_MILLISECONDS))
+                .withTableSettings(BucketTableSettings.customSettings("tableName", "idName", "stateName"))
+                .build(dataSource);
+        PostgreSQLadvisoryLockBasedProxyManager proxyManager = new PostgreSQLadvisoryLockBasedProxyManager(configuration);</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="strategies-of-transaction"><a class="anchor" href="#strategies-of-transaction"></a>Strategies of transaction</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>Bucket4j is given opportunities to choose in which strategy of transaction work</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>PostgreSQLadvisoryLockBasedProxyManager</code> - Based on pg_advisory_xact_lock locks an application-defined resource, which can be identified either by a single 64-bit key value or two 32-bit key values (note that these two key spaces do not overlap).
+If another session already holds a lock on the same resource identifier, this function will wait until the resource becomes available.
+The lock is exclusive.
+Multiple lock requests stack so that if the same resource is locked three times it must then be unlocked three times to be released for other sessions use.
+The lock is automatically released at the end of the current transaction and cannot be released explicitly.</p>
+</div>
+<div class="paragraph">
+<p><code>PostgreSQLSelectForUpdateLockBasedTransactionTest</code> - Based on Select For Update
+This prevents them from being modified or deleted by other transactions until the current transaction ends.
+That is, other transactions that attempt UPDATE, DELETE, or SELECT FOR UPDATE of these rows will be blocked until the current transaction ends.
+Also, if an UPDATE, DELETE, or SELECT FOR UPDATE from another transaction has already locked a selected row or rows, SELECT FOR UPDATE will wait for the other transaction to complete, and will then lock and return the updated row (or no row, if the row was deleted).
+Within a SERIALIZABLE transaction, however, an error will be thrown if a row to be locked has changed since the transaction started.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="mysql-integration"><a class="anchor" href="#mysql-integration"></a>3.9.4. MySQL integration</h4>
+<div class="sect4">
+<h5 id="dependencies-6"><a class="anchor" href="#dependencies-6"></a>Dependencies</h5>
+<div class="paragraph">
+<p>To use Bucket4j extension for MySQL you need to add following dependency:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
+    &lt;groupId&gt;com.github.vladimir-bukhtoyarov&lt;/groupId&gt;
+    &lt;artifactId&gt;bucket4j-mysql&lt;/artifactId&gt;
+    &lt;version&gt;7.2.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="example-of-bucket-instantiation-5"><a class="anchor" href="#example-of-bucket-instantiation-5"></a>Example of Bucket instantiation</h5>
+<div class="listingblock">
+<div class="content">
+<pre>        Long key = 1L;
+        MySQLSelectForUpdateBasedProxyManager proxyManager = new MySQLSelectForUpdateBasedProxyManager(new SQLProxyConfiguration(dataSource));
+        BucketConfiguration bucketConfiguration = BucketConfiguration.builder()
+                .addLimit(Bandwidth.simple(10, Duration.ofSeconds(1)))
+                .build();
+        BucketProxy bucket = proxyManager.builder().build(key, bucketConfiguration);</pre>
+</div>
 </div>
 </div>
 </div>
