@@ -452,7 +452,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Bucket4j 8.1.0 Reference</h1>
 <div class="details">
 <span id="revnumber">version 8.1.0,</span>
-<span id="revdate">2022-08-30 16</span>
+<span id="revdate">2022-10-05 07</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1064,7 +1064,7 @@ volatile double exchangeRate;
 while (true) {
   // Consume a token from the token bucket.
   // If a token is not available this method will block until the refill adds one to the bucket.
-  bucket.asScheduler().consume(1);
+  bucket.asBlocking().consume(1);
 
   exchangeRate = pollExchangeRate();
 }</code></pre>
@@ -2203,7 +2203,7 @@ long capacity = Arrays.stream(bucketConfiguration.getBandwidths())
                 .max().getAsLong();
 response.addHeader("RateLimit-Limit", "" + capacity));
 
-VerboseResult.Diagnostics diagnostics = result.getDiagnostics()
+VerboseResult.Diagnostics diagnostics = verboseResult.getDiagnostics()
 response.addHeader("RateLimit-Remaining", "" + diagnostics.getAvailableTokens());
 response.addHeader("RateLimit-Reset", "" + TimeUnit.NANOSECONDS.toSeconds(diagnostics.calculateFullRefillingTime()));
 
@@ -3921,35 +3921,14 @@ non-blocking architecture means that both sms sending and limit checking should 
 <div class="paragraph">
 <div class="title">Implicit configuration replacement solution:</div>
 <p><code>Implicit configuration replacement feature</code> is addressed to solve the awkwards described above. It works based on configuration version,
-when bucket detects that persisted configuration version is less that provided through builder API then persisted configuration is being replaced automatically without disturbing the client. Both <code>RemoteBucketBuilder</code> and <code>RemoteAsyncBucketBuilder</code> contains the API to configure desired configuration version:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">/**
-     * Activates implicit configuration replacement.
-     *
-     * &lt;p&gt; By default distributed bucket operates with configuration that was provided at the time of its first creation.
-     * Providing the new configuration via {@link RemoteBucketBuilder} takes no effect if bucket is already persisted in the storage, because configuration is stored together with state of bucket.
-     * Without implicit configuration replacement, there is only one way to replace configuration of bucket - is explicit calling of {@link io.github.bucket4j.Bucket#replaceConfiguration(BucketConfiguration, TokensInheritanceStrategy)}.
-     *
-     * &lt;p&gt;
-     * When implicit configuration replacement is activated, bucket will check that version of configuration in the storage &gt;= than provided {@code desiredConfigurationVersion},
-     * and automatically replace persisted configuration using provided {@code tokensInheritanceStrategy} in case of persisted configuration is obsolete.
-     *
-     * @param desiredConfigurationVersion specifies desired configuration version
-     * @param tokensInheritanceStrategy the strategy that will be used for token migration if {@code desiredConfigurationVersion of persisted bucket} is less that provided desiredConfigurationVersion
-     *
-     * @return {@code this}
-     */
-    RemoteBucketBuilder&lt;K&gt; withImplicitConfigurationReplacement(long desiredConfigurationVersion, TokensInheritanceStrategy tokensInheritanceStrategy);</code></pre>
-</div>
+when bucket detects that persisted configuration version is less that provided through builder API then persisted configuration is being replaced automatically without disturbing the client. Both <code>RemoteBucketBuilder</code> and <code>RemoteAsyncBucketBuilder</code> contains the API to configure desired configuration version.</p>
 </div>
 <div class="listingblock">
 <div class="title">Example of usage</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">BucketConfiguration config = ...;
 BucketProxy bucket = proxyManager.builder()
-    .withImplicitConfigurationReplacement(1, TokensInheritanceStrategy.AS_IS)
+    .withImplicitConfigurationReplacement(1, TokensInheritanceStrategy.PROPORTIONALLY)
     .build(666L, config);</code></pre>
 </div>
 </div>
@@ -4106,7 +4085,7 @@ And override removeProxy() for remove bucket from the table which store buckets.
 <div id="footer">
 <div id="footer-text">
 Version 8.1.0<br>
-Last updated 2022-08-30 19:05:28 +0300
+Last updated 2022-09-05 12:48:08 +0300
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
