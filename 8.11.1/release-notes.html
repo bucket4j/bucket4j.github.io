@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<title>Current version 8.11.1 documentation</title>
+<title>Bucket4j 8.11.1 release notes</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -451,101 +451,53 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 </div>
 <div id="content">
-<div class="imageblock">
-<div class="content">
-<img src="./images/white-logo.png" alt="white logo">
-</div>
-</div>
-<div class="sect1">
-<h2 id="current-version-8-11-1-documentation"><a class="anchor" href="#current-version-8-11-1-documentation"></a>Current version 8.11.1 documentation</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Release date: <code>21 Apr 2024</code></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="http://bucket4j.com/8.11.1/release-notes.html">8.11.1 Release notes</a></p>
-</li>
-<li>
-<p><a href="http://bucket4j.com/8.11.1/toc.html">8.11.1 Reference</a></p>
-</li>
-<li>
-<p><a href="http://bucket4j.com/commercial/java8.html">Instructions to get the builds for Java 8</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="documentation-archive"><a class="anchor" href="#documentation-archive"></a>Documentation archive</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>If you are looking for documentation related to a previous version then <a href="http://bucket4j.com/previos-releases.html"> see there</a></p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="about-the-authors"><a class="anchor" href="#about-the-authors"></a>About the authors</h2>
-<div class="sectionbody">
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Vladimir Bukhtoyarov</dt>
-<dd>
-<p>Lead Java developer at vk.com<br>
-Saint-Petersburg, Russia<br>
-<a href="mailto:jsecoder@mail.ru">jsecoder@mail.ru</a><br>
-Role: maintainer, future vision, architect<br>
-<span class="image"><img src="images/photo.jpg" alt="80" width="80"></span><br></p>
-</dd>
-<dt class="hdlist1">Maxim Bartkov</dt>
-<dd>
-<p>Lead Java developer at RooX Solutions<br>
-Kharkov, Ukraine<br>
-<a href="mailto:maxgalayoutop@gmail.com">maxgalayoutop@gmail.com</a><br>
-Role: contributor, evangelist, author of scientific publications <br>
-<span class="image"><img src="images/Maxim_Bartkov.jpg" alt="80" width="80"></span><br></p>
-</dd>
-</dl>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="third-party-articles-and-integrations"><a class="anchor" href="#third-party-articles-and-integrations"></a>Third-party articles and integrations</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="third-party-articles"><a class="anchor" href="#third-party-articles"></a>Third-party articles</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://dzone.com/articles/how-to-provide-rate-limiting-via-bucket4j-in-java">Maxim Bartkov - How to Provide Rate-Limiting Via Bucket4j in Java</a></p>
-</li>
-<li>
-<p><a href="https://golb.hplar.ch/2019/08/rate-limit-bucket4j.html">Rate limiting Spring MVC endpoints with bucket4j</a></p>
-</li>
-<li>
-<p><a href="http://www.programmersought.com/article/2524209291/">ProgrammerSought - Bucket4j preliminary understanding</a></p>
-</li>
-<li>
-<p><a href="https://www.baeldung.com/spring-bucket4j">Baeldung - Rate Limiting a Spring API Using Bucket4j</a></p>
-</li>
-<li>
-<p><a href="https://virendraoswal.com/rate-limit-apis-with-bucket4j-via-java">Virendra Oswal - Rate Limit APIs with Bucket4J via Java</a></p>
-</li>
-<li>
-<p><a href="https://medium.bitwise.blog/rate-limiting-with-token-buckets-7f912525819f">Rate-limiting with Redis by using Bucket4J in a Spring Boot application</a></p>
-</li>
-</ul>
+<h3 id="bucket4j-8-11-1-release-notes"><a class="anchor" href="#bucket4j-8-11-1-release-notes"></a>Bucket4j 8.11.1 release notes</h3>
+<div class="paragraph">
+<p>Release <code>8.11.1</code></p>
 </div>
 <div class="sect3">
-<h4 id="scientific-publications"><a class="anchor" href="#scientific-publications"></a>Scientific publications</h4>
+<h4 id="the-featuresenhancements-in-release-scope-are-following"><a class="anchor" href="#the-featuresenhancements-in-release-scope-are-following"></a>The features/enhancements in release scope are following:</h4>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://online-journals.org/index.php/i-joe/article/view/25641">Selection of A Suitable Algorithm for the Implementation of Rate-Limiter Based on Bucket4j</a></p>
+<p><a href="https://github.com/bucket4j/bucket4j/issues/466">#466 Split support for Redis by individual maven modules</a></p>
+</li>
+<li>
+<p><a href="https://github.com/bucket4j/bucket4j/issues/467">#467 Create unified style builders for all ProxyManagers</a></p>
+</li>
+<li>
+<p><a href="https://github.com/bucket4j/bucket4j/issues/474">#474 Migrate to JDK17</a></p>
 </li>
 </ul>
 </div>
+</div>
+<div class="sect3">
+<h4 id="backward-incompatible-changes"><a class="anchor" href="#backward-incompatible-changes"></a>Backward incompatible changes:</h4>
+<div class="sect4">
+<h5 id="new-scheme-of-naming-for-maven-artifacts"><a class="anchor" href="#new-scheme-of-naming-for-maven-artifacts"></a>New scheme of naming for Maven artifacts</h5>
+<div class="paragraph">
+<p>Now, the version of target JDK become a part of artifact name. For example <code>com.bucket4j:bucket4j-core</code> has been changed to <code>com.bucket4j:bucket4j_jdk17-core</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="dependencies-structure-for-redis-has-been-changed"><a class="anchor" href="#dependencies-structure-for-redis-has-been-changed"></a>Dependencies structure for Redis has been changed</h5>
+<div class="paragraph">
+<p>Support for Redis has been splitted by individual modules(Jedis, Lettuce, Redisson).<br>
+See docs for your library</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://bucket4j.com/8.11.1/toc.html#dependencies-5">Lettuce</a></p>
+</li>
+<li>
+<p><a href="https://bucket4j.com/8.11.1/toc.html#dependencies-6">Redisson</a></p>
+</li>
+<li>
+<p><a href="https://bucket4j.com/8.11.1/toc.html#dependencies-7">Jedis</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -554,7 +506,7 @@ Role: contributor, evangelist, author of scientific publications <br>
 <div id="footer">
 <div id="footer-text">
 Version 8.11.1<br>
-Last updated 2024-04-24 11:55:58 +0300
+Last updated 2024-04-24 19:31:41 +0300
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
