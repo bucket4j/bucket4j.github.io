@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<title>How to get build for Java 8?</title>
+<title>Java 8 Notes</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -439,23 +439,56 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>How to get build for Java 8?</h1>
-<div class="details">
-<span id="revnumber">version 8.11.0,</span>
-<span id="revdate">2024-04-23 20</span>
-</div>
 </div>
 <div id="content">
-<div id="preamble">
+<div class="sect1">
+<h2 id="java-8-notes"><a class="anchor" href="#java-8-notes"></a>Java 8 Notes</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>There are several options that described below</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Since <code>8.11.0</code> artifacts for Java 8 are not published to Maven-Central anymore, according to Bucket4j <a href="https://github.com/bucket4j/bucket4j/blob/master/backward-compatibility-policy.md">backward compatibility policies</a>.</p>
+</li>
+<li>
+<p>Obviously, it bad news for all who get stuck on Java 8 by different reasons.</p>
+</li>
+<li>
+<p>Bucket4j maintainer understand your pain and can provide compiled Maven artifacts for java 8 as ZIP archive,
+that can be installed into your local maven repo, or deployed to your company repository like Artifactory or Nexus,
+or added as <a href="https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#system-dependencies">system dependency</a>.</p>
+</li>
+<li>
+<p>This costs some money.</p>
+</li>
+<li>
+<p>By buying artifacts for Java 8, you increase motivation of project maintainer to develop new features,
+write documentation and answer to user questions.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+If you don&#8217;t want to pay something for Java 8 builds, feel free to do backporting job by yourself, due to all sources are licensed under <code>Apache 2.0 license</code>,
+nothing to prevent you to maintain in-house fork.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="buy-documentation"><a class="anchor" href="#buy-documentation"></a>Buy documentation</h2>
+<h2 id="how-to-get-build-for-java-8"><a class="anchor" href="#how-to-get-build-for-java-8"></a>How to get build for Java 8?</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>There are several options that described below</p>
+</div>
+<div class="sect2">
+<h3 id="buy-documentation-and-get-build-as-bonus"><a class="anchor" href="#buy-documentation-and-get-build-as-bonus"></a>Buy documentation and get build as bonus</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -470,27 +503,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ol>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="subscribe-to-paid-telegram-channel"><a class="anchor" href="#subscribe-to-paid-telegram-channel"></a>Subscribe to paid Telegram channel</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="subscribe-to-paid-telegram-channel"><a class="anchor" href="#subscribe-to-paid-telegram-channel"></a>Subscribe to paid Telegram channel</h3>
 <div class="paragraph">
 <p>Bucket4j is typically released 5-10 times per year. If you are going to upgrade frequently, then it could be more profitable to subscribe to paid <code>Telegram</code> channel <a href="https://t.me/tribute/app?startapp=s5pa">via this link</a>.
 It costs 150 euro per year. In this channel maintainers of Bucket4j publish builds for <code>Java 8</code> for each new release.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="if-nothing-suitable-for-you"><a class="anchor" href="#if-nothing-suitable-for-you"></a>If nothing suitable for you</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="if-nothing-suitable-for-you"><a class="anchor" href="#if-nothing-suitable-for-you"></a>If nothing suitable for you</h3>
 <div class="paragraph">
 <p>Mail to <a href="mailto:jsecoder@mail.ru">jsecoder@mail.ru</a> we will try to offer different payment scheme.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="for-russian-federation"><a class="anchor" href="#for-russian-federation"></a>For Russian federation</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="for-russian-federation"><a class="anchor" href="#for-russian-federation"></a>For Russian federation</h3>
 <div class="paragraph">
 <p>Если Вы представляете юрлицо, и желаете оформить оплату за сборку под Java 8 как платеж самозанятому,
 то вы можете сделать это через следующую <a href="https://bucket4j.payform.ru/">форму оплаты</a>.
@@ -499,10 +526,11 @@ It costs 150 euro per year. In this channel maintainers of Bucket4j publish buil
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
 Version 8.11.0<br>
-Last updated 2024-04-23 23:10:37 +0300
+Last updated 2024-04-24 15:26:18 +0300
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
