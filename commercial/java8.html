@@ -447,10 +447,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>Since <code>8.11.0</code> artifacts for Java 8 are not published to Maven-Central anymore, according to Bucket4j <a href="https://github.com/bucket4j/bucket4j/blob/master/backward-compatibility-policy.md">backward compatibility policies</a>.</p>
-</li>
-<li>
-<p>Obviously, it bad news for all who get stuck on Java 8 by different reasons.</p>
+<p>Since <code>8.11.0</code> artifacts for Java 8 are not published to Maven-Central anymore, according to Bucket4j <a href="https://github.com/bucket4j/bucket4j/blob/master/backward-compatibility-policy.md">backward compatibility policies</a>.
+Obviously, it bad news for all who get stuck on Java 8 by different reasons.</p>
 </li>
 <li>
 <p>Bucket4j maintainer understand your pain and can provide compiled Maven artifacts for java 8 as ZIP archive,
@@ -458,13 +456,15 @@ that can be installed into your local maven repo, or deployed to your company re
 or added as <a href="https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#system-dependencies">system dependency</a>.</p>
 </li>
 <li>
-<p>This costs some money.</p>
-</li>
-<li>
-<p>By buying artifacts for Java 8, you increase motivation of project maintainer to develop new features,
+<p>This costs some money. When paying artifacts for Java 8, you increase motivation of project maintainer to develop new features,
 write documentation and answer to user questions.</p>
 </li>
 </ul>
+</div>
+<div class="sect2">
+<h3 id="how-to-get-builds-for-java-8"><a class="anchor" href="#how-to-get-builds-for-java-8"></a>How to get builds for Java 8?</h3>
+<div class="paragraph">
+<p>There are several options that described below. Feel free to choose most suitable for you.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -473,23 +473,36 @@ write documentation and answer to user questions.</p>
 <div class="title">Note</div>
 </td>
 <td class="content">
-If you don&#8217;t want to pay something for Java 8 builds, feel free to do backporting job by yourself, due to all sources are licensed under <code>Apache 2.0 license</code>,
-nothing to prevent you to maintain in-house fork.
+some payment agent maybe blocked in your particular county.
+If nothing from listed bellow is suitable for your country, then mail to <a href="mailto:jsecoder@mail.ru">jsecoder@mail.ru</a>, we will try to offer different payment scheme.
 </td>
 </tr>
 </table>
 </div>
 </div>
+<div class="sect2">
+<h3 id="for-companies-and-persons-outside-russian-federation"><a class="anchor" href="#for-companies-and-persons-outside-russian-federation"></a>For companies and persons outside Russian Federation</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="https://bucket4j-eng.payform.ru/">Make purchase</a>.</p>
+</li>
+<li>
+<p>Fill correctly <code>email</code> field in purchase form.</p>
+</li>
+<li>
+<p>Type required version in <code>additional information</code> field in purchase form. If not filled then latest version for Java 8 will be sent to you.</p>
+</li>
+<li>
+<p>Builds for Java 8 will be sent to email provided in purchase form in 1-2 days.</p>
+</li>
+</ol>
 </div>
-<div class="sect1">
-<h2 id="how-to-get-build-for-java-8"><a class="anchor" href="#how-to-get-build-for-java-8"></a>How to get build for Java 8?</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>There are several options that described below</p>
 </div>
 <div class="sect2">
 <h3 id="buy-documentation-and-get-build-as-bonus"><a class="anchor" href="#buy-documentation-and-get-build-as-bonus"></a>Buy documentation and get build as bonus</h3>
 <div class="olist arabic">
+<div class="title">It is another alternative. Just buy a documentation and builds for Java 8 will be sent you to email:</div>
 <ol class="arabic">
 <li>
 <p>Find documentation for interesting version in <a href="https://app.lava.top/en/2716741203">Bucke4j book store</a>.</p>
@@ -506,18 +519,13 @@ nothing to prevent you to maintain in-house fork.
 <div class="sect2">
 <h3 id="subscribe-to-paid-telegram-channel"><a class="anchor" href="#subscribe-to-paid-telegram-channel"></a>Subscribe to paid Telegram channel</h3>
 <div class="paragraph">
-<p>Bucket4j is typically released 5-10 times per year. If you are going to upgrade frequently, then it could be more profitable to subscribe to paid <code>Telegram</code> channel <a href="https://t.me/tribute/app?startapp=s5pa">via this link</a>.
-It costs 150 euro per year. In this channel maintainers of Bucket4j publish builds for <code>Java 8</code> for each new release.</p>
+<div class="title">It is yet another alternative that could be more profitable if you are going to upgrade frequently.</div>
+<p>Just subscribe to paid <code>Telegram</code> channel <a href="https://t.me/tribute/app?startapp=s5pa">via this link</a>.
+It costs 150 euro per year. In this channel maintainer of Bucket4j publish builds for <code>Java 8</code> for each new release.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="if-nothing-suitable-for-you"><a class="anchor" href="#if-nothing-suitable-for-you"></a>If nothing suitable for you</h3>
-<div class="paragraph">
-<p>Mail to <a href="mailto:jsecoder@mail.ru">jsecoder@mail.ru</a> we will try to offer different payment scheme.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="for-russian-federation"><a class="anchor" href="#for-russian-federation"></a>For Russian federation</h3>
+<h3 id="special-option-for-companies-from-russian-federation"><a class="anchor" href="#special-option-for-companies-from-russian-federation"></a>Special option for companies from Russian federation</h3>
 <div class="paragraph">
 <p>Если Вы представляете юрлицо, и желаете оформить оплату за сборку под Java 8 как платеж самозанятому,
 то вы можете сделать это через следующую <a href="https://bucket4j.payform.ru/">форму оплаты</a>.
@@ -530,7 +538,7 @@ It costs 150 euro per year. In this channel maintainers of Bucket4j publish buil
 <div id="footer">
 <div id="footer-text">
 Version 8.11.0<br>
-Last updated 2024-04-24 15:26:18 +0300
+Last updated 2024-04-26 12:56:43 +0300
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
