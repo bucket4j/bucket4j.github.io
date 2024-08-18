@@ -452,7 +452,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Bucket4j 8.14.0 Reference</h1>
 <div class="details">
 <span id="revnumber">version 8.14.0,</span>
-<span id="revdate">2024-08-18 09</span>
+<span id="revdate">2024-08-18 10</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -3426,13 +3426,13 @@ BucketProxy bucket = proxyManager.getProxy(key, () -&gt; bucketConfiguration);</
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">// in case of expiration feature is not required
-CREATE TABLE bucket(id BIGINT NOT NULL PRIMARY KEY, state BINARY(256))</code></pre>
+CREATE TABLE bucket(id BIGINT NOT NULL PRIMARY KEY, state VARCHAR(512))</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">// in case of expiration feature is required
-CREATE TABLE bucket(id BIGINT NOT NULL PRIMARY KEY, state BINARY(256), expires_at BIGINT)</code></pre>
+CREATE TABLE bucket(id BIGINT NOT NULL PRIMARY KEY, state VARCHAR(512), expires_at BIGINT)</code></pre>
 </div>
 </div>
 </div>
@@ -3776,7 +3776,7 @@ And override removeProxy() for remove bucket from the table which store buckets.
 <div id="footer">
 <div id="footer-text">
 Version 8.14.0<br>
-Last updated 2024-04-20 13:54:31 +0300
+Last updated 2024-07-30 15:16:39 +0300
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
