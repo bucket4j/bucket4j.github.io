@@ -466,25 +466,25 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#basic-functionality">2. Basic functionality</a>
 <ul class="sectlevel2">
-<li><a href="#concepts">2.1. Concepts</a>
+<li><a href="#quick-start-examples">2.1. Quick start examples</a>
 <ul class="sectlevel3">
-<li><a href="#bucket">2.1.1. Bucket</a></li>
-<li><a href="#bucket-bonfiguration">2.1.2. BucketConfiguration</a></li>
-<li><a href="#bandwidth">2.1.3. Limitation/Bandwidth</a></li>
-<li><a href="#refill-types">2.1.4. Refill styles</a></li>
-<li><a href="#bucket-state">2.1.5. BucketState</a></li>
-<li><a href="#local-bucket-builder">2.1.6. BucketBuilder</a></li>
+<li><a href="#how-to-dependency-to-bucket4j">2.1.1. How to dependency to Bucket4j</a></li>
+<li><a href="#limiting-the-rate-of-access-to-rest-api">2.1.2. Limiting the rate of access to REST API</a></li>
+<li><a href="#specifying-initial-amount-of-tokens">2.1.3. Specifying initial amount of tokens</a></li>
+<li><a href="#returning-tokens-back-to-bucket">2.1.4. Returning tokens back to bucket</a></li>
+<li><a href="#customizing-time-measurement-choosing-nanotime-time-resolution">2.1.5. Customizing time measurement - choosing nanotime time resolution</a></li>
+<li><a href="#customizing-time-measurement-specify-custom-time-measurement-strategy">2.1.6. Customizing time measurement -  Specify custom time measurement strategy</a></li>
+<li><a href="#blocking-api-example">2.1.7. Blocking API example</a></li>
 </ul>
 </li>
-<li><a href="#quick-start-examples">2.2. Quick start examples</a>
+<li><a href="#concepts">2.2. Concepts</a>
 <ul class="sectlevel3">
-<li><a href="#how-to-dependency-to-bucket4j">2.2.1. How to dependency to Bucket4j</a></li>
-<li><a href="#limiting-the-rate-of-access-to-rest-api">2.2.2. Limiting the rate of access to REST API</a></li>
-<li><a href="#specifying-initial-amount-of-tokens">2.2.3. Specifying initial amount of tokens</a></li>
-<li><a href="#returning-tokens-back-to-bucket">2.2.4. Returning tokens back to bucket</a></li>
-<li><a href="#customizing-time-measurement-choosing-nanotime-time-resolution">2.2.5. Customizing time measurement - choosing nanotime time resolution</a></li>
-<li><a href="#customizing-time-measurement-specify-custom-time-measurement-strategy">2.2.6. Customizing time measurement -  Specify custom time measurement strategy</a></li>
-<li><a href="#blocking-api-example">2.2.7. Blocking API example</a></li>
+<li><a href="#bucket">2.2.1. Bucket</a></li>
+<li><a href="#bucket-bonfiguration">2.2.2. BucketConfiguration</a></li>
+<li><a href="#bandwidth">2.2.3. Limitation/Bandwidth</a></li>
+<li><a href="#refill-types">2.2.4. Refill styles</a></li>
+<li><a href="#bucket-state">2.2.5. BucketState</a></li>
+<li><a href="#local-bucket-builder">2.2.6. BucketBuilder</a></li>
 </ul>
 </li>
 <li><a href="#listening-for-bucket-events">2.3. Listening for bucket events</a>
@@ -788,253 +788,9 @@ Its math model provides several useful extensions that are not mentioned in the 
 <h2 id="basic-functionality"><a class="anchor" href="#basic-functionality"></a>2. Basic functionality</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="concepts"><a class="anchor" href="#concepts"></a>2.1. Concepts</h3>
+<h3 id="quick-start-examples"><a class="anchor" href="#quick-start-examples"></a>2.1. Quick start examples</h3>
 <div class="sect3">
-<h4 id="bucket"><a class="anchor" href="#bucket"></a>2.1.1. Bucket</h4>
-<div class="paragraph">
-<p><code>Bucket</code> is a rate-limiter that is implemented on the top of ideas of well-known <a href="https://en.wikipedia.org/wiki/Token_bucket">Token Bucket algorithm</a>.
-In the Bucket4j library code the <code>Bucket</code> is represented by interface <a href="https://github.com/bucket4j/bucket4j/blob/7.0/bucket4j-core/src/main/java/io/github/bucket4j/Bucket.java">io.github.bucket4j.Bucket</a>.</p>
-</div>
-<div class="ulist">
-<div class="title">Bucket aggregates the following parts:</div>
-<ul>
-<li>
-<p><a href="#bucket-bonfiguration">BucketConfiguration</a> specifies an immutable collection of limitation rules that are used by the bucket during its work.</p>
-</li>
-<li>
-<p><a href="#bucket-state">BucketState</a> the place where bucket stores mutable state like the amount of currently available tokens.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>A bucket can be constructed via a special builder API <a href="#local-bucket-builder">BucketBuilder</a> that is available by factory method:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = Bucket.builder()
-   .addLimit(...)
-   .build();</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="bucket-bonfiguration"><a class="anchor" href="#bucket-bonfiguration"></a>2.1.2. BucketConfiguration</h4>
-<div class="paragraph">
-<p><code>BucketConfiguration</code> can be described as collection of <a href="#bandwidth">limits</a> that are used by <a href="#bucket">Bucket</a> during its job. Configuration
-In the Bucket4j library code the <code>BucketConfiguration</code> is represented by class <a href="https://github.com/bucket4j/bucket4j/blob/7.0/bucket4j-core/src/main/java/io/github/bucket4j/BucketConfiguration.java">io.github.bucket4j.BucketConfiguration</a>. Configuration is immutable, there is no way to add or remove a limit to already created configuration. However, you can replace the configuration of the bucket via creating a new configuration instance and calling <code>bucket.replaceConfiguration(newConfiguration)</code>.</p>
-</div>
-<div class="paragraph">
-<p>Usually, you should not create BucketConfiguration directly(excepting the case with configuration replacement) because <a href="#local-bucket-builder">BucketBuilder</a> does for you behind the scene, for rare cases when you need to create configuration directly you have to use <code>ConfigurationBuilder</code> that is available by factory method:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">BucketConfiguration configuration = BucketConfiguration.builder()
-    .addLimit(...)
-    .build()</code></pre>
-</div>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Important</div>
-</td>
-<td class="content">
-Most users configure a single limit per configuration, but it is strongly recommended to analyze whether <a href="#short-timed-bursts">short-timed bursts problem</a>
-can affect your application and if so then think about adding more limits.
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="bandwidth"><a class="anchor" href="#bandwidth"></a>2.1.3. Limitation/Bandwidth</h4>
-<div class="paragraph">
-<p>Limitations that are used by bucket can be denoted in terms of bandwidths. Bandwidth is denoted by the following terms:</p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Capacity</dt>
-<dd>
-<p><code>Capacity</code> is the term that is directly inherited from the classic interpretation of the token-bucket algorithm, this specifies how many tokens your bucket has.
-Capacity must be configured during building stage</p>
-</dd>
-</dl>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = Bucket.builder()
-    .addLimit(limit -&gt; limit.capacity(42))
-    .build()</code></pre>
-</div>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Refill</dt>
-<dd>
-<p>Refill specifies how fast tokens can be refilled after it was consumed from a bucket.
-Refill must be configured during building stage</p>
-</dd>
-</dl>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = Bucket.builder()
-    .addLimit(limit -&gt; limit.capacity(...).refillXXX(...)) // where XXX - is concrete refill style
-    .build()</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Bucket4j allows to choose different <a href="#refill-types">Refill types</a>.</p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Initial tokens</dt>
-<dd>
-<p>Bucket4j extends the token-bucket algorithm by allowing to specify the initial amount of tokens for each bandwidth. By default, an initial amount of tokens equals to capacity and can be changed by <code>withInitialTokens</code> method:<br></p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = Bucket.builder()
-    .addLimit(limit -&gt; limit.capacity(42).refillGreedy(1, ofSeconds(1)).initialTokens(13))
-    .build()</code></pre>
-</div>
-</div>
-</dd>
-<dt class="hdlist1">Bandwidth ID</dt>
-<dd>
-<p>The identifier is the optional attribute that is null by default. You may prefer to assign identifiers for bandwidths if you use on-the-fly configuration replacement and your buckets have more than one bandwidth per bucket, otherwise, it is better to avoid using identifiers to preserve memory.
-The Identifier for bandwidth can be specified in following way:<br></p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">BucketConfiguration configuration = BucketConfiguration.builder()
-    .addLimit(limit -&gt; limit.capacity(1000).refillGreedy(1000, ofMinutes(1)).id("business-limit"))
-    .addLimit(limit -&gt; limit.capacity(100).refillGreedy(100, ofSeconds(1)).id("burst-protection"))
-    .build();</code></pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-Identifiers are critical for on-the-fly configuration replacement functionality because during replacement it needs to decide how correctly propagate information about already consumed tokens from the state before config replacement to the state after replacement. This is not a trivial task especially when the number of limits is changing.
-</td>
-</tr>
-</table>
-</div>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect3">
-<h4 id="refill-types"><a class="anchor" href="#refill-types"></a>2.1.4. Refill styles</h4>
-<div class="paragraph">
-<p>Bucket4j allows to choose different styles in which consumed tokens are being refilled to bucket</p>
-</div>
-<div class="dlist">
-<div class="title">There are four types of refill:</div>
-<dl>
-<dt class="hdlist1">Greedy</dt>
-<dd>
-<p>This type of refill greedily regenerates tokens manner, it tries to add the tokens to the bucket as soon as possible. For example refill "10 tokens per 1 second" adds 1 token per every 100 milliseconds, in other words, the refill will not wait 1 second to regenerate a bunch of 10 tokens. The three refills below do refill of tokens with the same speed:<br></p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket.builder().addLimit(limit -&gt; limit.capacity(1000).refillGreedy(600, ofMinutes(1)))
-Bucket.builder().addLimit(limit -&gt; limit.capacity(1000).refillGreedy(10, ofSeconds(1)))
-Bucket.builder().addLimit(limit -&gt; limit.capacity(1000).refillGreedy(1, ofMillis(100)))</code></pre>
-</div>
-</div>
-</dd>
-<dt class="hdlist1">Intervally</dt>
-<dd>
-<p>This type of refill regenerates tokens in an interval manner. "Interval" in opposite to "greedy"  will wait until the whole period will be elapsed before regenerating the whole amount of tokens.<br></p>
-<div class="listingblock">
-<div class="title">Example:<br></div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// refills 100 tokens each minute
-Bucket bucket = Bucket.builder().addLimit(limit -&gt; limit.capacity(1000).refillIntervally(100, ofMinutes(1))).build();</code></pre>
-</div>
-</div>
-</dd>
-<dt class="hdlist1">IntervallyAligned</dt>
-<dd>
-<p>This type of refill regenerates that does refill of tokens in an interval manner. Interval" in opposite to "greedy"  will wait until the whole period will be elapsed before regenerating the whole amount of tokens. In addition to <strong>Interval</strong> it is possible to specify the time when the first refill should happen.  This type can be used to configure clear interval boundary i.e. start of the second, minute, hour, day.</p>
-<div class="listingblock">
-<div class="title">Example:</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// imagine that wall clock is 16:20, the first refill will happen at 17:00
-// first refill will happen in the beginning of next hour
-Instant firstRefillTime = ZonedDateTime.now()
-  .truncatedTo(ChronoUnit.HOURS)
-  .plus(1, ChronoUnit.HOURS)
-  .toInstant();
-
-Bucket bucket = Bucket.builder().addLimit(limit -&gt; limit.capacity(400).refillIntervallyAligned(400, ofHours(1), firstRefillTime)).build();</code></pre>
-</div>
-</div>
-</dd>
-<dt class="hdlist1">RefillIntervallyAlignedWithAdaptiveInitialTokens</dt>
-<dd>
-<p>See javadocs.</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect3">
-<h4 id="bucket-state"><a class="anchor" href="#bucket-state"></a>2.1.5. BucketState</h4>
-<div class="paragraph">
-<p>BucketState is the place where bucket stores own mutable state like:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Amount of currently available tokens.</p>
-</li>
-<li>
-<p>Timestamp when the last refill was happen.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><code>BucketState</code> is represented by interface <a href="https://github.com/bucket4j/bucket4j/blob/7.0/bucket4j-core/src/main/java/io/github/bucket4j/Bucket.java">io.github.bucket4j.BucketState</a>. Usually you never interact with this interface, excepting the cases when you want to get access to low-level diagnostic API that is described in <a href="#verbose-api">Verbose/Debug API</a>.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="local-bucket-builder"><a class="anchor" href="#local-bucket-builder"></a>2.1.6. BucketBuilder</h4>
-<div class="paragraph">
-<p>It was explicitly decided by library authors to not provide for end-users to construct a library entity via direct constructors.</p>
-</div>
-<div class="ulist">
-<div class="title">It was to reason to split built-time and usage-time APIs:</div>
-<ul>
-<li>
-<p>To be able in the future to change internal implementations without breaking backward compatibility.</p>
-</li>
-<li>
-<p>To provide <code>Fluent Builder API</code> that in our minds is a good modern library design pattern.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><code>LocalBucketBuilder</code> is a fluent builder that is specialized to construct the local buckets, where a local bucket is a bucket that holds an internal state just in memory and does not provide clustering functionality. Bellow an example of LocalBucketBuilder usage:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = Bucket.builder()
-    .addLimit(...)
-    .withNanosecondPrecision()
-    .withSynchronizationStrategy(SynchronizationStrategy.LOCK_FREE)
-    .build()</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="quick-start-examples"><a class="anchor" href="#quick-start-examples"></a>2.2. Quick start examples</h3>
-<div class="sect3">
-<h4 id="how-to-dependency-to-bucket4j"><a class="anchor" href="#how-to-dependency-to-bucket4j"></a>2.2.1. How to dependency to Bucket4j</h4>
+<h4 id="how-to-dependency-to-bucket4j"><a class="anchor" href="#how-to-dependency-to-bucket4j"></a>2.1.1. How to dependency to Bucket4j</h4>
 <div class="paragraph">
 <p>The Bucket4j is distributed through <a href="https://mvnrepository.com/artifact/com.bucket4j/bucket4j-core">Maven Central</a>.
 You need to add the dependency to your project as described below in order to be able to compile and run examples</p>
@@ -1042,17 +798,19 @@ You need to add the dependency to your project as described below in order to be
 <div class="listingblock">
 <div class="title">Maven dependency</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;!-- For java 17 --&gt;
+&lt;dependency&gt;
     &lt;groupId&gt;com.bucket4j&lt;/groupId&gt;
-    &lt;artifactId&gt;bucket4j-core&lt;/artifactId&gt;
+    &lt;artifactId&gt;bucket4j_jdk17-core&lt;/artifactId&gt;
+    &lt;version&gt;8.15.0&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;!-- For java 11 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.bucket4j&lt;/groupId&gt;
+    &lt;artifactId&gt;bucket4j_jdk11-core&lt;/artifactId&gt;
     &lt;version&gt;8.15.0&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Gradle dependency</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">implementation 'com.bucket4j:bucket4j-core:8.15.0'</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -1069,7 +827,7 @@ see <a href="https://bucket4j.com/commercial/java8.html">Java compatibility matr
 </div>
 </div>
 <div class="sect3">
-<h4 id="limiting-the-rate-of-access-to-rest-api"><a class="anchor" href="#limiting-the-rate-of-access-to-rest-api"></a>2.2.2. Limiting the rate of access to REST API</h4>
+<h4 id="limiting-the-rate-of-access-to-rest-api"><a class="anchor" href="#limiting-the-rate-of-access-to-rest-api"></a>2.1.2. Limiting the rate of access to REST API</h4>
 <div class="paragraph">
 <p>Imagine that you develop yet another social network, and you want to provide REST API for third-party developers.
 To protect your system from overloading you want to introduce the following limitation:</p>
@@ -1150,7 +908,7 @@ public class ThrottlingFilter implements javax.servlet.Filter {
 </div>
 </div>
 <div class="sect3">
-<h4 id="specifying-initial-amount-of-tokens"><a class="anchor" href="#specifying-initial-amount-of-tokens"></a>2.2.3. Specifying initial amount of tokens</h4>
+<h4 id="specifying-initial-amount-of-tokens"><a class="anchor" href="#specifying-initial-amount-of-tokens"></a>2.1.3. Specifying initial amount of tokens</h4>
 <div class="paragraph">
 <p>By default, initial size of the bucket equals capacity.
 But sometimes, you may want to have a lesser initial size, for example for the case of cold start in order to prevent denial of service:</p>
@@ -1165,7 +923,7 @@ Bucket bucket = Bucket.builder()
 </div>
 </div>
 <div class="sect3">
-<h4 id="returning-tokens-back-to-bucket"><a class="anchor" href="#returning-tokens-back-to-bucket"></a>2.2.4. Returning tokens back to bucket</h4>
+<h4 id="returning-tokens-back-to-bucket"><a class="anchor" href="#returning-tokens-back-to-bucket"></a>2.1.4. Returning tokens back to bucket</h4>
 <div class="paragraph">
 <p>The <a href="https://en.wikipedia.org/wiki/Compensating_transaction">compensating transaction</a> is one of the obvious use cases when you want to return tokens back to the bucket:</p>
 </div>
@@ -1185,7 +943,7 @@ if (wallet.tryConsume(50)) { // get 50 cents from wallet
 </div>
 </div>
 <div class="sect3">
-<h4 id="customizing-time-measurement-choosing-nanotime-time-resolution"><a class="anchor" href="#customizing-time-measurement-choosing-nanotime-time-resolution"></a>2.2.5. Customizing time measurement - choosing nanotime time resolution</h4>
+<h4 id="customizing-time-measurement-choosing-nanotime-time-resolution"><a class="anchor" href="#customizing-time-measurement-choosing-nanotime-time-resolution"></a>2.1.5. Customizing time measurement - choosing nanotime time resolution</h4>
 <div class="paragraph">
 <p>By default, Bucket4j uses millisecond time resolution, it is the preferred time measurement strategy.
 But rarely(for example benchmarking) do you wish the nanosecond precision:</p>
@@ -1201,7 +959,7 @@ use this strategy only if the period of bandwidth is too small that millisecond 
 </div>
 </div>
 <div class="sect3">
-<h4 id="customizing-time-measurement-specify-custom-time-measurement-strategy"><a class="anchor" href="#customizing-time-measurement-specify-custom-time-measurement-strategy"></a>2.2.6. Customizing time measurement -  Specify custom time measurement strategy</h4>
+<h4 id="customizing-time-measurement-specify-custom-time-measurement-strategy"><a class="anchor" href="#customizing-time-measurement-specify-custom-time-measurement-strategy"></a>2.1.6. Customizing time measurement -  Specify custom time measurement strategy</h4>
 <div class="paragraph">
 <p>You can specify your custom time meter if existing milliseconds or nanotime time meters are not enough for your purposes.
 Imagine that you have a clock, which synchronizes its time with other machines in the current cluster,
@@ -1226,7 +984,7 @@ Bucket bucket = Bucket.builder()
 </div>
 </div>
 <div class="sect3">
-<h4 id="blocking-api-example"><a class="anchor" href="#blocking-api-example"></a>2.2.7. Blocking API example</h4>
+<h4 id="blocking-api-example"><a class="anchor" href="#blocking-api-example"></a>2.1.7. Blocking API example</h4>
 <div class="paragraph">
 <p>Suppose that you implement consumer of messages from a messaging system and want to process message no fastly then desired rate</p>
 </div>
@@ -1246,6 +1004,250 @@ while (true) {
         process(message);
     }
 }</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="concepts"><a class="anchor" href="#concepts"></a>2.2. Concepts</h3>
+<div class="sect3">
+<h4 id="bucket"><a class="anchor" href="#bucket"></a>2.2.1. Bucket</h4>
+<div class="paragraph">
+<p><code>Bucket</code> is a rate-limiter that is implemented on the top of ideas of well-known <a href="https://en.wikipedia.org/wiki/Token_bucket">Token Bucket algorithm</a>.
+In the Bucket4j library code the <code>Bucket</code> is represented by interface <a href="https://github.com/bucket4j/bucket4j/blob/7.0/bucket4j-core/src/main/java/io/github/bucket4j/Bucket.java">io.github.bucket4j.Bucket</a>.</p>
+</div>
+<div class="ulist">
+<div class="title">Bucket aggregates the following parts:</div>
+<ul>
+<li>
+<p><a href="#bucket-bonfiguration">BucketConfiguration</a> specifies an immutable collection of limitation rules that are used by the bucket during its work.</p>
+</li>
+<li>
+<p><a href="#bucket-state">BucketState</a> the place where bucket stores mutable state like the amount of currently available tokens.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A bucket can be constructed via a special builder API <a href="#local-bucket-builder">BucketBuilder</a> that is available by factory method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = Bucket.builder()
+   .addLimit(...)
+   .build();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="bucket-bonfiguration"><a class="anchor" href="#bucket-bonfiguration"></a>2.2.2. BucketConfiguration</h4>
+<div class="paragraph">
+<p><code>BucketConfiguration</code> can be described as collection of <a href="#bandwidth">limits</a> that are used by <a href="#bucket">Bucket</a> during its job. Configuration
+In the Bucket4j library code the <code>BucketConfiguration</code> is represented by class <a href="https://github.com/bucket4j/bucket4j/blob/7.0/bucket4j-core/src/main/java/io/github/bucket4j/BucketConfiguration.java">io.github.bucket4j.BucketConfiguration</a>. Configuration is immutable, there is no way to add or remove a limit to already created configuration. However, you can replace the configuration of the bucket via creating a new configuration instance and calling <code>bucket.replaceConfiguration(newConfiguration)</code>.</p>
+</div>
+<div class="paragraph">
+<p>Usually, you should not create BucketConfiguration directly(excepting the case with configuration replacement) because <a href="#local-bucket-builder">BucketBuilder</a> does for you behind the scene, for rare cases when you need to create configuration directly you have to use <code>ConfigurationBuilder</code> that is available by factory method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">BucketConfiguration configuration = BucketConfiguration.builder()
+    .addLimit(...)
+    .build()</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Most users configure a single limit per configuration, but it is strongly recommended to analyze whether <a href="#short-timed-bursts">short-timed bursts problem</a>
+can affect your application and if so then think about adding more limits.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="bandwidth"><a class="anchor" href="#bandwidth"></a>2.2.3. Limitation/Bandwidth</h4>
+<div class="paragraph">
+<p>Limitations that are used by bucket can be denoted in terms of bandwidths. Bandwidth is denoted by the following terms:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Capacity</dt>
+<dd>
+<p><code>Capacity</code> is the term that is directly inherited from the classic interpretation of the token-bucket algorithm, this specifies how many tokens your bucket has.
+Capacity must be configured during building stage</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = Bucket.builder()
+    .addLimit(limit -&gt; limit.capacity(42))
+    .build()</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Refill</dt>
+<dd>
+<p>Refill specifies how fast tokens can be refilled after it was consumed from a bucket.
+Refill must be configured during building stage</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = Bucket.builder()
+    .addLimit(limit -&gt; limit.capacity(...).refillXXX(...)) // where XXX - is concrete refill style
+    .build()</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Bucket4j allows to choose different <a href="#refill-types">Refill types</a>.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Initial tokens</dt>
+<dd>
+<p>Bucket4j extends the token-bucket algorithm by allowing to specify the initial amount of tokens for each bandwidth. By default, an initial amount of tokens equals to capacity and can be changed by <code>withInitialTokens</code> method:<br></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = Bucket.builder()
+    .addLimit(limit -&gt; limit.capacity(42).refillGreedy(1, ofSeconds(1)).initialTokens(13))
+    .build()</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Bandwidth ID</dt>
+<dd>
+<p>The identifier is the optional attribute that is null by default. You may prefer to assign identifiers for bandwidths if you use on-the-fly configuration replacement and your buckets have more than one bandwidth per bucket, otherwise, it is better to avoid using identifiers to preserve memory.
+The Identifier for bandwidth can be specified in following way:<br></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">BucketConfiguration configuration = BucketConfiguration.builder()
+    .addLimit(limit -&gt; limit.capacity(1000).refillGreedy(1000, ofMinutes(1)).id("business-limit"))
+    .addLimit(limit -&gt; limit.capacity(100).refillGreedy(100, ofSeconds(1)).id("burst-protection"))
+    .build();</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Identifiers are critical for on-the-fly configuration replacement functionality because during replacement it needs to decide how correctly propagate information about already consumed tokens from the state before config replacement to the state after replacement. This is not a trivial task especially when the number of limits is changing.
+</td>
+</tr>
+</table>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="refill-types"><a class="anchor" href="#refill-types"></a>2.2.4. Refill styles</h4>
+<div class="paragraph">
+<p>Bucket4j allows to choose different styles in which consumed tokens are being refilled to bucket</p>
+</div>
+<div class="dlist">
+<div class="title">There are four types of refill:</div>
+<dl>
+<dt class="hdlist1">Greedy</dt>
+<dd>
+<p>This type of refill greedily regenerates tokens manner, it tries to add the tokens to the bucket as soon as possible. For example refill "10 tokens per 1 second" adds 1 token per every 100 milliseconds, in other words, the refill will not wait 1 second to regenerate a bunch of 10 tokens. The three refills below do refill of tokens with the same speed:<br></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket.builder().addLimit(limit -&gt; limit.capacity(1000).refillGreedy(600, ofMinutes(1)))
+Bucket.builder().addLimit(limit -&gt; limit.capacity(1000).refillGreedy(10, ofSeconds(1)))
+Bucket.builder().addLimit(limit -&gt; limit.capacity(1000).refillGreedy(1, ofMillis(100)))</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Intervally</dt>
+<dd>
+<p>This type of refill regenerates tokens in an interval manner. "Interval" in opposite to "greedy"  will wait until the whole period will be elapsed before regenerating the whole amount of tokens.<br></p>
+<div class="listingblock">
+<div class="title">Example:<br></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// refills 100 tokens each minute
+Bucket bucket = Bucket.builder().addLimit(limit -&gt; limit.capacity(1000).refillIntervally(100, ofMinutes(1))).build();</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">IntervallyAligned</dt>
+<dd>
+<p>This type of refill regenerates that does refill of tokens in an interval manner. Interval" in opposite to "greedy"  will wait until the whole period will be elapsed before regenerating the whole amount of tokens. In addition to <strong>Interval</strong> it is possible to specify the time when the first refill should happen.  This type can be used to configure clear interval boundary i.e. start of the second, minute, hour, day.</p>
+<div class="listingblock">
+<div class="title">Example:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// imagine that wall clock is 16:20, the first refill will happen at 17:00
+// first refill will happen in the beginning of next hour
+Instant firstRefillTime = ZonedDateTime.now()
+  .truncatedTo(ChronoUnit.HOURS)
+  .plus(1, ChronoUnit.HOURS)
+  .toInstant();
+
+Bucket bucket = Bucket.builder().addLimit(limit -&gt; limit.capacity(400).refillIntervallyAligned(400, ofHours(1), firstRefillTime)).build();</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">RefillIntervallyAlignedWithAdaptiveInitialTokens</dt>
+<dd>
+<p>See javadocs.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="bucket-state"><a class="anchor" href="#bucket-state"></a>2.2.5. BucketState</h4>
+<div class="paragraph">
+<p>BucketState is the place where bucket stores own mutable state like:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Amount of currently available tokens.</p>
+</li>
+<li>
+<p>Timestamp when the last refill was happen.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>BucketState</code> is represented by interface <a href="https://github.com/bucket4j/bucket4j/blob/7.0/bucket4j-core/src/main/java/io/github/bucket4j/Bucket.java">io.github.bucket4j.BucketState</a>. Usually you never interact with this interface, excepting the cases when you want to get access to low-level diagnostic API that is described in <a href="#verbose-api">Verbose/Debug API</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="local-bucket-builder"><a class="anchor" href="#local-bucket-builder"></a>2.2.6. BucketBuilder</h4>
+<div class="paragraph">
+<p>It was explicitly decided by library authors to not provide for end-users to construct a library entity via direct constructors.</p>
+</div>
+<div class="ulist">
+<div class="title">It was to reason to split built-time and usage-time APIs:</div>
+<ul>
+<li>
+<p>To be able in the future to change internal implementations without breaking backward compatibility.</p>
+</li>
+<li>
+<p>To provide <code>Fluent Builder API</code> that in our minds is a good modern library design pattern.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>LocalBucketBuilder</code> is a fluent builder that is specialized to construct the local buckets, where a local bucket is a bucket that holds an internal state just in memory and does not provide clustering functionality. Bellow an example of LocalBucketBuilder usage:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Bucket bucket = Bucket.builder()
+    .addLimit(...)
+    .withNanosecondPrecision()
+    .withSynchronizationStrategy(SynchronizationStrategy.LOCK_FREE)
+    .build()</code></pre>
 </div>
 </div>
 </div>
